@@ -1,0 +1,335 @@
+<template>
+  <style>
+    html{height:100%}
+    body{height:100%;margin:0;padding:0}
+    .gm-template{float:left;border:solid 1px #000}
+    .gm-style .gm-style-iw {font-weight:300;font-size:12px;overflow:hidden}
+    .gm-style .gm-iw{color:#2c2c2c}
+    .gm-style .gm-iw b{font-weight:400}
+    .gm-style .gm-iw a:link,
+    .gm-style .gm-iw a:visited{color:#4272db;text-decoration:none}
+    .gm-style .gm-iw a:hover{color:#4272db;text-decoration:underline}
+    .gm-style .gm-iw .gm-title{font-weight:400;margin-bottom:1px}
+    .gm-style .gm-iw .gm-basicinfo{line-height:18px;padding-bottom:12px}
+    .gm-style .gm-iw .gm-website{padding-top:6px}
+    .gm-style .gm-iw .gm-photos{padding-bottom:8px;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none}
+    .gm-style .gm-iw .gm-sv,
+    .gm-style .gm-iw .gm-ph{cursor:pointer;height:50px;width:100px;position:relative;overflow:hidden}
+    .gm-style .gm-iw .gm-sv{padding-right:4px}
+    .gm-style .gm-iw .gm-wsv{cursor:pointer;position:relative;overflow:hidden}
+    .gm-style .gm-iw .gm-sv-label,
+    .gm-style .gm-iw .gm-ph-label{cursor:pointer;position:absolute;bottom:6px;color:#fff;font-weight:400;text-shadow:rgba(0,0,0,0.7) 0 1px 4px;font-size:12px}
+    .gm-style .gm-iw .gm-stars-b,
+    .gm-style .gm-iw .gm-stars-f{height:13px;font-size:0}
+    .gm-style .gm-iw .gm-stars-b{position:relative;background-position:0 0;width:65px;top:3px;margin:0 5px}
+    .gm-style .gm-iw .gm-rev{line-height:20px;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none}
+    .gm-style.gm-china .gm-iw .gm-rev{display:none}
+    .gm-style .gm-iw .gm-numeric-rev{font-size:16px;color:#dd4b39;font-weight:400}
+    .gm-style .gm-iw.gm-transit{margin-left:15px}
+    .gm-style .gm-iw.gm-transit td{vertical-align:top}
+    .gm-style .gm-iw.gm-transit .gm-time{white-space:nowrap;color:#676767;font-weight:bold}
+    .gm-style .gm-iw.gm-transit img{width:15px;height:15px;margin:1px 5px 0 -20px;float:left}
+    .gm-iw {text-align:left}
+    .gm-iw .gm-numeric-rev{float:left}
+    .gm-iw .gm-photos,
+    .gm-iw .gm-rev{direction:ltr;}
+    .gm-iw .gm-stars-f,
+    .gm-iw .gm-stars-b{background:url("https://maps.gstatic.com/mapfiles/api-3/images/review_stars.png") no-repeat;background-size:65px 26px;float:left}
+    .gm-iw .gm-stars-f{background-position:left -13px}
+    .gm-iw .gm-sv-label,
+    .gm-iw .gm-ph-label{left:4px}
+    .gs-result a,
+    .gs-result span{text-decoration:none}
+    .gs-result a:hover{text-decoration:underline}
+    .gs-label, 
+    .gs-title .gs-title-a{color:rgb(85,26,139);text-decoration:none}
+    .gs-title .gs-title-a:hover{color:rgb(85,26,139);text-decoration:none;cursor:default}
+    .gmnoprint a img{display:none}
+    .gm-template div[dir="ltr"]{visibility:hidden}
+    .gmnoprint div a{display:none}
+    .gmnoprint div span{display:none}
+    .gmnoprint div a span:parent{display:none}
+    .gmnoprint div a span{display:none}
+    .gm-template a[title="Clique para ver esta área no Google Maps"] div{display:none}
+    .gs-address{text-decoration:none}
+    .gm-template a[title="Informar erros no mapa ou nas imagens para o Google"]{display:none}
+    .gmnoscreen{display:none}
+  </style>
+  <div class="gm-template"></div>
+</template>
+
+<script>
+  var App = App || {};
+  App = {
+    Def : {
+      minWidth : 400,
+      minHeight : 400,
+      border : true,
+      zoom : 16,
+      latitude : -5.195239528770433,
+      longitude : -37.341639999999984,
+      panControl: false,
+      zoomControl: false,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      overviewMapControl: false,
+      disableDefaultUI: true,
+    },
+    Ext : {
+      URL : {
+        Encode : function(str) {
+          str = (str + '').toString();
+          return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+        },
+        Decode : function(str) {
+          return;
+        }
+      },
+      Map : {
+        setMarkerInfoWin : function(place, latitude, longitude) {
+          var html,
+              place = place[0],
+              nr = place['street_number'] ? place['street_number'].long_name + ' ' : '',
+              bairro = place['sublocality'] ? place['sublocality'].long_name + ', ' : '',
+              cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
+          html =  '<div class="gmls-result-wrapper">' +
+                    '<div class="gs-localResult gs-result">' +
+                      "<div class='gs-title'><a class='gs-title-a' href='http://www.google.com/maps?source=uds&q=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro + place['locality'].long_name + ' - ' + place['administrative_area_level_1'].short_name + ', ' + cep + place['country'].long_name) + "' target='_blank'>" + 'Endereço' + ":&nbsp;</a></div>" +
+                      '<div class="gs-address">' +
+                        '<span class="gs-street gs-addressLine">' + 
+                          "<a href='http://maps.google.com/maps/place?q=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro + place['locality'].long_name + ' - ' + place['administrative_area_level_1'].short_name + ', ' + cep + place['country'].long_name) + "' &amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0' target='_blank'>" + place['route'].long_name + ', ' + nr + bairro + "</a>" +
+                        '</span>' +
+                        '<span class="gs-spacer">&nbsp;-&nbsp;</span>' +
+                        '<span class="gs-city gs-addressLine">' +
+                          "<a href='http://maps.google.com/maps/place?q=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro + place['locality'].long_name + ' - ' + place['administrative_area_level_1'].short_name + ', ' + cep + place['country'].long_name) + "' &amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0' target='_blank'>" + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name + "</a>" +
+                        '</span>' +
+                      '</div>' +
+                      '<div class="gs-directions-to-from">' +
+                        '<span class="gs-label">' + 'Rota' + ':&nbsp;</span>' +
+                        '<span class="gs-secondary-link">' +
+                          "<a class='gs-secondary-link-a' href='http://www.google.com/maps?source=uds&daddr=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro) + App.Ext.URL.Encode(place['locality'].long_name) + ' - ' + App.Ext.URL.Encode(place['administrative_area_level_1'].short_name) + ', ' + cep + place['country'].long_name + ' (' + place['route'].long_name + ', ' + nr + ') ' + '@' + latitude + ',' + longitude + '&iwstate1=dir:to' + "' target='_blank'>" + 'Para cá' + "</a>" +
+                        '</span>' +
+                        '<span class="gs-spacer">&nbsp;-&nbsp;</span>' +
+                        '<span class="gs-secondary-link">' +
+                          "<a class='gs-secondary-link-a' href='http://www.google.com/maps?source=uds&saddr=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro) + App.Ext.URL.Encode(place['locality'].long_name) + ' - ' + App.Ext.URL.Encode(place['administrative_area_level_1'].short_name) + ', ' + cep + place['country'].long_name + ' (' + place['route'].long_name + ', ' + nr + ') ' + '@' + latitude + ',' + longitude + '&iwstate1=dir:from' + "' target='_blank'>" + 'Daqui' + "</a>" +
+                        '</span>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+          return html;
+        },
+        getAddress : function(place) {
+          var place = place[0],
+              nr = place['street_number'] ? place['street_number'].long_name + '' : '',
+              bairro = place['sublocality'] ? place['sublocality'].long_name + ' , ' : '',
+              cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
+          return place['route'].long_name + ', ' + nr + bairro + ' - ' + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name;
+        },
+        setLocation : function(place) {
+          var arrayAddress = [],
+              mapAddress = [];
+          for (var i = 0; i < place.length; i++) {
+            var address = place[i];
+            switch(address.types[0]) {
+              case 'street_number' :
+                arrayAddress['street_number'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'route' :
+                arrayAddress['route'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'sublocality' :
+                arrayAddress['sublocality'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'locality' :
+                arrayAddress['locality'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'administrative_area_level_1' :
+                arrayAddress['administrative_area_level_1'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'country' :
+                arrayAddress['country'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'postal_code' :
+                arrayAddress['postal_code'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+            }
+          }
+          return mapAddress;
+        }
+      }
+    }
+  };
+
+  //Carrega de Modo Assincrono a Biblioteca do Google Maps V3
+  window.onload = function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&callback=__autoload';
+    //script.src = 'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=__autoload';
+    document.body.appendChild(script);
+  };
+
+  //Classe Construtora Responsável por Instanciar a API do Google Maps v3
+  var __autoload = function (element, latitude, longitude){
+    if(element !== undefined) {
+      this.element = element;
+      this.latitude = latitude;
+      this.longitude = longitude;
+      this.data = function(){
+        return this;
+      }
+    }
+  }
+
+  //Atribue um Elemento Global
+  window.GoogleMapElement = (function() {
+    var currentScript = document._currentScript || document.currentScript,
+        doc = currentScript.ownerDocument,
+        proto = Object.create(HTMLElement.prototype);
+
+    //Cria o Protótipo
+    proto.createdCallback = function() {
+      var template = doc.querySelector('template'),
+          clone = document.importNode(template.content, true);
+
+      this.shadowRoot = this.createShadowRoot();
+      this.shadowRoot.appendChild(clone);
+      this.element = this.shadowRoot.querySelector('.gm-template');
+
+      //Geolocalização por Latitude e Longitude
+      var mapByLatLong = function(self) {
+          if (self.hasAttribute('latitude') && self.hasAttribute('longitude')) {
+              var latitude = self.getAttribute('latitude'),
+                  longitude = self.getAttribute('longitude');
+          }
+          else {
+              var latitude = App.Def.latitude,
+                  longitude = App.Def.longitude;
+                  self.setAttribute('latitude',App.Def.latitude);
+                  self.setAttribute('longitude',App.Def.longitude);
+          }
+          //Instancia a Classe Construtora loadGoogleMap
+          var getInstance = new __autoload(self, latitude, longitude);
+          //Delay para Retro-Carregamento da API do Google
+          setTimeout(function(){
+              var coords = new google.maps.LatLng(latitude, longitude);
+              var map = new google.maps.Map(self.element, {
+                  zoom : App.Def.zoom,
+                  center : coords,
+                  mapTypeId : google.maps.MapTypeId.ROADMAP,
+                  panControl : App.Def.panControl,
+                  streetViewControl : App.Def.streetViewControl,
+                  mapTypeControl : App.Def.mapTypeControl,
+                  disableDefaultUI: App.Def.disableDefaultUI
+              });
+              var geocoder = new google.maps.Geocoder();
+              geocoder.geocode( { "latLng" : coords }, function(results, status) {
+                  if (status == google.maps.GeocoderStatus.OK) {
+                      mapAddress = App.Ext.Map.setLocation(results[0].address_components);
+                      map.setCenter(coords);
+                      map.setZoom(App.Def.zoom);
+                      marker = new google.maps.Marker({
+                          position : coords,
+                          animation : google.maps.Animation.DROP,
+                          map : map
+                      });
+                      var infoWin = new google.maps.InfoWindow({
+                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude)
+                      });
+                      infoWin.open(map, marker);
+                      self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
+                  }
+              });
+          }, 2000);
+      };
+
+      var mapByAddress = function(self) {
+          if (self.hasAttribute('address')) {
+              var address = self.getAttribute('address')
+          }
+          else {
+              return mapByLatLong(self);
+          }
+          //Instancia a Classe Construtora loadGoogleMap
+          var getInstance = new __autoload(self, null, null);
+          //Delay para Retro-Carregamento da API do Google
+          setTimeout(function(){
+              var map = new google.maps.Map(self.element, {
+                  zoom : App.Def.zoom,
+                  center : new google.maps.LatLng(0,0),
+                  mapTypeId : google.maps.MapTypeId.ROADMAP,
+                  panControl : App.Def.panControl,
+                  streetViewControl : App.Def.streetViewControl,
+                  mapTypeControl : App.Def.mapTypeControl,
+                  disableDefaultUI: App.Def.disableDefaultUI
+              });
+              var geocoder = new google.maps.Geocoder(); 
+              geocoder.geocode({
+                      address : address,
+                      region : 'no' 
+                  },
+                  function(results, status) {
+                      if (status == google.maps.GeocoderStatus.OK) {
+                          mapAddress = App.Ext.Map.setLocation(results[0].address_components);
+                          var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
+                          map.setCenter(coords);
+                          map.setZoom(App.Def.zoom);
+                          marker = new google.maps.Marker({
+                              position : coords, 
+                              animation : google.maps.Animation.DROP,
+                              map : map
+                          });
+                          var infoWin = new google.maps.InfoWindow({
+                              content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng())
+                          });
+                          infoWin.open(map, marker);
+                          self.setAttribute('latitude', coords.lat());
+                          self.setAttribute('longitude', coords.lng());
+                      }
+                  }
+              );
+          }, 2000);
+      };
+
+      //Trata a Largura
+      if (this.hasAttribute('width')) {
+          this.style.width = this.getAttribute('width') + 'px';
+          this.element.style.width = this.getAttribute('width') + 'px';
+      }
+      else {
+          this.style.width = App.Def.minWidth + 'px';
+          this.element.style.width = App.Def.minWidth + 'px';
+          this.setAttribute('width',App.Def.minWidth);
+      }
+      //Trata a Altura
+      if (this.hasAttribute('height')) {
+          this.style.height = this.getAttribute('height') + 'px';
+          this.element.style.height = this.getAttribute('height') + 'px';
+      }
+      else {
+          this.style.height = App.Def.minHeight + 'px';
+          this.element.style.height = App.Def.minHeight + 'px';
+          this.setAttribute('height',App.Def.minHeight);
+      }
+
+      //Alterna entre Busca por Endereço ou por Latitude/Longitude
+      if (this.hasAttribute('address')) {
+          mapByAddress(this);
+      }
+      else {
+          mapByLatLong(this);
+      }
+    };
+
+    //Finalmente Registra o Elemento
+    return document.registerElement('google-map', {prototype: proto});
+  })();
+</script>
