@@ -1,8 +1,21 @@
-<template>
+<!-- Google Map Template -->
+<template id="gm">
   <style>
     html{height:100%}
     body{height:100%;margin:0;padding:0}
+    /* Map Style */
     .gm-template{float:left;border:solid 1px #000}
+    .gmnoprint a img{display:none}
+    .gm-template div[dir="ltr"]{visibility:hidden}
+    .gmnoprint div a{display:none}
+    .gmnoprint div span{display:none}
+    .gmnoprint div a span:parent{display:none}
+    .gmnoprint div a span{display:none}
+    .gm-template a[title="Clique para ver esta área no Google Maps"] div{display:none}
+    .gs-address{text-decoration:none}
+    .gm-template a[title="Informar erros no mapa ou nas imagens para o Google"]{display:none}
+    .gmnoscreen{display:none}
+    /* Tooltip Style */
     .gm-style .gm-style-iw {font-weight:300;font-size:12px;overflow:hidden}
     .gm-style .gm-iw{color:#2c2c2c}
     .gm-style .gm-iw b{font-weight:400}
@@ -44,20 +57,36 @@
     .gs-label, 
     .gs-title .gs-title-a{color:rgb(85,26,139);text-decoration:none}
     .gs-title .gs-title-a:hover{color:rgb(85,26,139);text-decoration:none;cursor:default}
-    .gmnoprint a img{display:none}
-    .gm-template div[dir="ltr"]{visibility:hidden}
-    .gmnoprint div a{display:none}
-    .gmnoprint div span{display:none}
-    .gmnoprint div a span:parent{display:none}
-    .gmnoprint div a span{display:none}
-    .gm-template a[title="Clique para ver esta área no Google Maps"] div{display:none}
-    .gs-address{text-decoration:none}
-    .gm-template a[title="Informar erros no mapa ou nas imagens para o Google"]{display:none}
-    .gmnoscreen{display:none}
   </style>
   <div class="gm-template"></div>
 </template>
-
+<!-- Google Map Tooltip Template -->
+<template id="gm-tooltip">
+  <div class="gmls-result-wrapper">
+    <div class="gs-localResult gs-result">
+      <div class="gs-title"><a class="gs-title-a" href="http://www.google.com/maps?source=uds&q=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]" target="_blank">Endereço:&nbsp;</a></div>
+      <div class="gs-address">
+        <span class="gs-street gs-addressLine"> 
+          <a href="http://maps.google.com/maps/place?q=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">[raw_route.long_name], [raw_nr] [raw_bairro]</a>
+        </span>
+        <span class="gs-spacer">&nbsp;-&nbsp;</span>
+        <span class="gs-city gs-addressLine">
+          <a href="http://maps.google.com/maps/place?q=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">[raw_locality.long_name]/[raw_administrative_area_level_1.short_name]</a>
+        </span>
+      </div>
+      <div class="gs-directions-to-from">
+        <span class="gs-label">Rota:&nbsp;</span>
+        <span class="gs-secondary-link">
+          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&daddr=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]+([route.long_name],+[nr])+@+[latitude],[longitude]&iwstate1=dir:to" target="_blank">Para cá</a>
+        </span>
+        <span class="gs-spacer">&nbsp;-&nbsp;</span>
+        <span class="gs-secondary-link">
+          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&saddr=[route.long_name],+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name], [cep][country.long_name]+([route.long_name],+[nr])+@+[latitude],[longitude]&iwstate1=dir:from" target="_blank">Daqui</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
 <script>
   var App = App || {};
   App = {
@@ -83,41 +112,43 @@
           return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
         },
         Decode : function(str) {
-          return;
+          return decodeURIComponent(str).replace(/%21/g, '!').replace(/%27/g, "'").replace(/%28/g, '(').replace(/%29/g, ')').replace(/%2A/g, '*').replace(/[+]/g, '%20');
+        }
+      },
+      String : {
+        Replace(string, token, newtoken) {
+          while (string.indexOf(token) != -1) {
+            string = string.replace(token, newtoken);
+          }
+          return string;
         }
       },
       Map : {
-        setMarkerInfoWin : function(place, latitude, longitude) {
+        setMarkerInfoWin : function(place, latitude, longitude, template) {
           var html,
               place = place[0],
-              nr = place['street_number'] ? place['street_number'].long_name + ' ' : '',
-              bairro = place['sublocality'] ? place['sublocality'].long_name + ', ' : '',
-              cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
-          html =  '<div class="gmls-result-wrapper">' +
-                    '<div class="gs-localResult gs-result">' +
-                      "<div class='gs-title'><a class='gs-title-a' href='http://www.google.com/maps?source=uds&q=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro + place['locality'].long_name + ' - ' + place['administrative_area_level_1'].short_name + ', ' + cep + place['country'].long_name) + "' target='_blank'>" + 'Endereço' + ":&nbsp;</a></div>" +
-                      '<div class="gs-address">' +
-                        '<span class="gs-street gs-addressLine">' + 
-                          "<a href='http://maps.google.com/maps/place?q=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro + place['locality'].long_name + ' - ' + place['administrative_area_level_1'].short_name + ', ' + cep + place['country'].long_name) + "' &amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0' target='_blank'>" + place['route'].long_name + ', ' + nr + bairro + "</a>" +
-                        '</span>' +
-                        '<span class="gs-spacer">&nbsp;-&nbsp;</span>' +
-                        '<span class="gs-city gs-addressLine">' +
-                          "<a href='http://maps.google.com/maps/place?q=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro + place['locality'].long_name + ' - ' + place['administrative_area_level_1'].short_name + ', ' + cep + place['country'].long_name) + "' &amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0' target='_blank'>" + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name + "</a>" +
-                        '</span>' +
-                      '</div>' +
-                      '<div class="gs-directions-to-from">' +
-                        '<span class="gs-label">' + 'Rota' + ':&nbsp;</span>' +
-                        '<span class="gs-secondary-link">' +
-                          "<a class='gs-secondary-link-a' href='http://www.google.com/maps?source=uds&daddr=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro) + App.Ext.URL.Encode(place['locality'].long_name) + ' - ' + App.Ext.URL.Encode(place['administrative_area_level_1'].short_name) + ', ' + cep + place['country'].long_name + ' (' + place['route'].long_name + ', ' + nr + ') ' + '@' + latitude + ',' + longitude + '&iwstate1=dir:to' + "' target='_blank'>" + 'Para cá' + "</a>" +
-                        '</span>' +
-                        '<span class="gs-spacer">&nbsp;-&nbsp;</span>' +
-                        '<span class="gs-secondary-link">' +
-                          "<a class='gs-secondary-link-a' href='http://www.google.com/maps?source=uds&saddr=" + App.Ext.URL.Encode(place['route'].long_name + ', ' + nr + bairro) + App.Ext.URL.Encode(place['locality'].long_name) + ' - ' + App.Ext.URL.Encode(place['administrative_area_level_1'].short_name) + ', ' + cep + place['country'].long_name + ' (' + place['route'].long_name + ', ' + nr + ') ' + '@' + latitude + ',' + longitude + '&iwstate1=dir:from' + "' target='_blank'>" + 'Daqui' + "</a>" +
-                        '</span>' +
-                      '</div>' +
-                    '</div>' +
-                  '</div>';
-          return html;
+              nr = place['street_number'] ? place['street_number'].long_name + '' : '',
+              bairro = place['sublocality'] ? place['sublocality'].long_name + '+,+' : '',
+              cep = place['postal_code'] ? place['postal_code'].long_name + ',+' : '';
+
+          template = template.innerHTML;
+          template = App.Ext.String.Replace(template, '[raw_route.long_name]', place['route'].long_name);
+          template = App.Ext.String.Replace(template, '[raw_nr]', nr);
+          template = App.Ext.String.Replace(template, '[raw_bairro]', bairro);
+          template = App.Ext.String.Replace(template, '[raw_locality.long_name]', place['locality'].long_name);
+          template = App.Ext.String.Replace(template, '[raw_administrative_area_level_1.short_name]', place['administrative_area_level_1'].short_name);
+
+          template = App.Ext.String.Replace(template, '[route.long_name]', App.Ext.URL.Encode(place['route'].long_name));
+          template = App.Ext.String.Replace(template, '[nr]', App.Ext.URL.Encode(nr));
+          template = App.Ext.String.Replace(template, '[locality.long_name]', App.Ext.URL.Encode(place['locality'].long_name));
+          template = App.Ext.String.Replace(template, '[administrative_area_level_1.short_name]', App.Ext.URL.Encode(place['administrative_area_level_1'].short_name));
+          template = App.Ext.String.Replace(template, '[cep]', App.Ext.URL.Encode(cep));
+          template = App.Ext.String.Replace(template, '[bairro]', App.Ext.URL.Encode(bairro));
+          template = App.Ext.String.Replace(template, '[country.long_name]', App.Ext.URL.Encode(place['country'].long_name));
+          template = App.Ext.String.Replace(template, '[latitude]', latitude);
+          template = App.Ext.String.Replace(template, '[longitude]', longitude);
+
+          return template;
         },
         getAddress : function(place) {
           var place = place[0],
@@ -177,159 +208,140 @@
     document.body.appendChild(script);
   };
 
-  //Classe Construtora Responsável por Instanciar a API do Google Maps v3
-  var __autoload = function (element, latitude, longitude){
-    if(element !== undefined) {
-      this.element = element;
-      this.latitude = latitude;
-      this.longitude = longitude;
-      this.data = function(){
-        return this;
-      }
-    }
-  }
+  var currentScript = document._currentScript || document.currentScript,
+      doc = currentScript.ownerDocument;
 
-  //Atribue um Elemento Global
-  window.GoogleMapElement = (function() {
-    var currentScript = document._currentScript || document.currentScript,
-        doc = currentScript.ownerDocument,
-        proto = Object.create(HTMLElement.prototype);
+  //Autoload da API do Google Maps v3
+  var __autoload = function(){
+      var proto = Object.create(HTMLElement.prototype, {
+          createdCallback: {
+              value: function() {
+                  var template = doc.querySelector('#gm'),
+                      clone = document.importNode(template.content, true),
+                      tooltip = doc.querySelector('#gm-tooltip').content.querySelector('.gmls-result-wrapper');
 
-    //Cria o Protótipo
-    proto.createdCallback = function() {
-      var template = doc.querySelector('template'),
-          clone = document.importNode(template.content, true);
+                  this.shadowRoot = this.createShadowRoot();
+                  this.shadowRoot.appendChild(clone);
+                  this.element = this.shadowRoot.querySelector('.gm-template');
 
-      this.shadowRoot = this.createShadowRoot();
-      this.shadowRoot.appendChild(clone);
-      this.element = this.shadowRoot.querySelector('.gm-template');
-
-      //Geolocalização por Latitude e Longitude
-      var mapByLatLong = function(self) {
-          if (self.hasAttribute('latitude') && self.hasAttribute('longitude')) {
-              var latitude = self.getAttribute('latitude'),
-                  longitude = self.getAttribute('longitude');
-          }
-          else {
-              var latitude = App.Def.latitude,
-                  longitude = App.Def.longitude;
-                  self.setAttribute('latitude',App.Def.latitude);
-                  self.setAttribute('longitude',App.Def.longitude);
-          }
-          //Instancia a Classe Construtora loadGoogleMap
-          var getInstance = new __autoload(self, latitude, longitude);
-          //Delay para Retro-Carregamento da API do Google
-          setTimeout(function(){
-              var coords = new google.maps.LatLng(latitude, longitude);
-              var map = new google.maps.Map(self.element, {
-                  zoom : App.Def.zoom,
-                  center : coords,
-                  mapTypeId : google.maps.MapTypeId.ROADMAP,
-                  panControl : App.Def.panControl,
-                  streetViewControl : App.Def.streetViewControl,
-                  mapTypeControl : App.Def.mapTypeControl,
-                  disableDefaultUI: App.Def.disableDefaultUI
-              });
-              var geocoder = new google.maps.Geocoder();
-              geocoder.geocode( { "latLng" : coords }, function(results, status) {
-                  if (status == google.maps.GeocoderStatus.OK) {
-                      mapAddress = App.Ext.Map.setLocation(results[0].address_components);
-                      map.setCenter(coords);
-                      map.setZoom(App.Def.zoom);
-                      marker = new google.maps.Marker({
-                          position : coords,
-                          animation : google.maps.Animation.DROP,
-                          map : map
-                      });
-                      var infoWin = new google.maps.InfoWindow({
-                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude)
-                      });
-                      infoWin.open(map, marker);
-                      self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
-                  }
-              });
-          }, 2000);
-      };
-
-      var mapByAddress = function(self) {
-          if (self.hasAttribute('address')) {
-              var address = self.getAttribute('address')
-          }
-          else {
-              return mapByLatLong(self);
-          }
-          //Instancia a Classe Construtora loadGoogleMap
-          var getInstance = new __autoload(self, null, null);
-          //Delay para Retro-Carregamento da API do Google
-          setTimeout(function(){
-              var map = new google.maps.Map(self.element, {
-                  zoom : App.Def.zoom,
-                  center : new google.maps.LatLng(0,0),
-                  mapTypeId : google.maps.MapTypeId.ROADMAP,
-                  panControl : App.Def.panControl,
-                  streetViewControl : App.Def.streetViewControl,
-                  mapTypeControl : App.Def.mapTypeControl,
-                  disableDefaultUI: App.Def.disableDefaultUI
-              });
-              var geocoder = new google.maps.Geocoder(); 
-              geocoder.geocode({
-                      address : address,
-                      region : 'no' 
-                  },
-                  function(results, status) {
-                      if (status == google.maps.GeocoderStatus.OK) {
-                          mapAddress = App.Ext.Map.setLocation(results[0].address_components);
-                          var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
-                          map.setCenter(coords);
-                          map.setZoom(App.Def.zoom);
-                          marker = new google.maps.Marker({
-                              position : coords, 
-                              animation : google.maps.Animation.DROP,
-                              map : map
-                          });
-                          var infoWin = new google.maps.InfoWindow({
-                              content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng())
-                          });
-                          infoWin.open(map, marker);
-                          self.setAttribute('latitude', coords.lat());
-                          self.setAttribute('longitude', coords.lng());
+                  //Geolocalização por Latitude e Longitude
+                  var mapByLatLong = function(self) {
+                      if (self.hasAttribute('latitude') && self.hasAttribute('longitude')) {
+                          var latitude = self.getAttribute('latitude'),
+                              longitude = self.getAttribute('longitude');
                       }
+                      else {
+                          var latitude = App.Def.latitude,
+                              longitude = App.Def.longitude;
+                              self.setAttribute('latitude',App.Def.latitude);
+                              self.setAttribute('longitude',App.Def.longitude);
+                      }
+                      var coords = new google.maps.LatLng(latitude, longitude);
+                      var map = new google.maps.Map(self.element, {
+                          zoom : App.Def.zoom,
+                          center : coords,
+                          mapTypeId : google.maps.MapTypeId.ROADMAP,
+                          panControl : App.Def.panControl,
+                          streetViewControl : App.Def.streetViewControl,
+                          mapTypeControl : App.Def.mapTypeControl,
+                          disableDefaultUI: App.Def.disableDefaultUI
+                      });
+                      var geocoder = new google.maps.Geocoder();
+                      geocoder.geocode( { "latLng" : coords }, function(results, status) {
+                          if (status == google.maps.GeocoderStatus.OK) {
+                              mapAddress = App.Ext.Map.setLocation(results[0].address_components);
+                              map.setCenter(coords);
+                              map.setZoom(App.Def.zoom);
+                              marker = new google.maps.Marker({
+                                  position : coords,
+                                  animation : google.maps.Animation.DROP,
+                                  map : map
+                              });
+                              var infoWin = new google.maps.InfoWindow({
+                                  content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude, tooltip)
+                              });
+                              infoWin.open(map, marker);
+                              self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
+                          }
+                      });
+                  };
+
+                  //Geolocalização Reversa
+                  var mapByAddress = function(self) {
+                      if (self.hasAttribute('address')) {
+                          var address = self.getAttribute('address')
+                      }
+                      else {
+                          return mapByLatLong(self);
+                      }
+                      var map = new google.maps.Map(self.element, {
+                          zoom : App.Def.zoom,
+                          center : new google.maps.LatLng(0,0),
+                          mapTypeId : google.maps.MapTypeId.ROADMAP,
+                          panControl : App.Def.panControl,
+                          streetViewControl : App.Def.streetViewControl,
+                          mapTypeControl : App.Def.mapTypeControl,
+                          disableDefaultUI: App.Def.disableDefaultUI
+                      });
+                      var geocoder = new google.maps.Geocoder(); 
+                      geocoder.geocode({
+                              address : address,
+                              region : 'no' 
+                          },
+                          function(results, status) {
+                              if (status == google.maps.GeocoderStatus.OK) {
+                                  mapAddress = App.Ext.Map.setLocation(results[0].address_components);
+                                  var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
+                                  map.setCenter(coords);
+                                  map.setZoom(App.Def.zoom);
+                                  marker = new google.maps.Marker({
+                                      position : coords, 
+                                      animation : google.maps.Animation.DROP,
+                                      map : map
+                                  });
+                                  var infoWin = new google.maps.InfoWindow({
+                                      content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng())
+                                  });
+                                  infoWin.open(map, marker);
+                                  self.setAttribute('latitude', coords.lat());
+                                  self.setAttribute('longitude', coords.lng());
+                              }
+                          }
+                      );
+                  };
+
+                  //Trata a Largura
+                  if (this.hasAttribute('width')) {
+                      this.style.width = this.getAttribute('width') + 'px';
+                      this.element.style.width = this.getAttribute('width') + 'px';
                   }
-              );
-          }, 2000);
-      };
+                  else {
+                      this.style.width = App.Def.minWidth + 'px';
+                      this.element.style.width = App.Def.minWidth + 'px';
+                      this.setAttribute('width',App.Def.minWidth);
+                  }
+                  //Trata a Altura
+                  if (this.hasAttribute('height')) {
+                      this.style.height = this.getAttribute('height') + 'px';
+                      this.element.style.height = this.getAttribute('height') + 'px';
+                  }
+                  else {
+                      this.style.height = App.Def.minHeight + 'px';
+                      this.element.style.height = App.Def.minHeight + 'px';
+                      this.setAttribute('height',App.Def.minHeight);
+                  }
 
-      //Trata a Largura
-      if (this.hasAttribute('width')) {
-          this.style.width = this.getAttribute('width') + 'px';
-          this.element.style.width = this.getAttribute('width') + 'px';
-      }
-      else {
-          this.style.width = App.Def.minWidth + 'px';
-          this.element.style.width = App.Def.minWidth + 'px';
-          this.setAttribute('width',App.Def.minWidth);
-      }
-      //Trata a Altura
-      if (this.hasAttribute('height')) {
-          this.style.height = this.getAttribute('height') + 'px';
-          this.element.style.height = this.getAttribute('height') + 'px';
-      }
-      else {
-          this.style.height = App.Def.minHeight + 'px';
-          this.element.style.height = App.Def.minHeight + 'px';
-          this.setAttribute('height',App.Def.minHeight);
-      }
-
-      //Alterna entre Busca por Endereço ou por Latitude/Longitude
-      if (this.hasAttribute('address')) {
-          mapByAddress(this);
-      }
-      else {
-          mapByLatLong(this);
-      }
-    };
-
-    //Finalmente Registra o Elemento
-    return document.registerElement('google-map', {prototype: proto});
-  })();
+                  //Alterna entre Busca por Endereço ou por Latitude/Longitude
+                  if (this.hasAttribute('address')) {
+                      mapByAddress(this);
+                  }
+                  else {
+                      mapByLatLong(this);
+                  }
+              }
+          }
+      });
+      //Finalmente Registra o Elemento
+      document.registerElement('google-map', {prototype: proto});
+  }
 </script>
