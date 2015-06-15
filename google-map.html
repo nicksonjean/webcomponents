@@ -4,7 +4,7 @@
     html{height:100%}
     body{height:100%;margin:0;padding:0}
     /* Map Style */
-    .gm-template{float:left;border:solid 1px #000}
+    .gm-template{float:left}
     .gmnoprint a img{display:none}
     .gm-template div[dir="ltr"]{visibility:hidden}
     .gmnoprint div a{display:none}
@@ -91,12 +91,13 @@
   var App = App || {};
   App = {
     Def : {
-      minWidth : 400,
-      minHeight : 400,
-      border : true,
-      zoom : 16,
-      latitude : -5.195239528770433,
-      longitude : -37.341639999999984,
+      width : 300, //OK
+      height : 300, //OK
+      zoom : 16, //OK
+      latitude : -5.195239528770433, //OK
+      longitude : -37.341639999999984, //OK
+      border : true, //OK
+      tooltip: true,
       panControl: false,
       zoomControl: false,
       mapTypeControl: false,
@@ -157,7 +158,7 @@
               cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
           return place['route'].long_name + ', ' + nr + bairro + ' - ' + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name;
         },
-        setLocation : function(place) {
+        getLocation : function(place) {
           var arrayAddress = [],
               mapAddress = [];
           for (var i = 0; i < place.length; i++) {
@@ -194,6 +195,43 @@
             }
           }
           return mapAddress;
+        },
+        setLocation : function(self, location) {
+          if(self.hasAttribute('return')) {
+            var element = document.querySelectorAll(self.getAttribute('return'));
+            if(element.length > 0) {
+              document.querySelectorAll(self.getAttribute('return'))[0].setAttribute('value',location);
+            }
+            else {
+              var newNode = document.createElement("input");
+              newNode.setAttribute('type', 'text');
+              newNode.setAttribute('id', self.getAttribute('return').replace('#',''));
+              newNode.setAttribute('name', self.getAttribute('return').replace('#',''));
+              newNode.setAttribute('value', location);
+              self.parentNode.insertBefore(newNode, self.nextSibling);
+            }
+          }
+        },
+        setCoordinates : function(self) {
+          if ((self.hasAttribute('latitude') && self.getAttribute('latitude') != '') && (self.hasAttribute('longitude') && self.getAttribute('longitude') != '')) {
+            var latitude = self.getAttribute('latitude'),
+                longitude = self.getAttribute('longitude');
+          }
+          else {
+            var latitude = App.Def.latitude,
+                longitude = App.Def.longitude;
+                self.setAttribute('latitude',App.Def.latitude);
+                self.setAttribute('longitude',App.Def.longitude);
+          }
+          return [latitude,longitude];
+        },
+        setAddress : function(self) {
+          if (self.hasAttribute('address') && self.getAttribute('address') != '') {
+            return self.getAttribute('address');
+          }
+          else {
+            return mapByLatLong(self);
+          }
         }
       }
     }
@@ -226,21 +264,13 @@
 
                   //Geolocalização por Latitude e Longitude
                   var mapByLatLong = function(self) {
-                      if (self.hasAttribute('latitude') && self.hasAttribute('longitude')) {
-                          var latitude = self.getAttribute('latitude'),
-                              longitude = self.getAttribute('longitude');
-                      }
-                      else {
-                          var latitude = App.Def.latitude,
-                              longitude = App.Def.longitude;
-                              self.setAttribute('latitude',App.Def.latitude);
-                              self.setAttribute('longitude',App.Def.longitude);
-                      }
+                      var latitude = App.Ext.Map.setCoordinates(self)[0];
+                      var longitude = App.Ext.Map.setCoordinates(self)[1];
                       var coords = new google.maps.LatLng(latitude, longitude);
                       var map = new google.maps.Map(self.element, {
-                          zoom : App.Def.zoom,
-                          center : coords,
+                          zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
                           mapTypeId : google.maps.MapTypeId.ROADMAP,
+                          center : coords,
                           panControl : App.Def.panControl,
                           streetViewControl : App.Def.streetViewControl,
                           mapTypeControl : App.Def.mapTypeControl,
@@ -249,9 +279,9 @@
                       var geocoder = new google.maps.Geocoder();
                       geocoder.geocode( { "latLng" : coords }, function(results, status) {
                           if (status == google.maps.GeocoderStatus.OK) {
-                              mapAddress = App.Ext.Map.setLocation(results[0].address_components);
+                              mapAddress = App.Ext.Map.getLocation(results[0].address_components);
                               map.setCenter(coords);
-                              map.setZoom(App.Def.zoom);
+                              map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
                               marker = new google.maps.Marker({
                                   position : coords,
                                   animation : google.maps.Animation.DROP,
@@ -262,22 +292,18 @@
                               });
                               infoWin.open(map, marker);
                               self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
+                              App.Ext.Map.setLocation(self, App.Ext.Map.getAddress(mapAddress));
                           }
                       });
                   };
 
                   //Geolocalização Reversa
                   var mapByAddress = function(self) {
-                      if (self.hasAttribute('address')) {
-                          var address = self.getAttribute('address')
-                      }
-                      else {
-                          return mapByLatLong(self);
-                      }
+                      var address = App.Ext.Map.setAddress(self);
                       var map = new google.maps.Map(self.element, {
-                          zoom : App.Def.zoom,
-                          center : new google.maps.LatLng(0,0),
+                          zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
                           mapTypeId : google.maps.MapTypeId.ROADMAP,
+                          center : new google.maps.LatLng(0,0),
                           panControl : App.Def.panControl,
                           streetViewControl : App.Def.streetViewControl,
                           mapTypeControl : App.Def.mapTypeControl,
@@ -290,49 +316,57 @@
                           },
                           function(results, status) {
                               if (status == google.maps.GeocoderStatus.OK) {
-                                  mapAddress = App.Ext.Map.setLocation(results[0].address_components);
+                                  mapAddress = App.Ext.Map.getLocation(results[0].address_components);
                                   var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
                                   map.setCenter(coords);
-                                  map.setZoom(App.Def.zoom);
+                                  map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
                                   marker = new google.maps.Marker({
                                       position : coords, 
                                       animation : google.maps.Animation.DROP,
                                       map : map
                                   });
                                   var infoWin = new google.maps.InfoWindow({
-                                      content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng())
+                                      content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng(), tooltip)
                                   });
                                   infoWin.open(map, marker);
                                   self.setAttribute('latitude', coords.lat());
                                   self.setAttribute('longitude', coords.lng());
+                                  App.Ext.Map.setLocation(self, coords.lat() + ',' + coords.lng());
                               }
                           }
                       );
                   };
 
                   //Trata a Largura
-                  if (this.hasAttribute('width')) {
+                  if (this.hasAttribute('width') && this.getAttribute('width') != '') {
                       this.style.width = this.getAttribute('width') + 'px';
                       this.element.style.width = this.getAttribute('width') + 'px';
                   }
                   else {
-                      this.style.width = App.Def.minWidth + 'px';
-                      this.element.style.width = App.Def.minWidth + 'px';
-                      this.setAttribute('width',App.Def.minWidth);
+                      this.style.width = App.Def.width + 'px';
+                      this.element.style.width = App.Def.width + 'px';
+                      this.setAttribute('width',App.Def.width);
                   }
                   //Trata a Altura
-                  if (this.hasAttribute('height')) {
+                  if (this.hasAttribute('height') && this.getAttribute('height') != '') {
                       this.style.height = this.getAttribute('height') + 'px';
                       this.element.style.height = this.getAttribute('height') + 'px';
                   }
                   else {
-                      this.style.height = App.Def.minHeight + 'px';
-                      this.element.style.height = App.Def.minHeight + 'px';
-                      this.setAttribute('height',App.Def.minHeight);
+                      this.style.height = App.Def.height + 'px';
+                      this.element.style.height = App.Def.height + 'px';
+                      this.setAttribute('height',App.Def.height);
+                  }
+                  //Trata a Borda
+                  if (this.hasAttribute('border') && this.getAttribute('border') == 'false') {
+                      this.element.style.border = 'none';
+                  }
+                  else {
+                      this.element.style.border = 'solid 1px #000';
                   }
 
                   //Alterna entre Busca por Endereço ou por Latitude/Longitude
-                  if (this.hasAttribute('address')) {
+                  if (this.hasAttribute('address') && this.getAttribute('address') != '') {
                       mapByAddress(this);
                   }
                   else {

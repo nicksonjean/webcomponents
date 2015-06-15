@@ -10,17 +10,43 @@
       body {
         font-family: 'Roboto', sans-serif;
       }
+      span {
+        width:100%;
+        display:block;
+        float:left;
+      }
+      p {
+        height:350px;
+        width:100%;
+        display:block;
+        float:left;
+      }
     </style>
   </head>
   <body>
     <h1>&lt;google-map&gt; Web Component</h1>
 
-      <p><google-map></google-map></p>
-      <p><google-map latitude="-5.2122674" longitude="-37.32915750000001" width="400" height="400"></google-map></p>
-      <p><google-map latitude="-5.195239528770433" longitude="-37.341639999999984" width="400" height="400"></google-map></p>
-      <!--
-      <p><google-map address="Rua Aquino de Morais, 306, Mossoró/RN" width="400" height="400" result="#latlong"></google-map></p>
-      <input type="text" id="latlong" />
-      -->
+      <p>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <google-map></google-map>
+        <span>Mapa Padrão (Sem Nenhum Atributo)<br />Tenta Gerar o Mapa do Google Através da API Geolocation Nativa</span>
+      </p>
+
+      <p>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <google-map latitude="-5.2122674" longitude="-37.32915750000001" width="300" height="300" zoom="18" border></google-map>
+      </p>
+
+      <p>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <google-map latitude="-5.195239528770433" longitude="-37.341639999999984" width="300" height="300" tooltip return="#latlong2"></google-map>
+      </p>
+
+      <p>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <google-map address="Rua Aquino de Morais, 306, Mossoró/RN" width="300" height="300" return="#latlong"></google-map>
+        <input type="text" id="latlong" />
+      </p>
+
   </body>
 </html>
