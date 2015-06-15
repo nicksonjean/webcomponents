@@ -12,10 +12,10 @@
     .gmnoprint div a span:parent{display:none}
     .gmnoprint div a span{display:none}
     .gm-template a[title="Clique para ver esta área no Google Maps"] div{display:none}
-    .gs-address{text-decoration:none}
     .gm-template a[title="Informar erros no mapa ou nas imagens para o Google"]{display:none}
     .gmnoscreen{display:none}
     /* Tooltip Style */
+    .gs-address{text-decoration:none}
     .gm-style .gm-style-iw {font-weight:300;font-size:12px;overflow:hidden}
     .gm-style .gm-iw{color:#2c2c2c}
     .gm-style .gm-iw b{font-weight:400}
@@ -57,6 +57,9 @@
     .gs-label, 
     .gs-title .gs-title-a{color:rgb(85,26,139);text-decoration:none}
     .gs-title .gs-title-a:hover{color:rgb(85,26,139);text-decoration:none;cursor:default}
+    .gs-address span,
+    .gs-directions-to-from span{display:inline;float:left;width:auto}
+    .gs-directions-to-from .gs-label{clear:all}
   </style>
   <div class="gm-template"></div>
 </template>
@@ -91,8 +94,8 @@
   var App = App || {};
   App = {
     Def : {
-      width : 300, //OK
-      height : 300, //OK
+      width : 400, //OK
+      height : 400, //OK
       zoom : 16, //OK
       latitude : -5.195239528770433, //OK
       longitude : -37.341639999999984, //OK
@@ -104,7 +107,7 @@
       scaleControl: false,
       streetViewControl: false,
       overviewMapControl: false,
-      disableDefaultUI: true,
+      disableDefaultUI: true
     },
     Ext : {
       URL : {
@@ -117,7 +120,7 @@
         }
       },
       String : {
-        Replace(string, token, newtoken) {
+        Replace : function(string, token, newtoken) {
           while (string.indexOf(token) != -1) {
             string = string.replace(token, newtoken);
           }
