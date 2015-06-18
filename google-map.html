@@ -100,6 +100,7 @@
       latitude : -5.195239528770433, //OK
       longitude : -37.341639999999984, //OK
       border : true, //OK
+      marker : null,
       tooltip: true,
       panControl: false,
       zoomControl: false,
@@ -287,13 +288,17 @@
                               map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
                               marker = new google.maps.Marker({
                                   position : coords,
-                                  animation : google.maps.Animation.DROP,
+                                  //animation : google.maps.Animation.DROP,
+                                  animation: google.maps.Animation.BOUNCE,
+                                  icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
                                   map : map
                               });
-                              var infoWin = new google.maps.InfoWindow({
-                                  content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude, tooltip)
-                              });
-                              infoWin.open(map, marker);
+                              if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') && self.getAttribute('tooltip') != 'false') {
+                                  var infoWin = new google.maps.InfoWindow({
+                                      content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude, tooltip)
+                                  });
+                                  infoWin.open(map, marker);
+                              }
                               self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
                               App.Ext.Map.setLocation(self, App.Ext.Map.getAddress(mapAddress));
                           }
@@ -326,12 +331,16 @@
                                   marker = new google.maps.Marker({
                                       position : coords, 
                                       animation : google.maps.Animation.DROP,
+                                      //animation: google.maps.Animation.BOUNCE,
+                                      icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
                                       map : map
                                   });
-                                  var infoWin = new google.maps.InfoWindow({
-                                      content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng(), tooltip)
-                                  });
-                                  infoWin.open(map, marker);
+                                  if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') && self.getAttribute('tooltip') != 'false') {
+                                      var infoWin = new google.maps.InfoWindow({
+                                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng(), tooltip)
+                                      });
+                                      infoWin.open(map, marker);
+                                  }
                                   self.setAttribute('latitude', coords.lat());
                                   self.setAttribute('longitude', coords.lng());
                                   App.Ext.Map.setLocation(self, coords.lat() + ',' + coords.lng());
