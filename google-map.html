@@ -67,24 +67,24 @@
 <template id="gm-tooltip">
   <div class="gmls-result-wrapper">
     <div class="gs-localResult gs-result">
-      <div class="gs-title"><a class="gs-title-a" href="http://www.google.com/maps?source=uds&q=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]" target="_blank">Endereço:&nbsp;</a></div>
+      <div class="gs-title"><a class="gs-title-a" href="http://www.google.com/maps?source=uds&q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}" target="_blank">Endereço:&nbsp;</a></div>
       <div class="gs-address">
         <span class="gs-street gs-addressLine"> 
-          <a href="http://maps.google.com/maps/place?q=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">[raw_route.long_name], [raw_nr] [raw_bairro]</a>
+          <a href="http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">{{raw_route.long_name}}, {{raw_nr}} {{raw_bairro}}</a>
         </span>
         <span class="gs-spacer">&nbsp;-&nbsp;</span>
         <span class="gs-city gs-addressLine">
-          <a href="http://maps.google.com/maps/place?q=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">[raw_locality.long_name]/[raw_administrative_area_level_1.short_name]</a>
+          <a href="http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">{{raw_locality.long_name}}/{{raw_administrative_area_level_1.short_name}}</a>
         </span>
       </div>
       <div class="gs-directions-to-from">
         <span class="gs-label">Rota:&nbsp;</span>
         <span class="gs-secondary-link">
-          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&daddr=[route.long_name]%2C+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name]%2C [cep][country.long_name]+([route.long_name],+[nr])+@+[latitude],[longitude]&iwstate1=dir:to" target="_blank">Para cá</a>
+          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&daddr={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:to" target="_blank">Para cá</a>
         </span>
         <span class="gs-spacer">&nbsp;-&nbsp;</span>
         <span class="gs-secondary-link">
-          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&saddr=[route.long_name],+[nr]+[bairro][locality.long_name]+-+[administrative_area_level_1.short_name], [cep][country.long_name]+([route.long_name],+[nr])+@+[latitude],[longitude]&iwstate1=dir:from" target="_blank">Daqui</a>
+          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&saddr={{route.long_name}},+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}, {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:from" target="_blank">Daqui</a>
         </span>
       </div>
     </div>
@@ -129,6 +129,13 @@
           return string;
         }
       },
+      MicroTemplate : function(temp, data) {
+         data = [].concat(data);
+         for (var i in data)
+            for (var f in data[i])
+               temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
+         return temp;
+      },
       Map : {
         setMarkerInfoWin : function(place, latitude, longitude, template) {
           var html,
@@ -136,24 +143,24 @@
               nr = place['street_number'] ? place['street_number'].long_name + '' : '',
               bairro = place['sublocality'] ? place['sublocality'].long_name + '+,+' : '',
               cep = place['postal_code'] ? place['postal_code'].long_name + ',+' : '';
-
+          var data =  {
+              'raw_route.long_name' : place['route'].long_name,
+              'raw_nr' : nr,
+              'raw_bairro' : bairro,
+              'raw_locality.long_name' : place['locality'].long_name,
+              'raw_administrative_area_level_1.short_name' : place['administrative_area_level_1'].short_name,
+              'route.long_name' : App.Ext.URL.Encode(place['route'].long_name),
+              'nr' : App.Ext.URL.Encode(nr),
+              'locality.long_name' : App.Ext.URL.Encode(place['locality'].long_name),
+              'administrative_area_level_1.short_name' : App.Ext.URL.Encode(place['administrative_area_level_1'].short_name),
+              'cep' : App.Ext.URL.Encode(cep),
+              'bairro' : App.Ext.URL.Encode(bairro),
+              'country.long_name' : App.Ext.URL.Encode(place['country'].long_name),
+              'latitude' : latitude,
+              'longitude' : longitude
+          };
           template = template.innerHTML;
-          template = App.Ext.String.Replace(template, '[raw_route.long_name]', place['route'].long_name);
-          template = App.Ext.String.Replace(template, '[raw_nr]', nr);
-          template = App.Ext.String.Replace(template, '[raw_bairro]', bairro);
-          template = App.Ext.String.Replace(template, '[raw_locality.long_name]', place['locality'].long_name);
-          template = App.Ext.String.Replace(template, '[raw_administrative_area_level_1.short_name]', place['administrative_area_level_1'].short_name);
-
-          template = App.Ext.String.Replace(template, '[route.long_name]', App.Ext.URL.Encode(place['route'].long_name));
-          template = App.Ext.String.Replace(template, '[nr]', App.Ext.URL.Encode(nr));
-          template = App.Ext.String.Replace(template, '[locality.long_name]', App.Ext.URL.Encode(place['locality'].long_name));
-          template = App.Ext.String.Replace(template, '[administrative_area_level_1.short_name]', App.Ext.URL.Encode(place['administrative_area_level_1'].short_name));
-          template = App.Ext.String.Replace(template, '[cep]', App.Ext.URL.Encode(cep));
-          template = App.Ext.String.Replace(template, '[bairro]', App.Ext.URL.Encode(bairro));
-          template = App.Ext.String.Replace(template, '[country.long_name]', App.Ext.URL.Encode(place['country'].long_name));
-          template = App.Ext.String.Replace(template, '[latitude]', latitude);
-          template = App.Ext.String.Replace(template, '[longitude]', longitude);
-
+          template = App.Ext.MicroTemplate(template, data);
           return template;
         },
         getAddress : function(place) {
