@@ -30,11 +30,23 @@ Date.prototype.format=function(e){var t="";var n=Date.replaceChars;for(var r=0;r
     },
     Ext : {
       MicroTemplate : function(temp, data) {
-         data = [].concat(data);
-         for (var i in data)
-            for (var f in data[i])
-               temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
-         return temp;
+       data = [].concat(data);
+       for (var i in data)
+         for (var f in data[i])
+           temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
+       return temp;
+      },
+      FetchFeed : function(url, entry) {
+        var script = document.createElement('script');
+        var template = 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={{entries}}&q={{url}}&callback=__autoload';
+        var data = {
+          url : url,
+          entries : entry
+        }
+        template = App.Ext.MicroTemplate(template, data);
+        script.type = 'text/javascript';
+        script.src = template;
+        document.body.appendChild(script);
       }
     }
   };
@@ -62,21 +74,19 @@ Date.prototype.format=function(e){var t="";var n=Date.replaceChars;for(var r=0;r
               //Salva o Objeto e uma Variável
               var self = this;
 
-              //Autoloading das Bibliotecas
+              //http://blog.timsommer.be/using-promises-to-merge-async-jquery-ajax-calls/
               window.onload = function() {
-                  //Carrega de Modo Assincrono a Biblioteca Ajax do Google Feed
-                  var script = document.createElement('script');
-                  var template = 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={{entries}}&q={{url}}&callback=__autoload';
-                  var data =  {
-                      url : url,
-                      entries : entry
+                  var sUrl = url.split(',')
+                  if(sUrl.length == 1) {
+                      url = sUrl.toString();
                   }
-                  template = App.Ext.MicroTemplate(template, data);
-                  script.type = 'text/javascript';
-                  script.src = template;
-                  document.body.appendChild(script);
-              };
+                  else {
+                      for (var key in sUrl) {
 
+                      }
+                  }
+              };
+              /*
               __autoload = function(data){
                   var result = data.responseData.feed,
                       status = data.responseStatus,
@@ -102,6 +112,8 @@ Date.prototype.format=function(e){var t="";var n=Date.replaceChars;for(var r=0;r
                   //Aplica o Modelo aos Itens
                   self.element.querySelector('.entries').innerHTML = template;
               };
+
+              */
 
           }
       }
