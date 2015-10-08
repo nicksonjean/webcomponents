@@ -60,6 +60,10 @@
     .gs-address span,
     .gs-directions-to-from span{display:inline;float:left;width:auto}
     .gs-directions-to-from .gs-label{clear:all}
+    /*Search Field*/
+    .pac-input{background-color:#fff;font-family:Roboto, Arial, sans-serif;font-size:11px;font-weight:300;margin-left:12px;padding:0 11px 0 13px;text-overflow:ellipsis;width:14%;position:absolute;left:114px;z-index:16;}
+    .pac-input.controls{margin-top:30px;border:1px solid transparent;border-radius:2px 0 0 2px;box-sizing:border-box;-moz-box-sizing:border-box;height:29px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
+    .pac-input:focus{border-color:#4d90fe;}
   </style>
   <div class="gm-template"></div>
 </template>
@@ -103,12 +107,12 @@
       marker : null, //OK
       tooltip : true, //OK
       mapType : 'ROADMAP', //OK
-      panControl: false,
-      zoomControl: false,
-      scaleControl: false,
-      mapTypeControl: false,
-      streetViewControl: false,
-      disableDefaultUI: true
+      panControl: false, //OK
+      zoomControl: false, //OK
+      scaleControl: false, //OK
+      mapTypeControl: false, //OK
+      streetViewControl: false, //OK
+      disableDefaultUI: true //OK
     },
     Ext : {
       URL : {
@@ -223,6 +227,16 @@
             }
           }
         },
+        setSearchControl : function(self, element) {
+          if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
+            var newNode = document.createElement("input");
+            newNode.setAttribute('type', 'search');
+            newNode.setAttribute('placeholder', 'Busca:');
+            newNode.setAttribute('class', 'pac-input controls');
+            self.parentNode.insertBefore(newNode, self);
+            return newNode;
+          }
+        },
         setCoordinates : function(self) {
           if ((self.hasAttribute('latitude') && self.getAttribute('latitude') != '') && (self.hasAttribute('longitude') && self.getAttribute('longitude') != '')) {
             var latitude = self.getAttribute('latitude'),
@@ -272,9 +286,11 @@
   window.onload = function() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&callback=__autoload';
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places&callback=__autoload';
     //script.src = 'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=__autoload';
     document.body.appendChild(script);
+
+    //https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
   };
 
   var currentScript = document._currentScript || document.currentScript,
@@ -294,18 +310,18 @@
                   this.element = this.shadowRoot.querySelector('.gm-template');
 
                   //Geolocalização por Latitude e Longitude
-                  var mapByLatLong = function(self) {
+                  var mapByLatLong = function(self, that) {
                       var latitude = App.Ext.Map.setCoordinates(self)[0];
                       var longitude = App.Ext.Map.setCoordinates(self)[1];
                       var coords = new google.maps.LatLng(latitude, longitude);
                       var map = new google.maps.Map(self.element, {
                           center : coords,
                           zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
-                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != '' ? self.getAttribute('panControl') : App.Def.panControl,
-                          zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != '' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
-                          scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != '' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
-                          mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != '' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
-                          streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != '' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
+                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != 'false' ? self.getAttribute('panControl') : App.Def.panControl,
+                          zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
+                          scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
+                          mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
+                          streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
                           disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') != '' ? self.getAttribute('disableDefaultUI') : App.Def.disableDefaultUI
                       });
                       App.Ext.Map.setMapType(self, map);
@@ -321,7 +337,7 @@
                                   icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
                                   map : map
                               });
-                              if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') && self.getAttribute('tooltip') != 'false') {
+                              if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
                                   var infoWin = new google.maps.InfoWindow({
                                       content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude, tooltip)
                                   });
@@ -329,20 +345,29 @@
                               }
                               self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
                               App.Ext.Map.setLocation(self, App.Ext.Map.getAddress(mapAddress));
+
+                              var input = App.Ext.Map.setSearchControl(that, self);
+                              var searchBox = new google.maps.places.SearchBox(input);
+                              // Bias the SearchBox results towards current map's viewport.
+                              map.addListener('bounds_changed', function() {
+                                searchBox.setBounds(map.getBounds());
+                              });
                           }
                       });
                   };
 
                   //Geolocalização Reversa
-                  var mapByAddress = function(self) {
+                  var mapByAddress = function(self, that) {
                       var address = App.Ext.Map.setAddress(self);
                       var map = new google.maps.Map(self.element, {
                           zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
                           center : new google.maps.LatLng(0,0),
-                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != '' ? self.getAttribute('panControl') : App.Def.panControl,
-                          streetViewControl : App.Def.streetViewControl,
-                          mapTypeControl : App.Def.mapTypeControl,
-                          disableDefaultUI: App.Def.disableDefaultUI
+                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != 'false' ? self.getAttribute('panControl') : App.Def.panControl,
+                          zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
+                          scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
+                          mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
+                          streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
+                          disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') != '' ? self.getAttribute('disableDefaultUI') : App.Def.disableDefaultUI
                       });
                       App.Ext.Map.setMapType(self, map);
                       var geocoder = new google.maps.Geocoder(); 
@@ -362,7 +387,7 @@
                                       icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
                                       map : map
                                   });
-                                  if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') && self.getAttribute('tooltip') != 'false') {
+                                  if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
                                       var infoWin = new google.maps.InfoWindow({
                                           content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng(), tooltip)
                                       });
@@ -406,10 +431,10 @@
 
                   //Alterna entre Busca por Endereço ou por Latitude/Longitude
                   if (this.hasAttribute('address') && this.getAttribute('address') != '') {
-                      mapByAddress(this);
+                      mapByAddress(this, this.element);
                   }
                   else {
-                      mapByLatLong(this);
+                      mapByLatLong(this, this.element);
                   }
               }
           }
