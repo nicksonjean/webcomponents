@@ -105,10 +105,9 @@
       mapType : 'ROADMAP', //OK
       panControl: false,
       zoomControl: false,
-      mapTypeControl: false,
       scaleControl: false,
+      mapTypeControl: false,
       streetViewControl: false,
-      overviewMapControl: false,
       disableDefaultUI: true
     },
     Ext : {
@@ -300,12 +299,14 @@
                       var longitude = App.Ext.Map.setCoordinates(self)[1];
                       var coords = new google.maps.LatLng(latitude, longitude);
                       var map = new google.maps.Map(self.element, {
-                          zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
                           center : coords,
-                          panControl : App.Def.panControl,
-                          streetViewControl : App.Def.streetViewControl,
-                          mapTypeControl : App.Def.mapTypeControl,
-                          disableDefaultUI: App.Def.disableDefaultUI
+                          zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
+                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != '' ? self.getAttribute('panControl') : App.Def.panControl,
+                          zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != '' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
+                          scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != '' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
+                          mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != '' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
+                          streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != '' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
+                          disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') != '' ? self.getAttribute('disableDefaultUI') : App.Def.disableDefaultUI
                       });
                       App.Ext.Map.setMapType(self, map);
                       var geocoder = new google.maps.Geocoder();
@@ -338,7 +339,7 @@
                       var map = new google.maps.Map(self.element, {
                           zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
                           center : new google.maps.LatLng(0,0),
-                          panControl : App.Def.panControl,
+                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != '' ? self.getAttribute('panControl') : App.Def.panControl,
                           streetViewControl : App.Def.streetViewControl,
                           mapTypeControl : App.Def.mapTypeControl,
                           disableDefaultUI: App.Def.disableDefaultUI
@@ -369,7 +370,7 @@
                                   }
                                   self.setAttribute('latitude', coords.lat());
                                   self.setAttribute('longitude', coords.lng());
-                                  App.Ext.Map.setLocation(self, coords.lat() + ',' + coords.lng());
+                                  App.Ext.Map.setLocation(self, coords.lat().toFixed(6) + ',' + coords.lng().toFixed(6));
                               }
                           }
                       );

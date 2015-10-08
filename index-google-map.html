@@ -25,7 +25,7 @@
   </head>
   <body>
     <h1>&lt;google-map&gt; Web Component</h1>
-
+      <!--
       <p>
         <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
         <google-map></google-map>
@@ -41,11 +41,30 @@
         <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
         <google-map latitude="-5.195239528770433" longitude="-37.341639999999984" width="400" height="400" tooltip marker="https://maps.google.com/mapfiles/kml/shapes/schools_maps.png" return="#latlong2"  maptype="SATELLITE"></google-map>
       </p>
+      -->
+      <p>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <google-map address="Rua Raimunda Maria de Souza, 1309, Mossoró/RN" width="400" height="400" return="#latlong" maptype="TERRAIN"></google-map>
+        <input type="text" id="latlong" />
+      </p>
 
       <p>
         <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
-        <google-map address="Rua Aquino de Morais, 306, Mossoró/RN" width="400" height="400" return="#latlong" maptype="TERRAIN"></google-map>
-        <input type="text" id="latlong" />
+        <google-map 
+          latitude="-5.234350" 
+          longitude="-37.327694" 
+          width="400" 
+          height="400" 
+          panControl="true"
+          zoomControl="true"
+          scaleControl="true"
+          mapTypeControl="true"
+          streetViewControl="true"
+          disableDefaultUI="true"
+          marker="https://maps.google.com/mapfiles/kml/shapes/schools_maps.png" 
+          return="#latlong2" 
+          maptype="TERRAIN">
+        </google-map>
       </p>
 
   </body>
