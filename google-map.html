@@ -62,8 +62,27 @@
     .gs-directions-to-from .gs-label{clear:all}
     /*Search Field*/
     .pac-input{background-color:#fff;font-family:Roboto, Arial, sans-serif;font-size:11px;font-weight:300;margin-left:12px;padding:0 11px 0 13px;text-overflow:ellipsis;width:14%;position:absolute;left:114px;z-index:16;}
-    .pac-input.controls{margin-top:30px;border:1px solid transparent;border-radius:2px 0 0 2px;box-sizing:border-box;-moz-box-sizing:border-box;height:29px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
+    .pac-input.controls{margin-top:10px;border:1px solid transparent;border-radius:2px 0 0 2px;box-sizing:border-box;-moz-box-sizing:border-box;height:30px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
     .pac-input:focus{border-color:#4d90fe;}
+    /*Search Field*/
+    .pac-container{font-family:Roboto;}
+    .pac-container{background-color:#FFF;position:absolute !important;z-index:1000;border-radius:2px;border-top:1px solid #D9D9D9;font-family:Arial,sans-serif;box-shadow:0px 2px 6px rgba(0,0,0,0.3);box-sizing:border-box;overflow:hidden;}
+    .pac-container{z-index:10000 !important;width:auto !important;position:initial !important;left:0 !important;right:0 !important;display:block !important;}
+    .pac-container:empty{display:none !important;}
+    .pac-item{cursor:default;padding:0px 4px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;line-height:30px;text-align:left;border-top:1px solid #E6E6E6;font-size:11px;color:#999;}
+    .pac-item-query{font-size:13px;padding-right:3px;color:#000;}
+    .pac-item{cursor:default;white-space:nowrap;line-height:30px;text-align:left;font-size:11px;color:#999;}
+    .pac-item span{min-width:0%;max-width:0%;display:inline !important;float:none !important;}
+    .pac-icon-marker{background-position:-1px -161px;}
+    .pac-icon{padding:3px 6px;width:15px !important;height:20px;margin-right:7px;margin-top:6px;display:inline-block !important;vertical-align:top;background-image:url("https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons.png");background-size:34px auto;}
+    .pac-matched{font-weight:700;}
+    /*ContextMenu*/
+    .context_menu{font-family:Roboto;}
+    .context_menu{background-color:#FFF;border-radius:2px;border-top:1px solid #D9D9D9;font-family:Arial,sans-serif;box-shadow:0px 2px 6px rgba(0,0,0,0.3);box-sizing:border-box;}
+    .context_menu_item{background-color:#fff;font-family:Roboto,Arial,sans-serif;font-size:11px;font-weight:300;padding:6px 11px 6px 13px;text-overflow:ellipsis;}
+    .context_menu_item:hover{background-color:#fafafa;}
+    .context_menu_separator{background-color:#e6e6e6;height:1px;margin:0;padding:0;}
+    #clearDirectionsItem,#getDirectionsItem{display:none;}
   </style>
   <div class="gm-template"></div>
 </template>
@@ -140,6 +159,274 @@
          return temp;
       },
       Map : {
+        Set : {
+          Control : {
+            Search : {
+              Field : function(self, element) {
+                if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
+                  var newNode = document.createElement("input");
+                  newNode.setAttribute('type', 'search');
+                  newNode.setAttribute('placeholder', 'Busca:');
+                  newNode.setAttribute('class', 'pac-input controls');
+                  self.parentNode.insertBefore(newNode, self);
+                  return newNode;
+                }
+              },
+              Callback : function(map, that, self, template) {
+                if((self.hasAttribute('searchControl') && self.getAttribute('searchControl') != '') || (self.getAttribute('searchControl') == 'true')) {
+                  var input = App.Ext.Map.Set.Control.Search.Field(that, self);
+                  var searchBox = new google.maps.places.SearchBox(input);
+                  map.addListener('bounds_changed', function() {
+                    searchBox.setBounds(map.getBounds());
+                  });
+                  var markers = [];
+                  searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
+                    if (places.length == 0) {
+                      return;
+                    }
+                    markers.forEach(function(marker) {
+                      marker.setMap(null);
+                    });
+                    markers = [];
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                      markers.push(new google.maps.Marker({
+                        map: map,
+                        animation : google.maps.Animation.DROP,
+                        icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
+                        title: place.name,
+                        position: place.geometry.location
+                      }));
+                      mapAddress = App.Ext.Map.getLocation(place.address_components);
+                      if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+                        var infoWin = new google.maps.InfoWindow({
+                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, place.geometry.location.lat(), place.geometry.location.lng(), template)
+                        });
+                        infoWin.open(map, markers[0]);
+                      }
+                      if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                      } else {
+                        bounds.extend(place.geometry.location);
+                      }
+                    });
+                    map.fitBounds(bounds);
+                    var listener = google.maps.event.addListener(map, "idle", function() { 
+                      if (map.getZoom() > App.Def.zoom) 
+                        map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
+                      google.maps.event.removeListener(listener);
+                    });
+                  });
+                }
+              }
+            },
+            ContextMenu : function(map, self) {
+              if((self.hasAttribute('contextMenuControl') && self.getAttribute('contextMenuControl') != '') || (self.getAttribute('contextMenuControl') == 'true')) {
+                //Construtor
+                function ContextMenu(map, options){
+                  options = options || {};
+                  this.setMap(map);
+                  this.classNames_ = options.classNames || {};
+                  this.map_ = map;
+                  this.mapDiv_ = map.getDiv();
+                  this.menuItems_ = options.menuItems || [];
+                  this.pixelOffset = options.pixelOffset || new google.maps.Point(10, -5);
+                }
+                //Construtor
+                ContextMenu.prototype = new google.maps.OverlayView();
+                ContextMenu.prototype.draw = function(){
+                  if(this.isVisible_){
+                    var mapSize = new google.maps.Size(this.mapDiv_.offsetWidth, this.mapDiv_.offsetHeight);
+                    var menuSize = new google.maps.Size(this.menu_.offsetWidth, this.menu_.offsetHeight);
+                    var mousePosition = this.getProjection().fromLatLngToDivPixel(this.position_);
+                    var left = mousePosition.x;
+                    var top = mousePosition.y;
+                    if(mousePosition.x>mapSize.width - menuSize.width - this.pixelOffset.x){
+                      left = left - menuSize.width - this.pixelOffset.x;
+                    } else {
+                      left += this.pixelOffset.x;
+                    }
+                    if(mousePosition.y>mapSize.height - menuSize.height - this.pixelOffset.y){
+                      top = top - menuSize.height - this.pixelOffset.y;
+                    } else {
+                      top += this.pixelOffset.y;
+                    }
+                    this.menu_.style.left = left + 'px';
+                    this.menu_.style.top = top + 'px';
+                  }
+                };
+                ContextMenu.prototype.getVisible = function(){
+                  return this.isVisible_;
+                };
+                ContextMenu.prototype.hide = function(){
+                  if(this.isVisible_){
+                    this.menu_.style.display = 'none';
+                    this.isVisible_ = false;
+                  }
+                };
+                ContextMenu.prototype.onAdd = function(){
+                  function createMenuItem(values){
+                    var menuItem = document.createElement('div');
+                    menuItem.innerHTML = values.label;
+                    if(values.className){
+                      menuItem.className = values.className;
+                    }
+                    if(values.id){
+                      menuItem.id = values.id;
+                    }
+                    menuItem.style.cssText = 'cursor:pointer; white-space:nowrap';
+                    menuItem.onclick = function(){
+                      google.maps.event.trigger($this, 'menu_item_selected', $this.position_, values.eventName);
+                    };
+                    return menuItem;
+                  }
+                  function createMenuSeparator(){
+                    var menuSeparator = document.createElement('div');
+                    if($this.classNames_.menuSeparator){
+                      menuSeparator.className = $this.classNames_.menuSeparator;
+                    }
+                    return menuSeparator;
+                  }
+                  var $this = this;
+                  var menu = document.createElement('div');
+                  if(this.classNames_.menu){
+                    menu.className = this.classNames_.menu;
+                  }
+                  menu.style.cssText = 'display:none; position:absolute';
+                  for(var i = 0, j = this.menuItems_.length; i<j; i++){
+                    if(this.menuItems_[i].label && this.menuItems_[i].eventName){
+                      menu.appendChild(createMenuItem(this.menuItems_[i]));
+                    } else {
+                      menu.appendChild(createMenuSeparator());
+                    }
+                  }
+                  delete this.classNames_;
+                  delete this.menuItems_;
+                  this.isVisible_ = false;
+                  this.menu_ = menu;
+                  this.position_ = new google.maps.LatLng(0, 0);
+                  google.maps.event.addListener(this.map_, 'click', function(mouseEvent){
+                    $this.hide();
+                  });
+                  this.getPanes().floatPane.appendChild(menu);
+                };
+                ContextMenu.prototype.onRemove = function(){
+                  this.menu_.parentNode.removeChild(this.menu_);
+                  delete this.mapDiv_;
+                  delete this.menu_;
+                  delete this.position_;
+                };
+                ContextMenu.prototype.show = function(latLng){
+                  if(!this.isVisible_){
+                    this.menu_.style.display = 'block';
+                    this.isVisible_ = true;
+                  }
+                  this.position_ = latLng;
+                  this.draw();
+                };
+                //Renderização do Menu de Contexto
+                var directionsRendererOptions = {};
+                directionsRendererOptions.draggable = false;
+                directionsRendererOptions.hideRouteList = true;
+                directionsRendererOptions.suppressMarkers = false;
+                directionsRendererOptions.preserveViewport = false;
+                var directionsRenderer = new google.maps.DirectionsRenderer(directionsRendererOptions);
+                var directionsService = new google.maps.DirectionsService();
+
+                var contextMenuOptions = {};
+                contextMenuOptions.classNames = {menu:'context_menu', menuSeparator:'context_menu_separator'};
+
+                var menuItems = [];
+                menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Rota Daqui'});
+                menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Rota Para cá'});
+                menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Apagar Rotas'});
+                menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter Rotas'});
+
+                menuItems.push({});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Zoom In'});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Zoom Out'});
+                menuItems.push({});
+                menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Centrarlizar Mapa Aqui'});
+                contextMenuOptions.menuItems = menuItems;
+
+                var contextMenu = new ContextMenu(map, contextMenuOptions);
+
+                google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
+                  contextMenu.show(mouseEvent.latLng);
+                });
+
+                var markerOptions = {};
+                markerOptions.icon = 'http://www.google.com/intl/en_ALL/mapfiles/markerA.png';
+                markerOptions.map = null;
+                markerOptions.position = new google.maps.LatLng(0, 0);
+                markerOptions.title = 'Directions origin';
+
+                var originMarker = new google.maps.Marker(markerOptions);
+
+                markerOptions.icon = 'http://www.google.com/intl/en_ALL/mapfiles/markerB.png';
+                markerOptions.title = 'Directions destination';
+                var destinationMarker = new google.maps.Marker(markerOptions);
+
+                google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
+                  switch(eventName){
+                    case 'directions_origin_click':
+                      originMarker.setPosition(latLng);
+                      if(!originMarker.getMap()){
+                        originMarker.setMap(map);
+                      }
+                      break;
+                    case 'directions_destination_click':
+                      destinationMarker.setPosition(latLng);
+                      if(!destinationMarker.getMap()){
+                        destinationMarker.setMap(map);
+                      }
+                      break;
+                    case 'clear_directions_click':
+                      directionsRenderer.setMap(null);
+                      self.shadowRoot.getElementById('clearDirectionsItem').style.display = '';
+                      self.shadowRoot.getElementById('directionsDestinationItem').style.display = '';
+                      self.shadowRoot.getElementById('directionsOriginItem').style.display = '';
+                      self.shadowRoot.getElementById('getDirectionsItem').style.display = '';
+                      break;
+                    case 'get_directions_click':
+                      var directionsRequest = {};
+                      directionsRequest.destination = destinationMarker.getPosition();
+                      directionsRequest.origin = originMarker.getPosition();
+                      directionsRequest.travelMode = google.maps.TravelMode.DRIVING;
+                      directionsService.route(directionsRequest, function(result, status){
+                        if(status === google.maps.DirectionsStatus.OK){
+                          originMarker.setMap(null);
+                          destinationMarker.setMap(null);
+                          directionsRenderer.setDirections(result);
+                          directionsRenderer.setMap(map);
+                          self.shadowRoot.getElementById('clearDirectionsItem').style.display = 'block';
+                          self.shadowRoot.getElementById('directionsDestinationItem').style.display = 'none';
+                          self.shadowRoot.getElementById('directionsOriginItem').style.display = 'none';
+                          self.shadowRoot.getElementById('getDirectionsItem').style.display = 'none';
+                        } else {
+                          alert('Sorry, the map was unable to obtain directions.\n\nThe request failed with the message: ' + status);
+                        }
+                      });
+                      break;
+                    case 'zoom_in_click':
+                      map.setZoom(map.getZoom() +1);
+                      break;
+                    case 'zoom_out_click':
+                      map.setZoom(map.getZoom() -1);
+                      break;
+                    case 'center_map_click':
+                      map.panTo(latLng);
+                      break;
+                  }
+                  if(originMarker.getMap() && destinationMarker.getMap() && self.shadowRoot.getElementById("getDirectionsItem").style.display == ''){
+                    self.shadowRoot.getElementById("getDirectionsItem").style.display = 'block';
+                  }
+                });
+              }
+            }
+          }
+        },
         setMarkerInfoWin : function(place, latitude, longitude, template) {
           var html,
               place = place[0],
@@ -227,16 +514,6 @@
             }
           }
         },
-        setSearchControl : function(self, element) {
-          if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
-            var newNode = document.createElement("input");
-            newNode.setAttribute('type', 'search');
-            newNode.setAttribute('placeholder', 'Busca:');
-            newNode.setAttribute('class', 'pac-input controls');
-            self.parentNode.insertBefore(newNode, self);
-            return newNode;
-          }
-        },
         setCoordinates : function(self) {
           if ((self.hasAttribute('latitude') && self.getAttribute('latitude') != '') && (self.hasAttribute('longitude') && self.getAttribute('longitude') != '')) {
             var latitude = self.getAttribute('latitude'),
@@ -287,10 +564,8 @@
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places&callback=__autoload';
-    //script.src = 'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=__autoload';
+    //script.src = 'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&signed_in=false&libraries=places&callback=__autoload';
     document.body.appendChild(script);
-
-    //https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
   };
 
   var currentScript = document._currentScript || document.currentScript,
@@ -331,6 +606,7 @@
                               mapAddress = App.Ext.Map.getLocation(results[0].address_components);
                               map.setCenter(coords);
                               map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
+                              var markers = [];
                               marker = new google.maps.Marker({
                                   position : coords,
                                   animation : google.maps.Animation.DROP,
@@ -345,13 +621,8 @@
                               }
                               self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
                               App.Ext.Map.setLocation(self, App.Ext.Map.getAddress(mapAddress));
-
-                              var input = App.Ext.Map.setSearchControl(that, self);
-                              var searchBox = new google.maps.places.SearchBox(input);
-                              // Bias the SearchBox results towards current map's viewport.
-                              map.addListener('bounds_changed', function() {
-                                searchBox.setBounds(map.getBounds());
-                              });
+                              App.Ext.Map.Set.Control.Search.Callback(map, that, self, tooltip);
+                              App.Ext.Map.Set.Control.ContextMenu(map, self);
                           }
                       });
                   };
@@ -396,6 +667,8 @@
                                   self.setAttribute('latitude', coords.lat());
                                   self.setAttribute('longitude', coords.lng());
                                   App.Ext.Map.setLocation(self, coords.lat().toFixed(6) + ',' + coords.lng().toFixed(6));
+                                  App.Ext.Map.Set.Control.Search.Callback(map, that, self, tooltip);
+                                  App.Ext.Map.Set.Control.ContextMenu(map, self);
                               }
                           }
                       );
