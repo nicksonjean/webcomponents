@@ -43,33 +43,38 @@
         <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
         <google-map latitude="-5.195239528770433" longitude="-37.341639999999984" width="400" height="400" tooltip marker="https://maps.google.com/mapfiles/kml/shapes/schools_maps.png" return="#latlong2"  maptype="SATELLITE"></google-map>
       </p>
-      -->
+
       <p>
         <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
         <google-map searchControl="true" address="Rua Raimunda Maria de Souza, 1309, Mossoró/RN" width="400" height="400" return="#latlong" maptype="TERRAIN"></google-map>
         <input type="text" id="latlong" />
       </p>
-
+      -->
       <p>
-        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <span style="display:block;">&lt;google-map&gt;&lt;/google-map&gt;</span>
         <google-map 
-          latitude="-5.234350" 
-          longitude="-37.327694" 
+          latitude="45.518970" 
+          longitude="-122.672899" 
           width="400" 
           height="400" 
           border="true" 
-          panControl="true"
+          zoom="18"
+          tooltip="true"
+          maptype="SATELLITE"
+          scrollWheel="true"
           zoomControl="true"
           scaleControl="true"
+          rotateControl="true"
           mapTypeControl="true"
-          streetViewControl="true"
+          mapTypeControlStyle="BAR"
+          streetViewControl="false"
           searchControl="true"
           contextMenuControl="true"
+          languageControl="false"
           disableDefaultUI="false"
-          tooltip="true"
           marker="https://maps.google.com/mapfiles/kml/shapes/schools_maps.png" 
-          return="#latlong2" 
-          maptype="TERRAIN">
+          markerDrag="true"
+          return="#latlong2">
         </google-map>
       </p>
 

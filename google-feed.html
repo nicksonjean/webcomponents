@@ -6,8 +6,8 @@
 </script>
 <template id="feed">
     <style>
-        :host { display: block; }
-        :host(.different) { } 
+        :host{display:block;}
+        :host(.different){}
     </style>
     <div class="feed_template">
         <h1 class="feed_title">{{feed.title}}</h1>
@@ -48,6 +48,13 @@
         script.type = 'text/javascript';
         script.src = url;
         document.body.appendChild(script);
+      },
+      FetchStyle : function(url, root) {
+        var style = document.createElement('style');
+        style.setAttribute("type", "text/css");
+        var textNode = document.createTextNode("@import '" + url + "';");
+        style.appendChild(textNode);
+        root.appendChild(style);
       }
     }
   };
@@ -74,7 +81,8 @@
 
               //Salva o Objeto e o Feed uma Variável
               var self = this,
-                  feed = [];
+                  feed = [],
+                  root = this.shadowRoot;
 
               window.onload = function() {
                   //Limpa o Modelo
@@ -88,6 +96,7 @@
                           App.Ext.FetchFeed(App.Ext.MakeRequest(urls[key], entry));
                       }
                   }
+                  App.Ext.FetchStyle(self.getAttribute('css'), root);
               };
               __autoload = function(data){
                   var result = data.responseData.feed,

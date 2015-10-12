@@ -3,16 +3,19 @@
   <style>
     html{height:100%}
     body{height:100%;margin:0;padding:0}
+    .clearfix:before,.clearfix:after{content:"";display:table}
+    .clearfix:after{clear:both}
     /* Map Style */
-    .gm-template{float:left}
+    .gm-template{float:left-moz-transition:width 0.01s, height 0.01s;-webkit-transition:width 0.01s, height 0.01s;-o-transition:width 0.01s, height 0.01s;transition:width 0.01s, height 0.01s;}
     .gmnoprint a img{display:none}
     .gm-template div[dir="ltr"]{visibility:hidden}
     .gmnoprint div a{display:none}
     .gmnoprint div span{display:none}
     .gmnoprint div a span:parent{display:none}
     .gmnoprint div a span{display:none}
-    .gm-template a[title="Clique para ver esta área no Google Maps"] div{display:none}
-    .gm-template a[title="Informar erros no mapa ou nas imagens para o Google"]{display:none}
+    .gmnoprint.gm-style-cc{display:none}
+    .gm-template a[title]{display:none}
+    .gm-template a[title] div{display:none}
     .gmnoscreen{display:none}
     /* Tooltip Style */
     .gs-address{text-decoration:none}
@@ -58,11 +61,11 @@
     .gs-title .gs-title-a{color:rgb(85,26,139);text-decoration:none}
     .gs-title .gs-title-a:hover{color:rgb(85,26,139);text-decoration:none;cursor:default}
     .gs-address span,
-    .gs-directions-to-from span{display:inline;float:left;width:auto}
+    .gs-directions-to-from span{display:inline;/*float:left;*/width:auto}
     .gs-directions-to-from .gs-label{clear:all}
     /*Search Field*/
-    .pac-input{background-color:#fff;font-family:Roboto, Arial, sans-serif;font-size:11px;font-weight:300;margin-left:12px;padding:0 11px 0 13px;text-overflow:ellipsis;width:14%;position:absolute;left:114px;z-index:16;}
-    .pac-input.controls{margin-top:10px;border:1px solid transparent;border-radius:2px 0 0 2px;box-sizing:border-box;-moz-box-sizing:border-box;height:30px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
+    .pac-input{margin-top:11px;background-color:#fff;font-family:Roboto, Arial, sans-serif;font-size:11px;font-weight:300;margin-left:12px;padding:0 11px 0 13px;text-overflow:ellipsis;width:240px;position:absolute;z-index:16}
+    .pac-input.controls{margin-top:11px;border:1px solid transparent;border-radius:2px;box-sizing:border-box;-moz-box-sizing:border-box;height:29px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
     .pac-input:focus{border-color:#4d90fe;}
     /*Search Field*/
     .pac-container{font-family:Roboto;}
@@ -83,55 +86,397 @@
     .context_menu_item:hover{background-color:#fafafa;}
     .context_menu_separator{background-color:#e6e6e6;height:1px;margin:0;padding:0;}
     #clearDirectionsItem,#getDirectionsItem{display:none;}
+    /*Language Drop Down*/
+    .dropdown-container{position:absolute;margin-top:11px;}
+    .dropdown{position:relative;display:inline-block;}
+    .dropdown .dropdown-menu{position:absolute;top:100%;border-bottom-left-radius:2px;border-bottom-right-radius:2px;box-shadow:rgba(0,0,0,0.298039) 0px 1px 4px -1px;left:0px;right:0px;text-align:left;background-color:white;display:none;margin:0;list-style:none;width:100%;padding:0;z-index:999;}
+    .dropdown:hover .dropdown-menu{display:block;height:195px;overflow:auto !important;}
+    .dropdown button{cursor:pointer;min-width:120px;border:none;direction:ltr;overflow:hidden;text-align:left;position:relative;color:rgb(0,0,0);font-family:Roboto,Arial,sans-serif;-webkit-user-select:none;font-size:11px;padding:8px;border-radius:2px;-webkit-background-clip:padding-box;box-shadow:rgba(0,0,0,0.298039) 0px 1px 4px -1px;font-weight:500;background-color:rgb(255,255,255);background-clip:padding-box;z-index:1000;}
+    .dropdown li{padding:2px;}
+    .dropdown a{z-index:999;display:block;text-decoration:none;color:rgb(86,86,86);font-family:Roboto,Arial,sans-serif;-webkit-user-select:none;font-size:11px;padding:8px;font-weight:500;background-color:rgb(255,255,255);}
+    .dropdown a:hover{background-color:rgb(235,235,235);}
+    .arrow-down{width:0;height:0;position:absolute;top:12px;right:5px;border-left:3px solid transparent;border-right:3px solid transparent;border-top: 4px solid black;}
   </style>
   <div class="gm-template"></div>
 </template>
-<!-- Google Map Tooltip Template -->
-<template id="gm-tooltip">
-  <div class="gmls-result-wrapper">
-    <div class="gs-localResult gs-result">
-      <div class="gs-title"><a class="gs-title-a" href="http://www.google.com/maps?source=uds&q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}" target="_blank">Endereço:&nbsp;</a></div>
-      <div class="gs-address">
-        <span class="gs-street gs-addressLine"> 
-          <a href="http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">{{raw_route.long_name}}, {{raw_nr}} {{raw_bairro}}</a>
-        </span>
-        <span class="gs-spacer">&nbsp;-&nbsp;</span>
-        <span class="gs-city gs-addressLine">
-          <a href="http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">{{raw_locality.long_name}}/{{raw_administrative_area_level_1.short_name}}</a>
-        </span>
-      </div>
-      <div class="gs-directions-to-from">
-        <span class="gs-label">Rota:&nbsp;</span>
-        <span class="gs-secondary-link">
-          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&daddr={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:to" target="_blank">Para cá</a>
-        </span>
-        <span class="gs-spacer">&nbsp;-&nbsp;</span>
-        <span class="gs-secondary-link">
-          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&saddr={{route.long_name}},+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}, {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:from" target="_blank">Daqui</a>
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
 <script>
+  String.prototype.toBoolean = function() {
+    return (/^true$/i).test(this);
+  };
+  String.prototype.wasRegistered = function() { 
+    switch(document.createElement(this).constructor) {
+      case HTMLElement: return false; 
+      case HTMLUnknownElement: return undefined; 
+    }
+    return true;
+  };
+  Element.prototype.remove = function() {
+      this.parentElement.removeChild(this);
+  };
+  NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+      for(var i = this.length - 1; i >= 0; i--) {
+          if(this[i] && this[i].parentElement) {
+              this[i].parentElement.removeChild(this[i]);
+          }
+      }
+  };
   var App = App || {};
   App = {
-    Def : {
-      width : 400, //OK
-      height : 400, //OK
-      zoom : 16, //OK
+    Languages : [
+      { "code": "ar", "name": "عربي" }, 
+      { "code": "bg", "name": "български" }, 
+      { "code": "bn", "name": "বাঙালি" }, 
+      { "code": "ca", "name": "Català" }, 
+      { "code": "cs", "name": "Čeština" }, 
+      { "code": "da", "name": "Danske" }, 
+      { "code": "de", "name": "Deutsche" }, 
+      { "code": "el", "name": "Ελληνική" }, 
+      { "code": "en", "name": "English" }, 
+      { "code": "en-AU", "name": "English (Australian)" }, 
+      { "code": "en-GB", "name": "English (Great Britain)" }, 
+      { "code": "es", "name": "Español" }, 
+      { "code": "eu", "name": "Euskal" }, 
+      { "code": "fa", "name": "فارسی" }, 
+      { "code": "fi", "name": "Suomi" }, 
+      { "code": "fil", "name": "Pilipino" }, 
+      { "code": "fr", "name": "Français" }, 
+      { "code": "ga", "name": "Galego" }, 
+      { "code": "gu", "name": "ગુજરાતી" }, 
+      { "code": "hi", "name": "हिन्दी" }, 
+      { "code": "hr", "name": "Hrvatska" }, 
+      { "code": "hu", "name": "Magyar" }, 
+      { "code": "id", "name": "Indonesia" }, 
+      { "code": "it", "name": "Italiano" }, 
+      { "code": "iw", "name": "עברית" }, 
+      { "code": "ja", "name": "日本語" }, 
+      { "code": "kn", "name": "ಕನ್ನಡ" }, 
+      { "code": "ko", "name": "한국어" }, 
+      { "code": "lt", "name": "Lietuvos" }, 
+      { "code": "lv", "name": "Latvijā" }, 
+      { "code": "ml", "name": "മലയാളം" }, 
+      { "code": "mr", "name": "मराठी" }, 
+      { "code": "nl", "name": "Nederlandse" }, 
+      { "code": "no", "name": "Norsk" }, 
+      { "code": "pl", "name": "Polskie" }, 
+      { "code": "pt", "name": "Português" }, 
+      { "code": "pt-BR", "name": "Português do Brasil" }, 
+      { "code": "pt-PT", "name": "Português de Portugal" }, 
+      { "code": "ro", "name": "Română" }, 
+      { "code": "ru", "name": "Российский" }, 
+      { "code": "sk", "name": "Slovenský" }, 
+      { "code": "sl", "name": "Slovenščina" }, 
+      { "code": "sr", "name": "Srpski" }, 
+      { "code": "sv", "name": "Svenska" }, 
+      { "code": "ta", "name": "தமிழ்" }, 
+      { "code": "te", "name": "తెలుగు" }, 
+      { "code": "th", "name": "ภาษาไทย" }, 
+      { "code": "tl", "name": "Tagalog" }, 
+      { "code": "tr", "name": "Türkçe" }, 
+      { "code": "uk", "name": "Український" }, 
+      { "code": "vi", "name": "Tiếng Việt" }, 
+      { "code": "zh-CN", "name": "中国（简体）" }, 
+      { "code": "zh-TW", "name": "中國（繁體）" }
+    ],
+    Translate : {
+      'en' : {
+        'controls' : {
+          'search' : 'Search:'
+        },
+        'tooltip' : {
+          'addres' : 'Address:',
+          'route' : 'Route:',
+          'tohere' : 'To Here',
+          'fromhere' : 'From Here',
+        }
+      },
+      'pt-BR' : {
+        'controls' : {
+          'search' : 'Busca:'
+        },
+        'tooltip' : {
+          'addres' : 'Endereço:',
+          'route' : 'Rota:',
+          'tohere' : 'Para Cá',
+          'fromhere' : 'Daqui',
+        }
+      }
+    },
+    Default : {
       latitude : -5.195239528770433, //OK
       longitude : -37.341639999999984, //OK
+      width : 400, //OK
+      height : 400, //OK
       border : true, //OK
-      marker : null, //OK
+      zoom : 18, //OK
       tooltip : true, //OK
       mapType : 'ROADMAP', //OK
-      panControl: false, //OK
+      scrollWheel : true, //OK
+      marker : null, //OK
+      markerDrag: false, //OK
       zoomControl: false, //OK
       scaleControl: false, //OK
+      rotateControl: false, //OK
       mapTypeControl: false, //OK
+      mapTypeControlStyle: 'BAR', //OK
       streetViewControl: false, //OK
       disableDefaultUI: true //OK
+    },
+    LoadScript : function(lang) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.defer = true;
+      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&sensor=false&libraries=places&callback=__autoload';
+      if (typeof lang == 'string' && lang !== undefined) { script.src += '&language=' + lang; }
+      script.id = "google-maps-script";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      //document.body.appendChild(script);
+    },
+    BrowserLanguage : function () {
+      var nav = window.navigator, browserLanguagePropertyKeys = ['language', 'browserLanguage', 'systemLanguage', 'userLanguage'], i, language;
+      if (Array.isArray(nav.languages)) {
+        for (i = 0; i < nav.languages.length; i++) {
+          language = nav.languages[i];
+          if (language && language.length) {
+            return language;
+          }
+        }
+      }
+      for (i = 0; i < browserLanguagePropertyKeys.length; i++) {
+        language = nav[browserLanguagePropertyKeys[i]];
+        if (language && language.length) {
+          return language;
+        }
+      }
+      return null;
+    },
+    ReverseLanguage : function(lang) {
+      switch ((lang === undefined ? App.BrowserLanguage() : lang) ) {
+        case 'ar':return 'عربي';break;
+        case 'bg':return 'български';break;
+        case 'bn':return 'বাঙালি';break;
+        case 'ca':return 'Català';break;
+        case 'cs':return 'Čeština';break;
+        case 'da':return 'Danske';break;
+        case 'de':return 'Deutsche';break;
+        case 'el':return 'Ελληνική';break;
+        case 'en':return 'English';break;
+        case 'en-AU':return 'English (Australian)';break;
+        case 'en-GB':return 'English (Great Britain)';break;
+        case 'es':return 'Español';break;
+        case 'eu':return 'Euskal';break;
+        case 'fa':return 'فارسی';break;
+        case 'fi':return 'Suomi';break;
+        case 'fil':return 'Pilipino';break;
+        case 'fr':return 'Français';break;
+        case 'ga':return 'Galego';break;
+        case 'gu':return 'ગુજરાતી';break;
+        case 'hi':return 'हिन्दी';break;
+        case 'hr':return 'Hrvatska';break;
+        case 'hu':return 'Magyar';break;
+        case 'id':return 'Indonesia';break;
+        case 'it':return 'Italiano';break;
+        case 'iw':return 'עברית';break;
+        case 'ja':return '日本語';break;
+        case 'kn':return 'ಕನ್ನಡ';break;
+        case 'ko':return '한국어';break;
+        case 'lt':return 'Lietuvos';break;
+        case 'lv':return 'Latvijā';break;
+        case 'ml':return 'മലയാളം';break;
+        case 'mr':return 'मराठी';break;
+        case 'nl':return 'Nederlandse';break;
+        case 'no':return 'Norsk';break;
+        case 'pl':return 'Polskie';break;
+        case 'pt':return 'Português';break;
+        case 'pt-BR':return 'Português do Brasil';break;
+        case 'pt-PT':return 'Português de Portugal';break;
+        case 'ro':return 'Română';break;
+        case 'ru':return 'Российский';break;
+        case 'sk':return 'Slovenský';break;
+        case 'sl':return 'Slovenščina';break;
+        case 'sr':return 'Srpski';break;
+        case 'sv':return 'Svenska';break;
+        case 'ta':return 'தமிழ்';break;
+        case 'te':return 'తెలుగు';break;
+        case 'th':return 'ภาษาไทย';break;
+        case 'tl':return 'Tagalog';break;
+        case 'tr':return 'Türkçe';break;
+        case 'uk':return 'Український';break;
+        case 'vi':return 'Tiếng Việt';break;
+        case 'zh-CN':return '中国（简体）';break;
+        case 'zh-TW':return '中國（繁體）';break;
+      }
+    },
+    mapByLatLong : function(self, that) {
+      var latitude = App.Ext.Map.Set.Coordinates(self)[0];
+      var longitude = App.Ext.Map.Set.Coordinates(self)[1];
+      var coords = new google.maps.LatLng(latitude, longitude);
+      var currentInfoWin = false;
+      var map = new google.maps.Map(self.element, {
+        center : coords,
+        zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Default.zoom,
+        scrollwheel: self.hasAttribute('scrollWheel') && self.getAttribute('scrollWheel') != 'false' ? self.getAttribute('scrollWheel') : App.Default.scrollWheel,
+        zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Default.zoomControl,
+        scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Default.scaleControl,
+        rotateControl: self.hasAttribute('rotateControl') && self.getAttribute('rotateControl') != 'false' ? self.getAttribute('rotateControl') : App.Default.scaleControl,
+        mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Default.mapTypeControl,
+        mapTypeControlOptions: {
+          style: (!self.hasAttribute('mapTypeControlStyle') || self.getAttribute('mapTypeControlStyle') == '') || self.getAttribute('mapTypeControlStyle') == 'BAR' ? google.maps.MapTypeControlStyle.HORIZONTAL_BAR : google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+          mapTypeIds: [
+            google.maps.MapTypeId.ROADMAP,
+            google.maps.MapTypeId.SATELLITE,
+            google.maps.MapTypeId.TERRAIN
+          ]
+        },
+        streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Default.streetViewControl,
+        disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') == 'false' ? self.getAttribute('disableDefaultUI').toBoolean() : App.Default.disableDefaultUI
+      });
+      App.Ext.Map.Set.MapType(self, map);
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { "latLng" : coords }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          mapAddress = App.Ext.Map.Get.Location(results[0].address_components);
+          map.setCenter(coords);
+          map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Default.zoom);
+          var markers = [];
+          var marker = new google.maps.Marker({
+            position : coords,
+            draggable : (self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true' ? self.getAttribute('markerDrag').toBoolean() : App.Default.markerDrag,
+            animation : google.maps.Animation.DROP,
+            icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Default.marker,
+            map : map
+          });
+          if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+            var infoWin = new google.maps.InfoWindow({
+              content : App.Ext.Map.Set.Tooltip(mapAddress, latitude, longitude)
+            });
+            infoWin.open(map, marker);
+            if ((!self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true') {
+              google.maps.event.addListener(marker, 'click', function(event) {
+                if (currentInfoWin === false) {
+                  infoWin.close();
+                  currentInfoWin = true;
+                }
+                else {
+                  infoWin.open(map, marker);
+                  currentInfoWin = false;
+                }
+              });
+              google.maps.event.addListener(marker, 'dragstart', function(event) {
+                infoWin.close();
+              });
+              google.maps.event.addListener(marker, 'dragend', function(result, event) {
+                var newlatlng = new google.maps.LatLng(this.getPosition().lat(), this.getPosition().lng())
+                geocoder.geocode({'latLng':newlatlng}, function(response, status) {
+                  if(status == google.maps.GeocoderStatus.OK) {
+                    if (response[1]) {
+                      mapAddress = App.Ext.Map.Get.Location(response[0].address_components);
+                      marker.setTitle(response[0].formatted_address);
+                      infoWin = new google.maps.InfoWindow({
+                        content: App.Ext.Map.Set.Tooltip(mapAddress),
+                        position: newlatlng
+                      });
+                      infoWin.open(map, marker);
+                      currentInfoWin = false;
+                    }
+                  }
+                });
+              });
+            }
+          }
+          self.setAttribute('address', App.Ext.Map.Get.Address(mapAddress));
+          App.Ext.Map.Set.Location(self, App.Ext.Map.Get.Address(mapAddress));
+          App.Ext.Map.Set.Control.Search(map, that, self);
+          App.Ext.Map.Set.Control.ContextMenu(map, self);
+          App.Ext.Map.Set.Control.Language(that, self, App.Languages);
+        }
+      });
+    },
+    mapByAddress : function(self, that) {
+      var address = App.Ext.Map.Set.Address(self);
+      var currentInfoWin = false;
+      var map = new google.maps.Map(self.element, {
+        center : new google.maps.LatLng(0,0),
+        zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Default.zoom,
+        scrollwheel: self.hasAttribute('scrollWheel') && self.getAttribute('scrollWheel') != 'false' ? self.getAttribute('scrollWheel') : App.Default.scrollWheel,
+        zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Default.zoomControl,
+        scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Default.scaleControl,
+        rotateControl: self.hasAttribute('rotateControl') && self.getAttribute('rotateControl') != 'false' ? self.getAttribute('rotateControl') : App.Default.scaleControl,
+        mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Default.mapTypeControl,
+        mapTypeControlOptions: {
+          style: (!self.hasAttribute('mapTypeControlStyle') || self.getAttribute('mapTypeControlStyle') == '') || self.getAttribute('mapTypeControlStyle') == 'BAR' ? google.maps.MapTypeControlStyle.HORIZONTAL_BAR : google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+          mapTypeIds: [
+            google.maps.MapTypeId.ROADMAP,
+            google.maps.MapTypeId.SATELLITE,
+            google.maps.MapTypeId.TERRAIN
+          ]
+        },
+        streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Default.streetViewControl,
+        disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') == 'false' ? self.getAttribute('disableDefaultUI').toBoolean() : App.Default.disableDefaultUI
+      });
+      App.Ext.Map.Set.MapType(self, map);
+      var geocoder = new google.maps.Geocoder(); 
+      geocoder.geocode({address : address, region : 'no' },
+        function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            mapAddress = App.Ext.Map.Get.Location(results[0].address_components);
+            var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
+            map.setCenter(coords);
+            map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Default.zoom);
+            var marker = new google.maps.Marker({
+              position : coords, 
+              draggable : (self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true' ? self.getAttribute('markerDrag').toBoolean() : App.Default.markerDrag,
+              animation : google.maps.Animation.DROP,
+              icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Default.marker,
+              map : map
+            });
+            if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+              var infoWin = new google.maps.InfoWindow({
+                content : App.Ext.Map.Set.Tooltip(mapAddress, coords.lat(), coords.lng())
+              });
+              infoWin.open(map, marker);
+              if((!self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true') {
+                google.maps.event.addListener(marker, 'click', function(event) {
+                  if (currentInfoWin === false) {
+                    infoWin.close();
+                    currentInfoWin = true;
+                  }
+                  else {
+                    infoWin.open(map, marker);
+                    currentInfoWin = false;
+                  }
+                });
+                google.maps.event.addListener(marker, 'dragstart', function(event) {
+                  infoWin.close();
+                });
+                google.maps.event.addListener(marker, 'dragend', function(result, event) {
+                  var newlatlng = new google.maps.LatLng(this.getPosition().lat(), this.getPosition().lng())
+                  geocoder.geocode({'latLng':newlatlng}, function(response, status) {
+                    if(status == google.maps.GeocoderStatus.OK) {
+                      if (response[1]) {
+                        mapAddress = App.Ext.Map.Get.Location(response[0].address_components);
+                        marker.setTitle(response[0].formatted_address);
+                        infoWin = new google.maps.InfoWindow({
+                          content: App.Ext.Map.Set.Tooltip(mapAddress),
+                          position: newlatlng
+                        });
+                        infoWin.open(map, marker);
+                        currentInfoWin = false;
+                      }
+                    }
+                  });
+                });
+              }
+            }
+            self.setAttribute('latitude', coords.lat());
+            self.setAttribute('longitude', coords.lng());
+            App.Ext.Map.Set.Location(self, coords.lat().toFixed(6) + ',' + coords.lng().toFixed(6));
+            App.Ext.Map.Set.Control.Search(map, that, self);
+            App.Ext.Map.Set.Control.ContextMenu(map, self);
+            App.Ext.Map.Set.Control.Language(that, self, App.Languages);
+          }
+        }
+      );
     },
     Ext : {
       URL : {
@@ -149,6 +494,13 @@
             string = string.replace(token, newtoken);
           }
           return string;
+        },
+        ToBoolean: function(string){
+          switch(string.toLowerCase().trim()){
+            case "true": case "yes": case "1": return true;
+            case "false": case "no": case "0": case null: return false;
+            default: return Boolean(string);
+          }
         }
       },
       MicroTemplate : function(temp, data) {
@@ -159,66 +511,322 @@
          return temp;
       },
       Map : {
+        Get : {
+          Address : function(place) {
+            var place = place[0],
+                nr = place['street_number'] ? place['street_number'].long_name + '' : '',
+                bairro = place['sublocality'] ? place['sublocality'].long_name + ' , ' : '',
+                cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
+            return place['route'].long_name + ', ' + nr + bairro + ' - ' + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name;
+          },
+          Location : function(place) {
+            var arrayAddress = [],
+                mapAddress = [];
+            for (var i = 0; i < place.length; i++) {
+              var address = place[i];
+              switch(address.types[0]) {
+                case 'street_number' :
+                  arrayAddress['street_number'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+                case 'route' :
+                  arrayAddress['route'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+                case 'sublocality' :
+                  arrayAddress['sublocality'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+                case 'locality' :
+                  arrayAddress['locality'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+                case 'administrative_area_level_1' :
+                  arrayAddress['administrative_area_level_1'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+                case 'country' :
+                  arrayAddress['country'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+                case 'postal_code' :
+                  arrayAddress['postal_code'] = { short_name : address.short_name, long_name : address.long_name };
+                  mapAddress.push(arrayAddress);
+                break;
+              }
+            }
+            return mapAddress;
+          }
+        },
         Set : {
+          Template : {
+            Tooltip : function() {
+              var main = document.createElement('div');
+              main.setAttribute('class', "gm-tooltip");
+                var div0 = document.createElement('div');
+                div0.setAttribute('class', "gmls-result-wrapper");
+                main.appendChild(div0);
+                  var div1 = document.createElement('div');
+                  div1.setAttribute('class', "gs-localResult gs-result");
+                  div0.appendChild(div1);
+                    var div2 = document.createElement('div');
+                    div2.setAttribute('class', "gs-title");
+                    div1.appendChild(div2);
+                      var a1 = document.createElement('a');
+                      a1.setAttribute('class', "gs-title-a");
+                      a1.setAttribute('href', "http://www.google.com/maps?source=uds&q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}");
+                      a1.setAttribute('target',"_blank");
+                      a1.innerHTML = "Endereço:";
+                      div2.appendChild(a1);
+                    var div3 = document.createElement('div');
+                    div3.setAttribute('class', "gs-address");
+                    div1.appendChild(div3);
+                      var span1 = document.createElement('span');
+                      span1.setAttribute('class', "gs-street gs-addressLine");
+                      div3.appendChild(span1);
+                        var a2 = document.createElement('a');
+                        a2.setAttribute('href', "http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0");
+                        a2.setAttribute('target',"_blank");
+                        a2.innerHTML = "{{raw_route.long_name}}, {{raw_nr}} {{raw_bairro}}";
+                        span1.appendChild(a2);
+                      var span2 = document.createElement('span');
+                      span2.setAttribute('class', "gs-spacer");
+                      span2.innerHTML = "-&nbsp;";
+                      div3.appendChild(span2);
+                      var span3 = document.createElement('span');
+                      span3.setAttribute('class', "gs-city gs-addressLine");
+                      div3.appendChild(span3);
+                        var a3 = document.createElement('a');
+                        a3.setAttribute('href', "http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0");
+                        a3.setAttribute('target',"_blank");
+                        a3.innerHTML = "{{raw_locality.long_name}}/{{raw_administrative_area_level_1.short_name}}";
+                        span3.appendChild(a3);
+                    var div4 = document.createElement('div');
+                    div4.setAttribute('class', "gs-directions-to-from");
+                    div1.appendChild(div4);
+                      var span4 = document.createElement('span');
+                      span4.setAttribute('class', "gs-label");
+                      span4.innerHTML = "Rota:&nbsp;";
+                      div4.appendChild(span4);
+                      var span5 = document.createElement('span');
+                      span5.setAttribute('class', "gs-secondary-link");
+                      div4.appendChild(span5);
+                        var a4 = document.createElement('a');
+                        a4.setAttribute('class', "gs-secondary-link-a");
+                        a4.setAttribute('href', "http://www.google.com/maps?source=uds&daddr={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:to");
+                        a4.setAttribute('target',"_blank");
+                        a4.innerHTML = "Para cá";
+                        span5.appendChild(a4);
+                      var span5 = document.createElement('span');
+                      span5.setAttribute('class', "gs-spacer");
+                      span5.innerHTML = "&nbsp;-&nbsp;";
+                      div4.appendChild(span5);
+                      var span6 = document.createElement('span');
+                      span6.setAttribute('class', "gs-secondary-link");
+                      div4.appendChild(span6);
+                        var a5 = document.createElement('a');
+                        a5.setAttribute('class', "gs-secondary-link-a");
+                        a5.setAttribute('href', "http://www.google.com/maps?source=uds&saddr={{route.long_name}},+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}, {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:from");
+                        a5.setAttribute('target',"_blank");
+                        a5.innerHTML = "Daqui";
+                        span6.appendChild(a5);
+              return main;
+            },
+            Search : function(self, element) {
+              if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
+                var newNode = document.createElement("input");
+                newNode.setAttribute('type', 'search');
+                newNode.setAttribute('placeholder', 'Busca:');
+                newNode.setAttribute('class', 'pac-input controls clearfix');
+                if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.userAgent.toLowerCase().indexOf('trident') > -1) {
+                  newNode.style.left = 'calc(' + self.style.width + ' - ' + '262px)';
+                  newNode.style.height = '30px';
+                }
+                else {
+                  newNode.style.left = 'calc(' + self.style.width + ' - ' + '254px)';
+                }
+                self.parentNode.insertBefore(newNode, self);
+                return newNode;
+              }
+            }
+          },
+          Tooltip : function(place, latitude, longitude) {
+            var html,
+                place = place[0],
+                nr = place['street_number'] ? place['street_number'].long_name + '' : '',
+                bairro = place['sublocality'] ? place['sublocality'].long_name + '+,+' : '',
+                cep = place['postal_code'] ? place['postal_code'].long_name + ',+' : '';
+            var data =  {
+                'raw_route.long_name' : place['route'].long_name,
+                'raw_nr' : nr,
+                'raw_bairro' : bairro,
+                'raw_locality.long_name' : place['locality'].long_name,
+                'raw_administrative_area_level_1.short_name' : place['administrative_area_level_1'].short_name,
+                'route.long_name' : App.Ext.URL.Encode(place['route'].long_name),
+                'nr' : App.Ext.URL.Encode(nr),
+                'locality.long_name' : App.Ext.URL.Encode(place['locality'].long_name),
+                'administrative_area_level_1.short_name' : App.Ext.URL.Encode(place['administrative_area_level_1'].short_name),
+                'cep' : App.Ext.URL.Encode(cep),
+                'bairro' : App.Ext.URL.Encode(bairro),
+                'country.long_name' : App.Ext.URL.Encode(place['country'].long_name),
+                'latitude' : latitude,
+                'longitude' : longitude
+            };
+            var template = App.Ext.Map.Set.Template.Tooltip().innerHTML;
+            template = App.Ext.MicroTemplate(template, data);
+            return template;
+          },
           Control : {
-            Search : {
-              Field : function(self, element) {
-                if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
-                  var newNode = document.createElement("input");
-                  newNode.setAttribute('type', 'search');
-                  newNode.setAttribute('placeholder', 'Busca:');
-                  newNode.setAttribute('class', 'pac-input controls');
-                  self.parentNode.insertBefore(newNode, self);
-                  return newNode;
-                }
-              },
-              Callback : function(map, that, self, template) {
-                if((self.hasAttribute('searchControl') && self.getAttribute('searchControl') != '') || (self.getAttribute('searchControl') == 'true')) {
-                  var input = App.Ext.Map.Set.Control.Search.Field(that, self);
-                  var searchBox = new google.maps.places.SearchBox(input);
-                  map.addListener('bounds_changed', function() {
-                    searchBox.setBounds(map.getBounds());
-                  });
-                  var markers = [];
-                  searchBox.addListener('places_changed', function() {
-                    var places = searchBox.getPlaces();
-                    if (places.length == 0) {
-                      return;
+            Language : function(self, element, array) {
+              if((element.hasAttribute('languageControl') && element.getAttribute('languageControl') != '') && (element.getAttribute('languageControl') == 'true')) {
+                var div = document.createElement('div');
+                div.setAttribute('class', "dropdown-container");
+                  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                    div.style.left = 'calc(' + element.style.width + ' - ' + '134px)';
+                  }
+                  else if (navigator.userAgent.toLowerCase().indexOf('trident') > -1) {
+                    div.style.left = 'calc(' + element.style.width + ' - ' + '130px)';
+                  }
+                  else {
+                    div.style.left = 'calc(' + element.style.width + ' - ' + '122px)';
+                  }
+                  var span = document.createElement('span');
+                  span.setAttribute('class', "dropdown dropdown-wide");
+                  div.appendChild(span);
+                    var button = document.createElement('button');
+                    if (!element.hasAttribute('language') && element.getAttribute('language') != '') {
+                      button.innerHTML = App.ReverseLanguage() + ' &nbsp;<i class="arrow-down"></i>';
                     }
-                    markers.forEach(function(marker) {
-                      marker.setMap(null);
-                    });
-                    markers = [];
-                    var bounds = new google.maps.LatLngBounds();
-                    places.forEach(function(place) {
-                      markers.push(new google.maps.Marker({
-                        map: map,
-                        animation : google.maps.Animation.DROP,
-                        icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
-                        title: place.name,
-                        position: place.geometry.location
-                      }));
-                      mapAddress = App.Ext.Map.getLocation(place.address_components);
-                      if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
-                        var infoWin = new google.maps.InfoWindow({
-                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, place.geometry.location.lat(), place.geometry.location.lng(), template)
-                        });
-                        infoWin.open(map, markers[0]);
-                      }
-                      if (place.geometry.viewport) {
-                        bounds.union(place.geometry.viewport);
-                      } else {
-                        bounds.extend(place.geometry.location);
-                      }
-                    });
-                    map.fitBounds(bounds);
-                    var listener = google.maps.event.addListener(map, "idle", function() { 
-                      if (map.getZoom() > App.Def.zoom) 
-                        map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
-                      google.maps.event.removeListener(listener);
-                    });
+                    else {
+                      button.innerHTML = App.ReverseLanguage(element.getAttribute('language')) + ' &nbsp;<i class="arrow-down"></i>';
+                    }
+                    span.appendChild(button);
+                    var ul = document.createElement('ul');
+                    ul.setAttribute('class', "dropdown-menu");
+                    span.appendChild(ul);
+                    for (i in array) {
+                      var a = document.createElement('a');
+                      a.href = "javascript:void(0);";
+                      a.setAttribute('data-code',array[i].code);
+                      a.onclick = function(){
+                        button.innerHTML = this.innerText + ' &nbsp;<i class="arrow-down"></i>';
+                        element.setAttribute('language', this.getAttribute('data-code'));
+                        //Guardo o Tipo de Mapa Inicial para Futuramente Revertê-lo
+                        if (element.hasAttribute('maptype') && element.getAttribute('maptype') != '' && element.getAttribute('maptype') != 'ROADMAP') {
+                          element.setAttribute('maptype_tmp', element.getAttribute('maptype'));
+                          element.setAttribute('maptype', 'ROADMAP');
+                        }
+                        setTimeout(function(){ 
+                          if (element.hasAttribute('address') && element.getAttribute('address') != '') {
+                            App.mapByAddress(element, self);
+                          }
+                          else {
+                            App.mapByLatLong(element, self);
+                          }
+                          self.parentNode.removeChild(element.shadowRoot.querySelectorAll(".dropdown-container")[0]);
+                        }, 1500);
+                        var lang = this.getAttribute('data-code'), script = document.getElementById("google-maps-script");
+                        script.parentNode.removeChild(script);
+                        document.querySelectorAll("script[src*='maps-api-v3'],script[src*='maps/api/js']").remove();
+                        delete google.maps;
+                        App.LoadScript(lang);
+                      };
+                      a.appendChild(document.createTextNode(array[i].name));
+                      var li = document.createElement('li');
+                      li.appendChild(a);
+                      ul.appendChild(li);
+                    }
+                self.parentNode.insertBefore(div, self);
+                return div;
+              }
+            },
+            Search : function(map, that, self) {
+              if((self.hasAttribute('searchControl') && self.getAttribute('searchControl') != '') && (self.getAttribute('searchControl') == 'true')) {
+                var input = App.Ext.Map.Set.Template.Search(that, self);
+                var searchBox = new google.maps.places.SearchBox(input);
+                var currentInfoWin = false;
+                map.addListener('bounds_changed', function() {
+                  searchBox.setBounds(map.getBounds());
+                });
+                var markers = [];
+                searchBox.addListener('places_changed', function() {
+                  var places = searchBox.getPlaces();
+                  if (places.length == 0) {
+                    return;
+                  }
+                  markers.forEach(function(marker) {
+                    marker.setMap(null);
                   });
-                }
+                  markers = [];
+                  var bounds = new google.maps.LatLngBounds();
+                  places.forEach(function(place) {
+                    markers.push(new google.maps.Marker({
+                      map: map,
+                      draggable : (self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true' ? self.getAttribute('markerDrag').toBoolean() : App.Default.markerDrag,
+                      animation : google.maps.Animation.DROP,
+                      icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Default.marker,
+                      title: place.name,
+                      position: place.geometry.location
+                    }));
+                    mapAddress = App.Ext.Map.Get.Location(place.address_components);
+                    //Guardo o Tipo de Mapa Inicial para Futuramente Revertê-lo
+                    if (self.hasAttribute('maptype') && self.getAttribute('maptype') != '' && self.getAttribute('maptype') != 'ROADMAP') {
+                      self.setAttribute('maptype_tmp', self.getAttribute('maptype'));
+                      self.setAttribute('maptype', 'ROADMAP');
+                    }
+                    App.Ext.Map.Set.MapType(self, map);
+                    if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+                      var infoWin = new google.maps.InfoWindow({
+                        content : App.Ext.Map.Set.Tooltip(mapAddress, place.geometry.location.lat(), place.geometry.location.lng())
+                      });
+                      infoWin.open(map, markers[0]);
+                      if((!self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true') {
+                        google.maps.event.addListener(markers[0], 'click', function(event) {
+                          if (currentInfoWin === false) {
+                            infoWin.close();
+                            currentInfoWin = true;
+                          }
+                          else {
+                            infoWin.open(map, markers[0]);
+                            currentInfoWin = false;
+                          }
+                        });
+                        google.maps.event.addListener(markers[0], 'dragstart', function(event) {
+                          infoWin.close();
+                        });
+                        google.maps.event.addListener(markers[0], 'dragend', function(result, event) {
+                          var newlatlng = new google.maps.LatLng(this.getPosition().lat(), this.getPosition().lng())
+                          var geocoder = new google.maps.Geocoder(); 
+                          geocoder.geocode({'latLng':newlatlng}, function(response, status) {
+                            if(status == google.maps.GeocoderStatus.OK) {
+                              if (response[1]) {
+                                mapAddress = App.Ext.Map.Get.Location(response[0].address_components);
+                                markers[0].setTitle(response[0].formatted_address);
+                                infoWin = new google.maps.InfoWindow({
+                                  content: App.Ext.Map.Set.Tooltip(mapAddress),
+                                  position: newlatlng
+                                });
+                                infoWin.open(map, markers[0]);
+                                currentInfoWin = false;
+                              }
+                            }
+                          });
+                        });
+                      }
+                    }
+                    if (place.geometry.viewport) {
+                      bounds.union(place.geometry.viewport);
+                    } else {
+                      bounds.extend(place.geometry.location);
+                    }
+                  });
+                  map.fitBounds(bounds);
+                  var listener = google.maps.event.addListener(map, "idle", function() { 
+                    if (map.getZoom() > App.Default.zoom) 
+                      map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Default.zoom);
+                    google.maps.event.removeListener(listener);
+                  });
+                });
               }
             },
             ContextMenu : function(map, self) {
@@ -333,41 +941,33 @@
                 directionsRendererOptions.preserveViewport = false;
                 var directionsRenderer = new google.maps.DirectionsRenderer(directionsRendererOptions);
                 var directionsService = new google.maps.DirectionsService();
-
                 var contextMenuOptions = {};
                 contextMenuOptions.classNames = {menu:'context_menu', menuSeparator:'context_menu_separator'};
-
                 var menuItems = [];
                 menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Rota Daqui'});
                 menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Rota Para cá'});
                 menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Apagar Rotas'});
                 menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter Rotas'});
-
                 menuItems.push({});
                 menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Zoom In'});
                 menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Zoom Out'});
                 menuItems.push({});
                 menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Centrarlizar Mapa Aqui'});
                 contextMenuOptions.menuItems = menuItems;
-
                 var contextMenu = new ContextMenu(map, contextMenuOptions);
-
                 google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
                   contextMenu.show(mouseEvent.latLng);
                 });
-
                 var markerOptions = {};
                 markerOptions.icon = 'http://www.google.com/intl/en_ALL/mapfiles/markerA.png';
                 markerOptions.map = null;
+                markerOptions.draggable = true;
                 markerOptions.position = new google.maps.LatLng(0, 0);
                 markerOptions.title = 'Directions origin';
-
                 var originMarker = new google.maps.Marker(markerOptions);
-
                 markerOptions.icon = 'http://www.google.com/intl/en_ALL/mapfiles/markerB.png';
                 markerOptions.title = 'Directions destination';
                 var destinationMarker = new google.maps.Marker(markerOptions);
-
                 google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
                   switch(eventName){
                     case 'directions_origin_click':
@@ -425,134 +1025,66 @@
                 });
               }
             }
-          }
-        },
-        setMarkerInfoWin : function(place, latitude, longitude, template) {
-          var html,
-              place = place[0],
-              nr = place['street_number'] ? place['street_number'].long_name + '' : '',
-              bairro = place['sublocality'] ? place['sublocality'].long_name + '+,+' : '',
-              cep = place['postal_code'] ? place['postal_code'].long_name + ',+' : '';
-          var data =  {
-              'raw_route.long_name' : place['route'].long_name,
-              'raw_nr' : nr,
-              'raw_bairro' : bairro,
-              'raw_locality.long_name' : place['locality'].long_name,
-              'raw_administrative_area_level_1.short_name' : place['administrative_area_level_1'].short_name,
-              'route.long_name' : App.Ext.URL.Encode(place['route'].long_name),
-              'nr' : App.Ext.URL.Encode(nr),
-              'locality.long_name' : App.Ext.URL.Encode(place['locality'].long_name),
-              'administrative_area_level_1.short_name' : App.Ext.URL.Encode(place['administrative_area_level_1'].short_name),
-              'cep' : App.Ext.URL.Encode(cep),
-              'bairro' : App.Ext.URL.Encode(bairro),
-              'country.long_name' : App.Ext.URL.Encode(place['country'].long_name),
-              'latitude' : latitude,
-              'longitude' : longitude
-          };
-          template = template.innerHTML;
-          template = App.Ext.MicroTemplate(template, data);
-          return template;
-        },
-        getAddress : function(place) {
-          var place = place[0],
-              nr = place['street_number'] ? place['street_number'].long_name + '' : '',
-              bairro = place['sublocality'] ? place['sublocality'].long_name + ' , ' : '',
-              cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
-          return place['route'].long_name + ', ' + nr + bairro + ' - ' + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name;
-        },
-        getLocation : function(place) {
-          var arrayAddress = [],
-              mapAddress = [];
-          for (var i = 0; i < place.length; i++) {
-            var address = place[i];
-            switch(address.types[0]) {
-              case 'street_number' :
-                arrayAddress['street_number'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-              case 'route' :
-                arrayAddress['route'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-              case 'sublocality' :
-                arrayAddress['sublocality'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-              case 'locality' :
-                arrayAddress['locality'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-              case 'administrative_area_level_1' :
-                arrayAddress['administrative_area_level_1'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-              case 'country' :
-                arrayAddress['country'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-              case 'postal_code' :
-                arrayAddress['postal_code'] = { short_name : address.short_name, long_name : address.long_name };
-                mapAddress.push(arrayAddress);
-              break;
-            }
-          }
-          return mapAddress;
-        },
-        setLocation : function(self, location) {
-          if(self.hasAttribute('return')) {
-            var element = document.querySelectorAll(self.getAttribute('return'));
-            if(element.length > 0) {
-              document.querySelectorAll(self.getAttribute('return'))[0].setAttribute('value',location);
+          },
+          Address : function(self) {
+            if (self.hasAttribute('address') && self.getAttribute('address') != '') {
+              return self.getAttribute('address');
             }
             else {
-              var newNode = document.createElement("input");
-              newNode.setAttribute('type', 'text');
-              newNode.setAttribute('id', self.getAttribute('return').replace('#',''));
-              newNode.setAttribute('name', self.getAttribute('return').replace('#',''));
-              newNode.setAttribute('value', location);
-              self.parentNode.insertBefore(newNode, self.nextSibling);
+              return App.mapByLatLong(self);
             }
-          }
-        },
-        setCoordinates : function(self) {
-          if ((self.hasAttribute('latitude') && self.getAttribute('latitude') != '') && (self.hasAttribute('longitude') && self.getAttribute('longitude') != '')) {
-            var latitude = self.getAttribute('latitude'),
-                longitude = self.getAttribute('longitude');
-          }
-          else {
-            var latitude = App.Def.latitude,
-                longitude = App.Def.longitude;
-                self.setAttribute('latitude',App.Def.latitude);
-                self.setAttribute('longitude',App.Def.longitude);
-          }
-          return [latitude,longitude];
-        },
-        setAddress : function(self) {
-          if (self.hasAttribute('address') && self.getAttribute('address') != '') {
-            return self.getAttribute('address');
-          }
-          else {
-            return mapByLatLong(self);
-          }
-        },
-        setMapType : function(self, map) {
-          if(self.hasAttribute('maptype') && self.getAttribute('maptype') != '') {
-            switch(self.getAttribute('maptype')) {
-              case 'ROADMAP':
-                map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-              break;
-              case 'TERRAIN':
-                map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
-              break;
-              case 'SATELLITE':
-                map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
-              break;
-              default:
-                map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+          },
+          Location : function(self, location) {
+            if(self.hasAttribute('return')) {
+              var element = document.querySelectorAll(self.getAttribute('return'));
+              if(element.length > 0) {
+                document.querySelectorAll(self.getAttribute('return'))[0].setAttribute('value',location);
+              }
+              else {
+                var newNode = document.createElement("input");
+                newNode.setAttribute('type', 'text');
+                newNode.setAttribute('id', self.getAttribute('return').replace('#',''));
+                newNode.setAttribute('name', self.getAttribute('return').replace('#',''));
+                newNode.setAttribute('value', location);
+                self.parentNode.insertBefore(newNode, self.nextSibling);
+              }
             }
-          }
-          else {
-            map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+          },
+          Coordinates : function(self) {
+            if ((self.hasAttribute('latitude') && self.getAttribute('latitude') != '') && (self.hasAttribute('longitude') && self.getAttribute('longitude') != '')) {
+              var latitude = self.getAttribute('latitude'),
+                  longitude = self.getAttribute('longitude');
+            }
+            else {
+              var latitude = App.Default.latitude,
+                  longitude = App.Default.longitude;
+                  self.setAttribute('latitude',App.Default.latitude);
+                  self.setAttribute('longitude',App.Default.longitude);
+            }
+            return [latitude,longitude];
+          },
+          MapType : function(self, map) {
+            if(self.hasAttribute('maptype') && self.getAttribute('maptype') != '') {
+              switch(self.getAttribute('maptype')) {
+                case 'ROADMAP':
+                  map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                break;
+                case 'TERRAIN':
+                  map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+                break;
+                case 'SATELLITE':
+                  map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                break;
+                case 'HYBRID':
+                  map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                break;
+                default:
+                  map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+              }
+            }
+            else {
+              map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+            }
           }
         }
       }
@@ -560,13 +1092,7 @@
   };
 
   //Carrega de Modo Assincrono a Biblioteca do Google Maps V3
-  window.onload = function() {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places&callback=__autoload';
-    //script.src = 'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&signed_in=false&libraries=places&callback=__autoload';
-    document.body.appendChild(script);
-  };
+  window.onload = App.LoadScript;
 
   var currentScript = document._currentScript || document.currentScript,
       doc = currentScript.ownerDocument;
@@ -577,102 +1103,11 @@
           createdCallback: {
               value: function() {
                   var template = doc.querySelector('#gm'),
-                      clone = document.importNode(template.content, true),
-                      tooltip = doc.querySelector('#gm-tooltip').content.querySelector('.gmls-result-wrapper');
+                      clone = document.importNode(template.content, true);
 
                   this.shadowRoot = this.createShadowRoot();
                   this.shadowRoot.appendChild(clone);
                   this.element = this.shadowRoot.querySelector('.gm-template');
-
-                  //Geolocalização por Latitude e Longitude
-                  var mapByLatLong = function(self, that) {
-                      var latitude = App.Ext.Map.setCoordinates(self)[0];
-                      var longitude = App.Ext.Map.setCoordinates(self)[1];
-                      var coords = new google.maps.LatLng(latitude, longitude);
-                      var map = new google.maps.Map(self.element, {
-                          center : coords,
-                          zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
-                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != 'false' ? self.getAttribute('panControl') : App.Def.panControl,
-                          zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
-                          scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
-                          mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
-                          streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
-                          disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') != '' ? self.getAttribute('disableDefaultUI') : App.Def.disableDefaultUI
-                      });
-                      App.Ext.Map.setMapType(self, map);
-                      var geocoder = new google.maps.Geocoder();
-                      geocoder.geocode( { "latLng" : coords }, function(results, status) {
-                          if (status == google.maps.GeocoderStatus.OK) {
-                              mapAddress = App.Ext.Map.getLocation(results[0].address_components);
-                              map.setCenter(coords);
-                              map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
-                              var markers = [];
-                              marker = new google.maps.Marker({
-                                  position : coords,
-                                  animation : google.maps.Animation.DROP,
-                                  icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
-                                  map : map
-                              });
-                              if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
-                                  var infoWin = new google.maps.InfoWindow({
-                                      content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude, tooltip)
-                                  });
-                                  infoWin.open(map, marker);
-                              }
-                              self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
-                              App.Ext.Map.setLocation(self, App.Ext.Map.getAddress(mapAddress));
-                              App.Ext.Map.Set.Control.Search.Callback(map, that, self, tooltip);
-                              App.Ext.Map.Set.Control.ContextMenu(map, self);
-                          }
-                      });
-                  };
-
-                  //Geolocalização Reversa
-                  var mapByAddress = function(self, that) {
-                      var address = App.Ext.Map.setAddress(self);
-                      var map = new google.maps.Map(self.element, {
-                          zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
-                          center : new google.maps.LatLng(0,0),
-                          panControl : self.hasAttribute('panControl') && self.getAttribute('panControl') != 'false' ? self.getAttribute('panControl') : App.Def.panControl,
-                          zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
-                          scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
-                          mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
-                          streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
-                          disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') != '' ? self.getAttribute('disableDefaultUI') : App.Def.disableDefaultUI
-                      });
-                      App.Ext.Map.setMapType(self, map);
-                      var geocoder = new google.maps.Geocoder(); 
-                      geocoder.geocode({
-                              address : address,
-                              region : 'no' 
-                          },
-                          function(results, status) {
-                              if (status == google.maps.GeocoderStatus.OK) {
-                                  mapAddress = App.Ext.Map.getLocation(results[0].address_components);
-                                  var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
-                                  map.setCenter(coords);
-                                  map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
-                                  marker = new google.maps.Marker({
-                                      position : coords, 
-                                      animation : google.maps.Animation.DROP,
-                                      icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
-                                      map : map
-                                  });
-                                  if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
-                                      var infoWin = new google.maps.InfoWindow({
-                                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng(), tooltip)
-                                      });
-                                      infoWin.open(map, marker);
-                                  }
-                                  self.setAttribute('latitude', coords.lat());
-                                  self.setAttribute('longitude', coords.lng());
-                                  App.Ext.Map.setLocation(self, coords.lat().toFixed(6) + ',' + coords.lng().toFixed(6));
-                                  App.Ext.Map.Set.Control.Search.Callback(map, that, self, tooltip);
-                                  App.Ext.Map.Set.Control.ContextMenu(map, self);
-                              }
-                          }
-                      );
-                  };
 
                   //Trata a Largura
                   if (this.hasAttribute('width') && this.getAttribute('width') != '') {
@@ -680,9 +1115,9 @@
                       this.element.style.width = this.getAttribute('width') + 'px';
                   }
                   else {
-                      this.style.width = App.Def.width + 'px';
-                      this.element.style.width = App.Def.width + 'px';
-                      this.setAttribute('width',App.Def.width);
+                      this.style.width = App.Default.width + 'px';
+                      this.element.style.width = App.Default.width + 'px';
+                      this.setAttribute('width',App.Default.width);
                   }
                   //Trata a Altura
                   if (this.hasAttribute('height') && this.getAttribute('height') != '') {
@@ -690,9 +1125,9 @@
                       this.element.style.height = this.getAttribute('height') + 'px';
                   }
                   else {
-                      this.style.height = App.Def.height + 'px';
-                      this.element.style.height = App.Def.height + 'px';
-                      this.setAttribute('height',App.Def.height);
+                      this.style.height = App.Default.height + 'px';
+                      this.element.style.height = App.Default.height + 'px';
+                      this.setAttribute('height',App.Default.height);
                   }
                   //Trata a Borda
                   if (this.hasAttribute('border') && this.getAttribute('border') == 'false') {
@@ -704,15 +1139,17 @@
 
                   //Alterna entre Busca por Endereço ou por Latitude/Longitude
                   if (this.hasAttribute('address') && this.getAttribute('address') != '') {
-                      mapByAddress(this, this.element);
+                      App.mapByAddress(this, this.element);
                   }
                   else {
-                      mapByLatLong(this, this.element);
+                      App.mapByLatLong(this, this.element);
                   }
               }
           }
       });
       //Finalmente Registra o Elemento
-      document.registerElement('google-map', {prototype: proto});
+      if(!'google-map'.wasRegistered()) {
+        document.registerElement('google-map', {prototype: proto});
+      }
   }
 </script>

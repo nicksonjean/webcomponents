@@ -1,0 +1,767 @@
+<!-- Google Map Template -->
+<template id="gm">
+  <style>
+    html{height:100%}
+    body{height:100%;margin:0;padding:0}
+    .clearfix:before,.clearfix:after{content:"";display:table}
+    .clearfix:after{clear:both}
+    /* Map Style */
+    .gm-template{float:left}
+    .gmnoprint a img{display:none}
+    .gm-template div[dir="ltr"]{visibility:hidden}
+    .gmnoprint div a{display:none}
+    .gmnoprint div span{display:none}
+    .gmnoprint div a span:parent{display:none}
+    .gmnoprint div a span{display:none}
+    .gmnoprint.gm-style-cc{display:none}
+    .gm-template a[title]{display:none}
+    .gm-template a[title] div{display:none}
+    .gmnoscreen{display:none}
+    /* Tooltip Style */
+    .gs-address{text-decoration:none}
+    .gm-style .gm-style-iw {font-weight:300;font-size:12px;overflow:hidden}
+    .gm-style .gm-iw{color:#2c2c2c}
+    .gm-style .gm-iw b{font-weight:400}
+    .gm-style .gm-iw a:link,
+    .gm-style .gm-iw a:visited{color:#4272db;text-decoration:none}
+    .gm-style .gm-iw a:hover{color:#4272db;text-decoration:underline}
+    .gm-style .gm-iw .gm-title{font-weight:400;margin-bottom:1px}
+    .gm-style .gm-iw .gm-basicinfo{line-height:18px;padding-bottom:12px}
+    .gm-style .gm-iw .gm-website{padding-top:6px}
+    .gm-style .gm-iw .gm-photos{padding-bottom:8px;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none}
+    .gm-style .gm-iw .gm-sv,
+    .gm-style .gm-iw .gm-ph{cursor:pointer;height:50px;width:100px;position:relative;overflow:hidden}
+    .gm-style .gm-iw .gm-sv{padding-right:4px}
+    .gm-style .gm-iw .gm-wsv{cursor:pointer;position:relative;overflow:hidden}
+    .gm-style .gm-iw .gm-sv-label,
+    .gm-style .gm-iw .gm-ph-label{cursor:pointer;position:absolute;bottom:6px;color:#fff;font-weight:400;text-shadow:rgba(0,0,0,0.7) 0 1px 4px;font-size:12px}
+    .gm-style .gm-iw .gm-stars-b,
+    .gm-style .gm-iw .gm-stars-f{height:13px;font-size:0}
+    .gm-style .gm-iw .gm-stars-b{position:relative;background-position:0 0;width:65px;top:3px;margin:0 5px}
+    .gm-style .gm-iw .gm-rev{line-height:20px;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none}
+    .gm-style.gm-china .gm-iw .gm-rev{display:none}
+    .gm-style .gm-iw .gm-numeric-rev{font-size:16px;color:#dd4b39;font-weight:400}
+    .gm-style .gm-iw.gm-transit{margin-left:15px}
+    .gm-style .gm-iw.gm-transit td{vertical-align:top}
+    .gm-style .gm-iw.gm-transit .gm-time{white-space:nowrap;color:#676767;font-weight:bold}
+    .gm-style .gm-iw.gm-transit img{width:15px;height:15px;margin:1px 5px 0 -20px;float:left}
+    .gm-iw {text-align:left}
+    .gm-iw .gm-numeric-rev{float:left}
+    .gm-iw .gm-photos,
+    .gm-iw .gm-rev{direction:ltr;}
+    .gm-iw .gm-stars-f,
+    .gm-iw .gm-stars-b{background:url("https://maps.gstatic.com/mapfiles/api-3/images/review_stars.png") no-repeat;background-size:65px 26px;float:left}
+    .gm-iw .gm-stars-f{background-position:left -13px}
+    .gm-iw .gm-sv-label,
+    .gm-iw .gm-ph-label{left:4px}
+    .gs-result a,
+    .gs-result span{text-decoration:none}
+    .gs-result a:hover{text-decoration:underline}
+    .gs-label, 
+    .gs-title .gs-title-a{color:rgb(85,26,139);text-decoration:none}
+    .gs-title .gs-title-a:hover{color:rgb(85,26,139);text-decoration:none;cursor:default}
+    .gs-address span,
+    .gs-directions-to-from span{display:inline;float:left;width:auto}
+    .gs-directions-to-from .gs-label{clear:all}
+    /*Search Field*/
+    .pac-input{background-color:#fff;font-family:Roboto, Arial, sans-serif;font-size:11px;font-weight:300;margin-left:12px;padding:0 11px 0 13px;text-overflow:ellipsis;width:14%;position:absolute;left:114px;z-index:16}
+    .pac-input.controls{margin-top:10px;border:1px solid transparent;border-radius:2px 0 0 2px;box-sizing:border-box;-moz-box-sizing:border-box;height:30px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
+    .pac-input:focus{border-color:#4d90fe;}
+    /*Search Field*/
+    .pac-container{font-family:Roboto;}
+    .pac-container{background-color:#FFF;position:absolute !important;z-index:1000;border-radius:2px;border-top:1px solid #D9D9D9;font-family:Arial,sans-serif;box-shadow:0px 2px 6px rgba(0,0,0,0.3);box-sizing:border-box;overflow:hidden;}
+    .pac-container{z-index:10000 !important;width:auto !important;position:initial !important;left:0 !important;right:0 !important;display:block !important;}
+    .pac-container:empty{display:none !important;}
+    .pac-item{cursor:default;padding:0px 4px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;line-height:30px;text-align:left;border-top:1px solid #E6E6E6;font-size:11px;color:#999;}
+    .pac-item-query{font-size:13px;padding-right:3px;color:#000;}
+    .pac-item{cursor:default;white-space:nowrap;line-height:30px;text-align:left;font-size:11px;color:#999;}
+    .pac-item span{min-width:0%;max-width:0%;display:inline !important;float:none !important;}
+    .pac-icon-marker{background-position:-1px -161px;}
+    .pac-icon{padding:3px 6px;width:15px !important;height:20px;margin-right:7px;margin-top:6px;display:inline-block !important;vertical-align:top;background-image:url("https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons.png");background-size:34px auto;}
+    .pac-matched{font-weight:700;}
+    /*ContextMenu*/
+    .context_menu{font-family:Roboto;}
+    .context_menu{background-color:#FFF;border-radius:2px;border-top:1px solid #D9D9D9;font-family:Arial,sans-serif;box-shadow:0px 2px 6px rgba(0,0,0,0.3);box-sizing:border-box;}
+    .context_menu_item{background-color:#fff;font-family:Roboto,Arial,sans-serif;font-size:11px;font-weight:300;padding:6px 11px 6px 13px;text-overflow:ellipsis;}
+    .context_menu_item:hover{background-color:#fafafa;}
+    .context_menu_separator{background-color:#e6e6e6;height:1px;margin:0;padding:0;}
+    #clearDirectionsItem,#getDirectionsItem{display:none;}
+  </style>
+  <div class="gm-template"></div>
+</template>
+<!-- Google Map Tooltip Template -->
+<template id="gm-tooltip">
+  <div class="gmls-result-wrapper">
+    <div class="gs-localResult gs-result">
+      <div class="gs-title"><a class="gs-title-a" href="http://www.google.com/maps?source=uds&q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}" target="_blank">Endereço:&nbsp;</a></div>
+      <div class="gs-address">
+        <span class="gs-street gs-addressLine"> 
+          <a href="http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">{{raw_route.long_name}}, {{raw_nr}} {{raw_bairro}}</a>
+        </span>
+        <span class="gs-spacer">&nbsp;-&nbsp;</span>
+        <span class="gs-city gs-addressLine">
+          <a href="http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0" target="_blank">{{raw_locality.long_name}}/{{raw_administrative_area_level_1.short_name}}</a>
+        </span>
+      </div>
+      <div class="gs-directions-to-from">
+        <span class="gs-label">Rota:&nbsp;</span>
+        <span class="gs-secondary-link">
+          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&daddr={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:to" target="_blank">Para cá</a>
+        </span>
+        <span class="gs-spacer">&nbsp;-&nbsp;</span>
+        <span class="gs-secondary-link">
+          <a class="gs-secondary-link-a" href="http://www.google.com/maps?source=uds&saddr={{route.long_name}},+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}, {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:from" target="_blank">Daqui</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  String.prototype.toBoolean = function() {
+    return (/^true$/i).test(this);
+  };
+  var App = App || {};
+  App = {
+    LoadScript : function(src, callback, args) {
+      var s, r, t;
+      r = false;
+      s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = src;
+      s.async = true;
+      s.defer = true;
+      s.setAttribute('async',true);
+      if (typeof(callback) === 'function') {
+        s.onload = s.onreadystatechange = function() {
+          if (!r && (!this.readyState || this.readyState === 'complete')) {
+            r = true;
+            callback.apply(args);
+          }
+        };
+      };
+      document.body.appendChild(s);
+    },
+    Def : {
+      latitude : -5.195239528770433, //OK
+      longitude : -37.341639999999984, //OK
+      width : 400, //OK
+      height : 400, //OK
+      border : true, //OK
+      zoom : 18, //OK
+      tooltip : true, //OK
+      mapType : 'ROADMAP', //OK
+      scrollWheel : true, //OK
+      marker : null, //OK
+      language : 'pt-BR',
+      zoomControl: false, //OK
+      scaleControl: false, //OK
+      rotateControl: false, //OK
+      mapTypeControl: false, //OK
+      mapTypeControlStyle: 'BAR', //OK
+      streetViewControl: false, //OK
+      disableDefaultUI: true //OK
+    },
+    Ext : {
+      URL : {
+        Encode : function(str) {
+          str = (str + '').toString();
+          return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+        },
+        Decode : function(str) {
+          return decodeURIComponent(str).replace(/%21/g, '!').replace(/%27/g, "'").replace(/%28/g, '(').replace(/%29/g, ')').replace(/%2A/g, '*').replace(/[+]/g, '%20');
+        }
+      },
+      String : {
+        Replace : function(string, token, newtoken) {
+          while (string.indexOf(token) != -1) {
+            string = string.replace(token, newtoken);
+          }
+          return string;
+        },
+        ToBoolean: function(string){
+          switch(string.toLowerCase().trim()){
+            case "true": case "yes": case "1": return true;
+            case "false": case "no": case "0": case null: return false;
+            default: return Boolean(string);
+          }
+        }
+      },
+      MicroTemplate : function(temp, data) {
+         data = [].concat(data);
+         for (var i in data)
+            for (var f in data[i])
+               temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
+         return temp;
+      },
+      Map : {
+        Set : {
+          Control : {
+            Search : {
+              Field : function(self, element) {
+                if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
+                  var newNode = document.createElement("input");
+                  newNode.setAttribute('type', 'search');
+                  newNode.setAttribute('placeholder', 'Busca:');
+                  newNode.setAttribute('class', 'pac-input controls clearfix');
+                  self.parentNode.insertBefore(newNode, self);
+                  return newNode;
+                }
+              },
+              Callback : function(map, that, self, template) {
+                if((self.hasAttribute('searchControl') && self.getAttribute('searchControl') != '') || (self.getAttribute('searchControl') == 'true')) {
+                  var input = App.Ext.Map.Set.Control.Search.Field(that, self);
+                  var searchBox = new google.maps.places.SearchBox(input);
+                  map.addListener('bounds_changed', function() {
+                    searchBox.setBounds(map.getBounds());
+                  });
+                  var markers = [];
+                  searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
+                    if (places.length == 0) {
+                      return;
+                    }
+                    markers.forEach(function(marker) {
+                      marker.setMap(null);
+                    });
+                    markers = [];
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                      markers.push(new google.maps.Marker({
+                        map: map,
+                        animation : google.maps.Animation.DROP,
+                        icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
+                        title: place.name,
+                        position: place.geometry.location
+                      }));
+                      mapAddress = App.Ext.Map.getLocation(place.address_components);
+                      if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+                        var infoWin = new google.maps.InfoWindow({
+                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, place.geometry.location.lat(), place.geometry.location.lng(), template)
+                        });
+                        infoWin.open(map, markers[0]);
+                      }
+                      if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                      } else {
+                        bounds.extend(place.geometry.location);
+                      }
+                    });
+                    map.fitBounds(bounds);
+                    var listener = google.maps.event.addListener(map, "idle", function() { 
+                      if (map.getZoom() > App.Def.zoom) 
+                        map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
+                      google.maps.event.removeListener(listener);
+                    });
+                  });
+                }
+              }
+            },
+            ContextMenu : function(map, self) {
+              if((self.hasAttribute('contextMenuControl') && self.getAttribute('contextMenuControl') != '') || (self.getAttribute('contextMenuControl') == 'true')) {
+                //Construtor
+                function ContextMenu(map, options){
+                  options = options || {};
+                  this.setMap(map);
+                  this.classNames_ = options.classNames || {};
+                  this.map_ = map;
+                  this.mapDiv_ = map.getDiv();
+                  this.menuItems_ = options.menuItems || [];
+                  this.pixelOffset = options.pixelOffset || new google.maps.Point(10, -5);
+                }
+                //Construtor
+                ContextMenu.prototype = new google.maps.OverlayView();
+                ContextMenu.prototype.draw = function(){
+                  if(this.isVisible_){
+                    var mapSize = new google.maps.Size(this.mapDiv_.offsetWidth, this.mapDiv_.offsetHeight);
+                    var menuSize = new google.maps.Size(this.menu_.offsetWidth, this.menu_.offsetHeight);
+                    var mousePosition = this.getProjection().fromLatLngToDivPixel(this.position_);
+                    var left = mousePosition.x;
+                    var top = mousePosition.y;
+                    if(mousePosition.x>mapSize.width - menuSize.width - this.pixelOffset.x){
+                      left = left - menuSize.width - this.pixelOffset.x;
+                    } else {
+                      left += this.pixelOffset.x;
+                    }
+                    if(mousePosition.y>mapSize.height - menuSize.height - this.pixelOffset.y){
+                      top = top - menuSize.height - this.pixelOffset.y;
+                    } else {
+                      top += this.pixelOffset.y;
+                    }
+                    this.menu_.style.left = left + 'px';
+                    this.menu_.style.top = top + 'px';
+                  }
+                };
+                ContextMenu.prototype.getVisible = function(){
+                  return this.isVisible_;
+                };
+                ContextMenu.prototype.hide = function(){
+                  if(this.isVisible_){
+                    this.menu_.style.display = 'none';
+                    this.isVisible_ = false;
+                  }
+                };
+                ContextMenu.prototype.onAdd = function(){
+                  function createMenuItem(values){
+                    var menuItem = document.createElement('div');
+                    menuItem.innerHTML = values.label;
+                    if(values.className){
+                      menuItem.className = values.className;
+                    }
+                    if(values.id){
+                      menuItem.id = values.id;
+                    }
+                    menuItem.style.cssText = 'cursor:pointer; white-space:nowrap';
+                    menuItem.onclick = function(){
+                      google.maps.event.trigger($this, 'menu_item_selected', $this.position_, values.eventName);
+                    };
+                    return menuItem;
+                  }
+                  function createMenuSeparator(){
+                    var menuSeparator = document.createElement('div');
+                    if($this.classNames_.menuSeparator){
+                      menuSeparator.className = $this.classNames_.menuSeparator;
+                    }
+                    return menuSeparator;
+                  }
+                  var $this = this;
+                  var menu = document.createElement('div');
+                  if(this.classNames_.menu){
+                    menu.className = this.classNames_.menu;
+                  }
+                  menu.style.cssText = 'display:none; position:absolute';
+                  for(var i = 0, j = this.menuItems_.length; i<j; i++){
+                    if(this.menuItems_[i].label && this.menuItems_[i].eventName){
+                      menu.appendChild(createMenuItem(this.menuItems_[i]));
+                    } else {
+                      menu.appendChild(createMenuSeparator());
+                    }
+                  }
+                  delete this.classNames_;
+                  delete this.menuItems_;
+                  this.isVisible_ = false;
+                  this.menu_ = menu;
+                  this.position_ = new google.maps.LatLng(0, 0);
+                  google.maps.event.addListener(this.map_, 'click', function(mouseEvent){
+                    $this.hide();
+                  });
+                  this.getPanes().floatPane.appendChild(menu);
+                };
+                ContextMenu.prototype.onRemove = function(){
+                  this.menu_.parentNode.removeChild(this.menu_);
+                  delete this.mapDiv_;
+                  delete this.menu_;
+                  delete this.position_;
+                };
+                ContextMenu.prototype.show = function(latLng){
+                  if(!this.isVisible_){
+                    this.menu_.style.display = 'block';
+                    this.isVisible_ = true;
+                  }
+                  this.position_ = latLng;
+                  this.draw();
+                };
+                //Renderização do Menu de Contexto
+                var directionsRendererOptions = {};
+                directionsRendererOptions.draggable = false;
+                directionsRendererOptions.hideRouteList = true;
+                directionsRendererOptions.suppressMarkers = false;
+                directionsRendererOptions.preserveViewport = false;
+                var directionsRenderer = new google.maps.DirectionsRenderer(directionsRendererOptions);
+                var directionsService = new google.maps.DirectionsService();
+
+                var contextMenuOptions = {};
+                contextMenuOptions.classNames = {menu:'context_menu', menuSeparator:'context_menu_separator'};
+
+                var menuItems = [];
+                menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Rota Daqui'});
+                menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Rota Para cá'});
+                menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Apagar Rotas'});
+                menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter Rotas'});
+
+                menuItems.push({});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Zoom In'});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Zoom Out'});
+                menuItems.push({});
+                menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Centrarlizar Mapa Aqui'});
+                contextMenuOptions.menuItems = menuItems;
+
+                var contextMenu = new ContextMenu(map, contextMenuOptions);
+
+                google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
+                  contextMenu.show(mouseEvent.latLng);
+                });
+
+                var markerOptions = {};
+                markerOptions.icon = 'http://www.google.com/intl/en_ALL/mapfiles/markerA.png';
+                markerOptions.map = null;
+                markerOptions.position = new google.maps.LatLng(0, 0);
+                markerOptions.title = 'Directions origin';
+
+                var originMarker = new google.maps.Marker(markerOptions);
+
+                markerOptions.icon = 'http://www.google.com/intl/en_ALL/mapfiles/markerB.png';
+                markerOptions.title = 'Directions destination';
+                var destinationMarker = new google.maps.Marker(markerOptions);
+
+                google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
+                  switch(eventName){
+                    case 'directions_origin_click':
+                      originMarker.setPosition(latLng);
+                      if(!originMarker.getMap()){
+                        originMarker.setMap(map);
+                      }
+                      break;
+                    case 'directions_destination_click':
+                      destinationMarker.setPosition(latLng);
+                      if(!destinationMarker.getMap()){
+                        destinationMarker.setMap(map);
+                      }
+                      break;
+                    case 'clear_directions_click':
+                      directionsRenderer.setMap(null);
+                      self.shadowRoot.getElementById('clearDirectionsItem').style.display = '';
+                      self.shadowRoot.getElementById('directionsDestinationItem').style.display = '';
+                      self.shadowRoot.getElementById('directionsOriginItem').style.display = '';
+                      self.shadowRoot.getElementById('getDirectionsItem').style.display = '';
+                      break;
+                    case 'get_directions_click':
+                      var directionsRequest = {};
+                      directionsRequest.destination = destinationMarker.getPosition();
+                      directionsRequest.origin = originMarker.getPosition();
+                      directionsRequest.travelMode = google.maps.TravelMode.DRIVING;
+                      directionsService.route(directionsRequest, function(result, status){
+                        if(status === google.maps.DirectionsStatus.OK){
+                          originMarker.setMap(null);
+                          destinationMarker.setMap(null);
+                          directionsRenderer.setDirections(result);
+                          directionsRenderer.setMap(map);
+                          self.shadowRoot.getElementById('clearDirectionsItem').style.display = 'block';
+                          self.shadowRoot.getElementById('directionsDestinationItem').style.display = 'none';
+                          self.shadowRoot.getElementById('directionsOriginItem').style.display = 'none';
+                          self.shadowRoot.getElementById('getDirectionsItem').style.display = 'none';
+                        } else {
+                          alert('Sorry, the map was unable to obtain directions.\n\nThe request failed with the message: ' + status);
+                        }
+                      });
+                      break;
+                    case 'zoom_in_click':
+                      map.setZoom(map.getZoom() +1);
+                      break;
+                    case 'zoom_out_click':
+                      map.setZoom(map.getZoom() -1);
+                      break;
+                    case 'center_map_click':
+                      map.panTo(latLng);
+                      break;
+                  }
+                  if(originMarker.getMap() && destinationMarker.getMap() && self.shadowRoot.getElementById("getDirectionsItem").style.display == ''){
+                    self.shadowRoot.getElementById("getDirectionsItem").style.display = 'block';
+                  }
+                });
+              }
+            }
+          }
+        },
+        setMarkerInfoWin : function(place, latitude, longitude, template) {
+          var html,
+              place = place[0],
+              nr = place['street_number'] ? place['street_number'].long_name + '' : '',
+              bairro = place['sublocality'] ? place['sublocality'].long_name + '+,+' : '',
+              cep = place['postal_code'] ? place['postal_code'].long_name + ',+' : '';
+          var data =  {
+              'raw_route.long_name' : place['route'].long_name,
+              'raw_nr' : nr,
+              'raw_bairro' : bairro,
+              'raw_locality.long_name' : place['locality'].long_name,
+              'raw_administrative_area_level_1.short_name' : place['administrative_area_level_1'].short_name,
+              'route.long_name' : App.Ext.URL.Encode(place['route'].long_name),
+              'nr' : App.Ext.URL.Encode(nr),
+              'locality.long_name' : App.Ext.URL.Encode(place['locality'].long_name),
+              'administrative_area_level_1.short_name' : App.Ext.URL.Encode(place['administrative_area_level_1'].short_name),
+              'cep' : App.Ext.URL.Encode(cep),
+              'bairro' : App.Ext.URL.Encode(bairro),
+              'country.long_name' : App.Ext.URL.Encode(place['country'].long_name),
+              'latitude' : latitude,
+              'longitude' : longitude
+          };
+          template = template.innerHTML;
+          template = App.Ext.MicroTemplate(template, data);
+          return template;
+        },
+        getAddress : function(place) {
+          var place = place[0],
+              nr = place['street_number'] ? place['street_number'].long_name + '' : '',
+              bairro = place['sublocality'] ? place['sublocality'].long_name + ' , ' : '',
+              cep = place['postal_code'] ? place['postal_code'].long_name + ', ' : '';
+          return place['route'].long_name + ', ' + nr + bairro + ' - ' + place['locality'].long_name + '/' + place['administrative_area_level_1'].short_name;
+        },
+        getLocation : function(place) {
+          var arrayAddress = [],
+              mapAddress = [];
+          for (var i = 0; i < place.length; i++) {
+            var address = place[i];
+            switch(address.types[0]) {
+              case 'street_number' :
+                arrayAddress['street_number'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'route' :
+                arrayAddress['route'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'sublocality' :
+                arrayAddress['sublocality'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'locality' :
+                arrayAddress['locality'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'administrative_area_level_1' :
+                arrayAddress['administrative_area_level_1'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'country' :
+                arrayAddress['country'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+              case 'postal_code' :
+                arrayAddress['postal_code'] = { short_name : address.short_name, long_name : address.long_name };
+                mapAddress.push(arrayAddress);
+              break;
+            }
+          }
+          return mapAddress;
+        },
+        setLocation : function(self, location) {
+          if(self.hasAttribute('return')) {
+            var element = document.querySelectorAll(self.getAttribute('return'));
+            if(element.length > 0) {
+              document.querySelectorAll(self.getAttribute('return'))[0].setAttribute('value',location);
+            }
+            else {
+              var newNode = document.createElement("input");
+              newNode.setAttribute('type', 'text');
+              newNode.setAttribute('id', self.getAttribute('return').replace('#',''));
+              newNode.setAttribute('name', self.getAttribute('return').replace('#',''));
+              newNode.setAttribute('value', location);
+              self.parentNode.insertBefore(newNode, self.nextSibling);
+            }
+          }
+        },
+        setCoordinates : function(self) {
+          if ((self.hasAttribute('latitude') && self.getAttribute('latitude') != '') && (self.hasAttribute('longitude') && self.getAttribute('longitude') != '')) {
+            var latitude = self.getAttribute('latitude'),
+                longitude = self.getAttribute('longitude');
+          }
+          else {
+            var latitude = App.Def.latitude,
+                longitude = App.Def.longitude;
+                self.setAttribute('latitude',App.Def.latitude);
+                self.setAttribute('longitude',App.Def.longitude);
+          }
+          return [latitude,longitude];
+        },
+        setAddress : function(self) {
+          if (self.hasAttribute('address') && self.getAttribute('address') != '') {
+            return self.getAttribute('address');
+          }
+          else {
+            return mapByLatLong(self);
+          }
+        },
+        setMapType : function(self, map) {
+          if(self.hasAttribute('maptype') && self.getAttribute('maptype') != '') {
+            switch(self.getAttribute('maptype')) {
+              case 'ROADMAP':
+                map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+              break;
+              case 'TERRAIN':
+                map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+              break;
+              case 'SATELLITE':
+                map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+              break;
+              case 'HYBRID':
+                map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+              break;
+              default:
+                map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+            }
+          }
+          else {
+            map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+          }
+        }
+      }
+    }
+  };
+
+  //Protótipo do Elemento
+  window.GoogleMapElement = (function() {
+    var currentScript = document._currentScript || document.currentScript, doc = currentScript.ownerDocument, proto = Object.create(HTMLElement.prototype, {
+      createdCallback: {
+        value: function() {
+          var template = doc.querySelector('#gm'), clone = document.importNode(template.content, true), tooltip = doc.querySelector('#gm-tooltip').content.querySelector('.gmls-result-wrapper');
+
+          //Inicia o ShadowDOM, Clona o Modelo e Obtém o Elemento Inicial
+          this.shadowRoot = this.createShadowRoot();
+          this.shadowRoot.appendChild(clone);
+          this.element = this.shadowRoot.querySelector('.gm-template');
+
+          //Carrega a API JavaScript do Google, Passando o Contexto para Dentro do Método
+          App.LoadScript('https://www.google.com/jsapi',function() {
+            var self = this;
+            var langCode = self.hasAttribute('language') && self.getAttribute('language') != '' ? self.getAttribute('language') : App.Def.language;
+            //Carrega a API JavaScript de Mapas do Google
+            google.load('maps', '3.exp', { 'other_params' : 'signed_in=false&sensor=false&libraries=places&language=' + langCode, 'callback' : function() {
+
+              //Geolocalização por Latitude e Longitude
+              var mapByLatLong = function(self, that) {
+                var latitude = App.Ext.Map.setCoordinates(self)[0], longitude = App.Ext.Map.setCoordinates(self)[1], coords = new google.maps.LatLng(latitude, longitude),
+                map = new google.maps.Map(self.element, {
+                  center : coords,
+                  zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
+                  scrollwheel: self.hasAttribute('scrollWheel') && self.getAttribute('scrollWheel') != 'false' ? self.getAttribute('scrollWheel') : App.Def.scrollWheel,
+                  zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
+                  scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
+                  rotateControl: self.hasAttribute('rotateControl') && self.getAttribute('rotateControl') != 'false' ? self.getAttribute('rotateControl') : App.Def.scaleControl,
+                  mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
+                  mapTypeControlOptions: {
+                    style: (!self.hasAttribute('mapTypeControlStyle') || self.getAttribute('mapTypeControlStyle') == '') || self.getAttribute('mapTypeControlStyle') == 'BAR' ? google.maps.MapTypeControlStyle.HORIZONTAL_BAR : google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    mapTypeIds: [
+                      google.maps.MapTypeId.ROADMAP,
+                      google.maps.MapTypeId.SATELLITE,
+                      google.maps.MapTypeId.TERRAIN
+                    ]
+                  },
+                  streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
+                  disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') == 'false' ? self.getAttribute('disableDefaultUI').toBoolean() : App.Def.disableDefaultUI
+                });
+                App.Ext.Map.setMapType(self, map);
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { "latLng" : coords }, function(results, status) {
+                  if (status == google.maps.GeocoderStatus.OK) {
+                    mapAddress = App.Ext.Map.getLocation(results[0].address_components);
+                    map.setCenter(coords);
+                    map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
+                    var markers = [];
+                    marker = new google.maps.Marker({
+                      position : coords,
+                      animation : google.maps.Animation.DROP,
+                      icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
+                      map : map
+                    });
+                    if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+                      var infoWin = new google.maps.InfoWindow({
+                        content : App.Ext.Map.setMarkerInfoWin(mapAddress, latitude, longitude, tooltip)
+                      });
+                      infoWin.open(map, marker);
+                    }
+                    self.setAttribute('address', App.Ext.Map.getAddress(mapAddress));
+                    App.Ext.Map.setLocation(self, App.Ext.Map.getAddress(mapAddress));
+                    App.Ext.Map.Set.Control.Search.Callback(map, that, self, tooltip);
+                    App.Ext.Map.Set.Control.ContextMenu(map, self);
+                  }
+                });
+              };
+
+              //Geolocalização Reversa
+              var mapByAddress = function(self, that) {
+                var address = App.Ext.Map.setAddress(self);
+                var map = new google.maps.Map(self.element, {
+                  center : new google.maps.LatLng(0,0),
+                  zoom : self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom,
+                  scrollwheel: self.hasAttribute('scrollWheel') && self.getAttribute('scrollWheel') != 'false' ? self.getAttribute('scrollWheel') : App.Def.scrollWheel,
+                  zoomControl: self.hasAttribute('zoomControl') && self.getAttribute('zoomControl') != 'false' ? self.getAttribute('zoomControl') : App.Def.zoomControl,
+                  scaleControl: self.hasAttribute('scaleControl') && self.getAttribute('scaleControl') != 'false' ? self.getAttribute('scaleControl') : App.Def.scaleControl,
+                  rotateControl: self.hasAttribute('rotateControl') && self.getAttribute('rotateControl') != 'false' ? self.getAttribute('rotateControl') : App.Def.scaleControl,
+                  mapTypeControl : self.hasAttribute('mapTypeControl') && self.getAttribute('mapTypeControl') != 'false' ? self.getAttribute('mapTypeControl') : App.Def.mapTypeControl,
+                  mapTypeControlOptions: {
+                    style: (!self.hasAttribute('mapTypeControlStyle') || self.getAttribute('mapTypeControlStyle') == '') || self.getAttribute('mapTypeControlStyle') == 'BAR' ? google.maps.MapTypeControlStyle.HORIZONTAL_BAR : google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    mapTypeIds: [
+                      google.maps.MapTypeId.ROADMAP,
+                      google.maps.MapTypeId.SATELLITE,
+                      google.maps.MapTypeId.TERRAIN
+                    ]
+                  },
+                  streetViewControl : self.hasAttribute('streetViewControl') && self.getAttribute('streetViewControl') != 'false' ? self.getAttribute('streetViewControl') : App.Def.streetViewControl,
+                  disableDefaultUI : self.hasAttribute('disableDefaultUI') && self.getAttribute('disableDefaultUI') == 'false' ? self.getAttribute('disableDefaultUI').toBoolean() : App.Def.disableDefaultUI
+                });
+                App.Ext.Map.setMapType(self, map);
+                var geocoder = new google.maps.Geocoder(); 
+                geocoder.geocode({ address : address, region : 'no' },
+                  function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                      mapAddress = App.Ext.Map.getLocation(results[0].address_components);
+                      var coords = new google.maps.LatLng(results[0]['geometry']['location'].lat(), results[0]['geometry']['location'].lng());
+                      map.setCenter(coords);
+                      map.setZoom(self.hasAttribute('zoom') && self.getAttribute('zoom') != '' ? parseInt(self.getAttribute('zoom')) : App.Def.zoom);
+                      marker = new google.maps.Marker({
+                        position : coords, 
+                        animation : google.maps.Animation.DROP,
+                        icon : self.hasAttribute('marker') && self.getAttribute('marker') != '' ? self.getAttribute('marker') : App.Def.marker,
+                        map : map
+                      });
+                      if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
+                        var infoWin = new google.maps.InfoWindow({
+                          content : App.Ext.Map.setMarkerInfoWin(mapAddress, coords.lat(), coords.lng(), tooltip)
+                        });
+                        infoWin.open(map, marker);
+                      }
+                      self.setAttribute('latitude', coords.lat());
+                      self.setAttribute('longitude', coords.lng());
+                      App.Ext.Map.setLocation(self, coords.lat().toFixed(6) + ',' + coords.lng().toFixed(6));
+                      App.Ext.Map.Set.Control.Search.Callback(map, that, self, tooltip);
+                      App.Ext.Map.Set.Control.ContextMenu(map, self);
+                    }
+                  }
+                );
+              };
+
+              //Trata a Largura
+              if (self.hasAttribute('width') && self.getAttribute('width') != '') {
+                self.style.width = self.getAttribute('width') + 'px';
+                self.element.style.width = self.getAttribute('width') + 'px';
+              }
+              else {
+                self.style.width = App.Def.width + 'px';
+                self.element.style.width = App.Def.width + 'px';
+                self.setAttribute('width',App.Def.width);
+              }
+              //Trata a Altura
+              if (self.hasAttribute('height') && self.getAttribute('height') != '') {
+                self.style.height = self.getAttribute('height') + 'px';
+                self.element.style.height = self.getAttribute('height') + 'px';
+              }
+              else {
+                self.style.height = App.Def.height + 'px';
+                self.element.style.height = App.Def.height + 'px';
+                self.setAttribute('height',App.Def.height);
+              }
+              //Trata a Borda
+              if (self.hasAttribute('border') && self.getAttribute('border') == 'false') {
+                self.element.style.border = 'none';
+              }
+              else {
+                self.element.style.border = 'solid 1px #000';
+              }
+
+              //Alterna entre Busca por Endereço ou por Latitude/Longitude
+              if (self.hasAttribute('address') && self.getAttribute('address') != '') {
+                mapByAddress(self, self.element);
+              }
+              else {
+                mapByLatLong(self, self.element);
+              }
+
+            }});
+
+          }, this);
+        }
+      }
+    });
+    //Finalmente Registra o Elemento
+    return document.registerElement('google-map', {prototype: proto});
+  })();
+</script>

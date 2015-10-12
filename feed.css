@@ -1,0 +1,11 @@
+.feed_template {
+  border:solid 1px #000;
+  width:280px;
+  height:520px;
+  overflow:auto;
+  font-family:Roboto, Arial, sans-serif;
+  font-size:14px;
+}
+.feed_template.feed_title {
+  text-align:center;
+}
