@@ -102,13 +102,6 @@
   String.prototype.toBoolean = function() {
     return (/^true$/i).test(this);
   };
-  String.prototype.wasRegistered = function() { 
-    switch(document.createElement(this).constructor) {
-      case HTMLElement: return false; 
-      case HTMLUnknownElement: return undefined; 
-    }
-    return true;
-  };
   Element.prototype.remove = function() {
       this.parentElement.removeChild(this);
   };
@@ -347,7 +340,7 @@
           });
           if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
             var infoWin = new google.maps.InfoWindow({
-              content : App.Ext.Map.Set.Tooltip(mapAddress, latitude, longitude)
+              content : App.Ext.Map.Set.Tooltip(mapAddress, latitude, longitude, self)
             });
             infoWin.open(map, marker);
             if ((!self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true') {
@@ -365,14 +358,14 @@
                 infoWin.close();
               });
               google.maps.event.addListener(marker, 'dragend', function(result, event) {
-                var newlatlng = new google.maps.LatLng(this.getPosition().lat(), this.getPosition().lng())
+                var newlatlng = new google.maps.LatLng(this.getPosition().lat(), this.getPosition().lng());
                 geocoder.geocode({'latLng':newlatlng}, function(response, status) {
                   if(status == google.maps.GeocoderStatus.OK) {
                     if (response[1]) {
                       mapAddress = App.Ext.Map.Get.Location(response[0].address_components);
                       marker.setTitle(response[0].formatted_address);
                       infoWin = new google.maps.InfoWindow({
-                        content: App.Ext.Map.Set.Tooltip(mapAddress),
+                        content: App.Ext.Map.Set.Tooltip(mapAddress, newlatlng.lat(), newlatlng.lng(), self),
                         position: newlatlng
                       });
                       infoWin.open(map, marker);
@@ -431,7 +424,7 @@
             });
             if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
               var infoWin = new google.maps.InfoWindow({
-                content : App.Ext.Map.Set.Tooltip(mapAddress, coords.lat(), coords.lng())
+                content : App.Ext.Map.Set.Tooltip(mapAddress, coords.lat(), coords.lng(), self)
               });
               infoWin.open(map, marker);
               if((!self.hasAttribute('markerDrag') || self.getAttribute('markerDrag') == '') || self.getAttribute('markerDrag') == 'true') {
@@ -456,7 +449,7 @@
                         mapAddress = App.Ext.Map.Get.Location(response[0].address_components);
                         marker.setTitle(response[0].formatted_address);
                         infoWin = new google.maps.InfoWindow({
-                          content: App.Ext.Map.Set.Tooltip(mapAddress),
+                          content: App.Ext.Map.Set.Tooltip(mapAddress, newlatlng.lat(), newlatlng.lng(), self),
                           position: newlatlng
                         });
                         infoWin.open(map, marker);
@@ -488,6 +481,9 @@
         }
       },
       String : {
+        Translate : function(lang) {
+          return App.Translate[lang];
+        },
         Replace : function(string, token, newtoken) {
           while (string.indexOf(token) != -1) {
             string = string.replace(token, newtoken);
@@ -559,7 +555,11 @@
         },
         Set : {
           Template : {
-            Tooltip : function() {
+            Tooltip : function(self) {
+              var language = (self.hasAttribute('language') && self.getAttribute('language') != '') ? self.getAttribute('language') : App.BrowserLanguage();
+              console.log(self);
+              console.log(App.Translate[language]);
+              console.log(language);
               var main = document.createElement('div');
               main.setAttribute('class', "gm-tooltip");
                 var div0 = document.createElement('div');
@@ -649,7 +649,7 @@
               }
             }
           },
-          Tooltip : function(place, latitude, longitude) {
+          Tooltip : function(place, latitude, longitude, self) {
             var html,
                 place = place[0],
                 nr = place['street_number'] ? place['street_number'].long_name + '' : '',
@@ -671,7 +671,8 @@
                 'latitude' : latitude,
                 'longitude' : longitude
             };
-            var template = App.Ext.Map.Set.Template.Tooltip().innerHTML;
+
+            var template = App.Ext.Map.Set.Template.Tooltip(self).innerHTML;
             template = App.Ext.MicroTemplate(template, data);
             return template;
           },
@@ -943,15 +944,15 @@
                 var contextMenuOptions = {};
                 contextMenuOptions.classNames = {menu:'context_menu', menuSeparator:'context_menu_separator'};
                 var menuItems = [];
-                menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Rota Daqui'});
-                menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Rota Para cá'});
-                menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Apagar Rotas'});
-                menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter Rotas'});
+                menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Rota daqui'});
+                menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Rota para cá'});
+                menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Apagar rotas'});
+                menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter rotas'});
                 menuItems.push({});
-                menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Zoom In'});
-                menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Zoom Out'});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Aumentar o zoom'});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Diminuir o zoom'});
                 menuItems.push({});
-                menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Centrarlizar Mapa Aqui'});
+                menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Centrarlizar mapa aqui'});
                 contextMenuOptions.menuItems = menuItems;
                 var contextMenu = new ContextMenu(map, contextMenuOptions);
                 google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
@@ -1147,8 +1148,10 @@
           }
       });
       //Finalmente Registra o Elemento
-      if(!'google-map'.wasRegistered()) {
+      try {
         document.registerElement('google-map', {prototype: proto});
+      } catch(e) {
+        //console.log(e);
       }
   }
 </script>
