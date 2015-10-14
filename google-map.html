@@ -115,81 +115,748 @@
   var App = App || {};
   App = {
     Languages : [
-      { "code": "ar", "name": "عربي" }, 
-      { "code": "bg", "name": "български" }, 
-      { "code": "bn", "name": "বাঙালি" }, 
-      { "code": "ca", "name": "Català" }, 
-      { "code": "cs", "name": "Čeština" }, 
-      { "code": "da", "name": "Danske" }, 
-      { "code": "de", "name": "Deutsche" }, 
-      { "code": "el", "name": "Ελληνική" }, 
-      { "code": "en", "name": "English" }, 
-      { "code": "en-AU", "name": "English (Australian)" }, 
-      { "code": "en-GB", "name": "English (Great Britain)" }, 
-      { "code": "es", "name": "Español" }, 
-      { "code": "eu", "name": "Euskal" }, 
-      { "code": "fa", "name": "فارسی" }, 
-      { "code": "fi", "name": "Suomi" }, 
-      { "code": "fil", "name": "Pilipino" }, 
-      { "code": "fr", "name": "Français" }, 
-      { "code": "ga", "name": "Galego" }, 
-      { "code": "gu", "name": "ગુજરાતી" }, 
-      { "code": "hi", "name": "हिन्दी" }, 
-      { "code": "hr", "name": "Hrvatska" }, 
-      { "code": "hu", "name": "Magyar" }, 
-      { "code": "id", "name": "Indonesia" }, 
-      { "code": "it", "name": "Italiano" }, 
-      { "code": "iw", "name": "עברית" }, 
-      { "code": "ja", "name": "日本語" }, 
-      { "code": "kn", "name": "ಕನ್ನಡ" }, 
-      { "code": "ko", "name": "한국어" }, 
-      { "code": "lt", "name": "Lietuvos" }, 
-      { "code": "lv", "name": "Latvijā" }, 
-      { "code": "ml", "name": "മലയാളം" }, 
-      { "code": "mr", "name": "मराठी" }, 
-      { "code": "nl", "name": "Nederlandse" }, 
-      { "code": "no", "name": "Norsk" }, 
-      { "code": "pl", "name": "Polskie" }, 
-      { "code": "pt", "name": "Português" }, 
-      { "code": "pt-BR", "name": "Português do Brasil" }, 
-      { "code": "pt-PT", "name": "Português de Portugal" }, 
-      { "code": "ro", "name": "Română" }, 
-      { "code": "ru", "name": "Российский" }, 
-      { "code": "sk", "name": "Slovenský" }, 
-      { "code": "sl", "name": "Slovenščina" }, 
-      { "code": "sr", "name": "Srpski" }, 
-      { "code": "sv", "name": "Svenska" }, 
-      { "code": "ta", "name": "தமிழ்" }, 
-      { "code": "te", "name": "తెలుగు" }, 
-      { "code": "th", "name": "ภาษาไทย" }, 
-      { "code": "tl", "name": "Tagalog" }, 
-      { "code": "tr", "name": "Türkçe" }, 
-      { "code": "uk", "name": "Український" }, 
-      { "code": "vi", "name": "Tiếng Việt" }, 
-      { "code": "zh-CN", "name": "中国（简体）" }, 
-      { "code": "zh-TW", "name": "中國（繁體）" }
+      { "code": "ar", "name": "عربي" }, //Árabe
+      { "code": "bg", "name": "български" }, //Búlgaro
+      { "code": "bn", "name": "বাঙালি" }, //Bengali
+      { "code": "ca", "name": "Català" }, //Catalão
+      { "code": "cs", "name": "Čeština" }, //Tcheco
+      { "code": "da", "name": "Danske" }, //Dinamarquês
+      { "code": "de", "name": "Deutsche" }, //Alemão
+      { "code": "el", "name": "Ελληνική" }, //Grego
+      { "code": "en", "name": "English" }, //Inglês
+      { "code": "en-AU", "name": "English (Australian)" }, //Inglês (Australiano)
+      { "code": "en-GB", "name": "English (Great Britain)" }, //Inglês da Grã-Betanha
+      { "code": "es", "name": "Español" }, //Espanhol
+      { "code": "eu", "name": "Euskal" }, //Basco
+      { "code": "fa", "name": "فارسی" }, //Persa
+      { "code": "fi", "name": "Suomi" }, //Finlandês
+      { "code": "fil", "name": "Pilipino" }, //Filipino
+      { "code": "fr", "name": "Français" }, //Francês
+      { "code": "gl", "name": "Galego" }, //Galego
+      { "code": "gu", "name": "ગુજરાતી" }, //Gujarati
+      { "code": "hi", "name": "हिन्दी" }, //Hindi
+      { "code": "hr", "name": "Hrvatska" }, //Bósnio
+      { "code": "hu", "name": "Magyar" }, //Húngaro
+      { "code": "id", "name": "Indonesia" }, //Indonésio
+      { "code": "it", "name": "Italiano" }, //Italiano
+      { "code": "iw", "name": "עברית" }, //Hebraico
+      { "code": "ja", "name": "日本語" }, //Japonês
+      { "code": "kn", "name": "ಕನ್ನಡ" }, //Kannada
+      { "code": "ko", "name": "한국어" }, //Coreano
+      { "code": "lt", "name": "Lietuvos" }, //Lituano
+      { "code": "lv", "name": "Latvijā" }, //Letão
+      { "code": "ml", "name": "മലയാളം" }, //Malaiala
+      { "code": "mr", "name": "मराठी" }, //Marathi
+      { "code": "nl", "name": "Nederlandse" }, //Holandês
+      { "code": "no", "name": "Norsk" }, //Norueguês
+      { "code": "pl", "name": "Polskie" }, //Polonês
+      { "code": "pt", "name": "Português" }, //Portugues
+      { "code": "pt-BR", "name": "Português do Brasil" }, //Portugues do Brasil
+      { "code": "pt-PT", "name": "Português de Portugal" }, //Portugues de Portugal
+      { "code": "ro", "name": "Română" }, //Romeno
+      { "code": "ru", "name": "Российский" }, //Russo
+      { "code": "sk", "name": "Slovenský" }, //Eslovaco
+      { "code": "sl", "name": "Slovenščina" }, //Esloveno
+      { "code": "sr", "name": "Srpski" }, //Sérvio
+      { "code": "sv", "name": "Svenska" }, //Suéco
+      { "code": "ta", "name": "தமிழ்" }, //Tâmil
+      { "code": "te", "name": "తెలుగు" }, //Telugo
+      { "code": "th", "name": "ภาษาไทย" }, //Tailandês
+      { "code": "tl", "name": "Tagalog" }, //Tagalo
+      { "code": "tr", "name": "Türkçe" }, //Turco
+      { "code": "uk", "name": "Український" }, //Ucraniano
+      { "code": "vi", "name": "Tiếng Việt" }, //Vietnamita
+      { "code": "zh-CN", "name": "中国（简体）" }, //Chinês Simplificado
+      { "code": "zh-TW", "name": "中國（繁體）" } //Chinês Tradicional
     ],
     Translate : {
+      'ar' : {
+        'dir' : 'rtl',
+        'string' : {
+          'search' : 'بحث:',
+          'address' : 'عنوان:',
+          'route' : '',
+          'zoomin' : 'تكبير',
+          'zoomout' : 'تصغير',
+          'centermap' : 'خريطة مركز هنا',
+          'fromhere' : 'الاتجاهات من هنا',
+          'tohere' : 'الاتجاهات إلى هنا'
+        }
+      },
+      'bg' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Търсене:',
+          'address' : 'Адрес:',
+          'route' : '',
+          'zoomin' : 'Мащабиране',
+          'zoomout' : 'Отдалечаване',
+          'centermap' : 'Центрирай картата тук',
+          'fromhere' : 'Упътвания оттук',
+          'tohere' : 'Упътвания дотук'
+        }
+      },
+      'bn' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'অনুসন্ধান:',
+          'address' : 'ঠিকানা:',
+          'route' : '',
+          'zoomin' :  'জুম বাড়ান',
+          'zoomout' : 'জুম কমান',
+          'centermap' : 'এখানে মানচিত্রের কেন্দ্র',
+          'fromhere' : 'এই স্থান থেকে দিকনির্দেশ',
+          'tohere' : 'এই স্থান পর্যন্ত দিকনির্দেশ'
+        }
+      },
+      'ca' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Cerca:',
+          'address' : 'Adreça:',
+          'route' : '',
+          'zoomin' :  'Apropa el zoom',
+          'zoomout' : 'Allunya el zoom',
+          'centermap' : 'Mapa del centre aquí',
+          'fromhere' : 'Indicacions des d’aquí',
+          'tohere' : 'Indicacions cap aquí'
+        }
+      },
+      'cs' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Hledat:',
+          'address' : 'Adresa:',
+          'route' : '',
+          'zoomin' :  'Přiblížit',
+          'zoomout' : 'Oddálit',
+          'centermap' : 'Vycentrovat mapu zde;',
+          'fromhere' : 'Trasa odtud',
+          'tohere' : 'Trasa sem'
+        }
+      },
+      'da' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Søg:',
+          'address' : 'Adresse:',
+          'route' : '',
+          'zoomin' :  'Zoom ind',
+          'zoomout' : 'Zoom ud',
+          'centermap' : 'Centrer kort her',
+          'fromhere' : 'Rutevejledning herfra',
+          'tohere' : 'Rutevejledning hertil'
+        }
+      },
+      'de' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Suche:',
+          'address' : 'Adresse:',
+          'route' : '',
+          'zoomin' :  'Vergrößern',
+          'zoomout' : 'Verkleinern',
+          'centermap' : 'Center kart her',
+          'fromhere' : 'Route von hier',
+          'tohere' : 'Route hierher'
+        }
+      },
+      'el' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Αναζήτηση:',
+          'address' : 'Διεύθυνση:',
+          'route' : '',
+          'zoomin' :  'Μεγέθυνση',
+          'zoomout' : 'Σμίκρυνση',
+          'centermap' : 'Κέντρο χάρτη εδώ',
+          'fromhere' : 'Οδηγίες από εδώ',
+          'tohere' : 'Οδηγίες προς αυτό το σημείο'
+        }
+      },
       'en' : {
-        'controls' : {
-          'search' : 'Search:'
-        },
-        'tooltip' : {
-          'addres' : 'Address:',
-          'route' : 'Route:',
-          'tohere' : 'To Here',
-          'fromhere' : 'From Here',
+        'dir' : '',
+        'string' : {
+          'search' : 'Search:',
+          'address' : 'Address:',
+          'route' : '',
+          'zoomin' : 'Zoom in',
+          'zoomout' : 'Zoom out',
+          'centermap' : 'Center map here',
+          'fromhere' : 'Directions from here',
+          'tohere' : 'Directions to here'
+        }
+      },
+      'en-AU' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Search:',
+          'address' : 'Address:',
+          'route' : '',
+          'zoomin' : 'Zoom in',
+          'zoomout' : 'Zoom out',
+          'centermap' : 'Center map here',
+          'fromhere' : 'Directions from here',
+          'tohere' : 'Directions to here'
+        }
+      },
+      'en-GB' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Search:',
+          'address' : 'Address:',
+          'route' : '',
+          'zoomin' : 'Zoom in',
+          'zoomout' : 'Zoom out',
+          'centermap' : 'Center map here',
+          'fromhere' : 'Directions from here',
+          'tohere' : 'Directions to here'
+        }
+      },
+      'es' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Search:',
+          'address' : 'Dirección:',
+          'route' : '',
+          'zoomin' : 'Aumentar zoom',
+          'zoomout' : 'Reducir zoom',
+          'centermap' : 'Centrar mapa aquí',
+          'fromhere' : 'Ruta desde aqui',
+          'tohere' : 'Ruta hacia aqui'
+        }
+      },
+      'eu' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Bilatu:',
+          'address' : 'Helbidea:',
+          'route' : '',
+          'zoomin' : 'Handitu',
+          'zoomout' : 'Txikitu',
+          'centermap' : 'Zentroa mapa hemen',
+          'fromhere' : 'Jarraibideak hemendik',
+          'tohere' : 'Jarraibideak hona'
+        }
+      },
+      'fa' : {
+        'dir' : 'rtl',
+        'string' : {
+          'search' : 'جستجو.:',
+          'address' : 'آدرس؛:',
+          'route' : '',
+          'zoomin' : 'بزرگ کردن',
+          'zoomout' : 'کوچک کردن',
+          'centermap' : 'مرکز نقشه اینجا',
+          'fromhere' : 'مسیرها از اینجا',
+          'tohere' : 'مسیرها به اینجا'
+        }
+      },
+      'fi' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Haku:',
+          'address' : 'Osoite:',
+          'route' : '',
+          'zoomin' : 'Lähennä',
+          'zoomout' : 'Loitonna',
+          'centermap' : 'Keskitä kartta tähän',
+          'fromhere' : 'Reittiohjeet täältä',
+          'tohere' : 'Reittiohjeet tänne'
+        }
+      },
+      'fil' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Search:',
+          'address' : 'Address:',
+          'route' : '',
+          'zoomin' : 'I-zoom in',
+          'zoomout' : 'I-zoom out',
+          'centermap' : 'Center mapa dito',
+          'fromhere' : 'Mga direksyon mula dito',
+          'tohere' : 'Mga direksyon papunta dito'
+        }
+      },
+      'fr' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Recherche:',
+          'address' : 'Adresse:',
+          'route' : '',
+          'zoomin' : 'Faire un zoom avant',
+          'zoomout' : 'Faire un zoom arrière',
+          'centermap' : 'Centre carte ici',
+          'fromhere' : 'Itinéraire à partir de ce lieu',
+          'tohere' : 'Itinéraire vers ce lieu'
+        }
+      },
+      'gl' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Busca:',
+          'address' : 'Enderezo:',
+          'route' : '',
+          'zoomin' : 'Achegar',
+          'zoomout' : 'Afastar',
+          'centermap' : 'Centrar mapa aquí',
+          'fromhere' : 'Indicacións desde aquí',
+          'tohere' : 'Indicacións ata aquí'
+        }
+      },
+      'gu' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'શોધ;',
+          'address' : 'સરનામું;',
+          'route' : '',
+          'zoomin' : 'ઝૂમ વધારો',
+          'zoomout' : 'ઝૂમ ઘટાડો',
+          'centermap' : 'અહીં કેન્દ્ર નકશો',
+          'fromhere' : 'અહીંથી દિશા-નિર્દેશો',
+          'tohere' : 'અહીં સુધી દિશા-નિર્દેશો'
+        }
+      },
+      'hi' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'खोज:',
+          'address' : 'पता:',
+          'route' : '',
+          'zoomin' : 'ज़ूम बढ़ाएं',
+          'zoomout' : 'ज़ूम घटाएं',
+          'centermap' : 'यहां केंद्र नक्शा',
+          'fromhere' : 'यहां से दिशानिर्देश',
+          'tohere' : 'यहां के लिए दिशानिर्देश'
+        }
+      },
+      'hr' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Pretraga:',
+          'address' : 'Adresa:',
+          'route' : '',
+          'zoomin' : 'Povećaj',
+          'zoomout' : 'Smanji',
+          'centermap' : 'Centar karta ovdje',
+          'fromhere' : 'Upute odavde',
+          'tohere' : 'Upute dovde'
+        }
+      },
+      'hu' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Keresés:',
+          'address' : 'Címét:',
+          'route' : '',
+          'zoomin' : 'Nagyítás',
+          'zoomout' : 'Kicsinyítés',
+          'centermap' : 'Térkép középpontja',
+          'fromhere' : 'Útvonal innen',
+          'tohere' : 'Útvonal ide'
+        }
+      },
+      'id' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Cari:',
+          'address' : 'Alamat:',
+          'route' : '',
+          'zoomin' : 'Perbesar',
+          'zoomout' : 'Perkecil',
+          'centermap' : 'Pusat peta di sini',
+          'fromhere' : 'Petunjuk arah dari sini',
+          'tohere' : 'Petunjuk arah ke sini'
+        }
+      },
+      'it' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Ricerca:',
+          'address' : 'Indirizzo:',
+          'route' : '',
+          'zoomin' : 'Aumenta lo zoom',
+          'zoomout' : 'Diminuisci lo zoom',
+          'centermap' : 'Centra la mappa qui',
+          'fromhere' : 'Indicazioni stradali da qui',
+          'tohere' : 'Indicazioni stradali fino a qui'
+        }
+      },
+      'iw' : {
+        'dir' : 'rtl',
+        'string' : {
+          'search' : 'חיפוש:',
+          'address' : 'כתובת:',
+          'route' : '',
+          'zoomin' : 'להתקרב',
+          'zoomout' : 'להתרחק',
+          'centermap' : 'מרכז המפה כאן',
+          'fromhere' : 'מסלול מכאן',
+          'tohere' : 'מסלול לכאן'
+        }
+      },
+      'ja' : {
+        'dir' : '',
+        'string' : {
+          'search' : '検索:',
+          'address' : '住所:',
+          'route' : '',
+          'zoomin' : 'ズームイン',
+          'zoomout' : 'ズームアウト',
+          'centermap' : 'ここでセンターマップ',
+          'fromhere' : 'ここからのルート',
+          'tohere' : 'ここへのルート'
+        }
+      },
+      'kn' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'ಹುಡುಕು:',
+          'address' : 'ವಿಳಾಸ:',
+          'route' : '',
+          'zoomin' : 'ಜೂಮ್ ಇನ್',
+          'zoomout' : 'ಜೂಮ್ ಔಟ್',
+          'centermap' : 'ಇಲ್ಲಿ ಕೇಂದ್ರ ನಕ್ಷೆ',
+          'fromhere' : 'ಇಲ್ಲಿಂದ ದಿಕ್ಕುಗಳು',
+          'tohere' : 'ಇಲ್ಲಿಗೆ ದಿಕ್ಕುಗಳು'
+        }
+      },
+      'ko' : {
+        'dir' : '',
+        'string' : {
+          'search' : '검색:',
+          'address' : '주소:',
+          'route' : '',
+          'zoomin' : '확대',
+          'zoomout' : '축소',
+          'centermap' : '여기에 센터지도',
+          'fromhere' : '여기를 출발지로 설정',
+          'tohere' : '여기를 목적지로 설정'
+        }
+      },
+      'lt' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Paieška:',
+          'address' : 'Adresas:',
+          'route' : '',
+          'zoomin' : 'Artinti',
+          'zoomout' : 'Tolinti',
+          'centermap' : 'Parodyti žemėlapyje čia',
+          'fromhere' : 'Nurodymai keliaujant iš čia',
+          'tohere' : 'Nurodymai keliaujant į čia'
+        }
+      },
+      'lv' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Meklēšana:',
+          'address' : 'Udrese:',
+          'route' : '',
+          'zoomin' : 'Tuvināt',
+          'zoomout' : 'Tālināt',
+          'centermap' : 'Center karte šeit',
+          'fromhere' : 'Norādes no šejienes',
+          'tohere' : 'Norādes uz šejieni'
+        }
+      },
+      'ml' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'തിരച്ചിൽ:',
+          'address' : 'വിലാസം:',
+          'route' : '',
+          'zoomin' : 'സൂം ഇന്‍',
+          'zoomout' : 'സൂം ഔട്ട്',
+          'centermap' : 'ഇവിടെ കേന്ദ്രം മാപ്പ്',
+          'fromhere' : 'ഇവിടെ നിന്നുള്ള വഴികൾ',
+          'tohere' : 'ഇവിടേയ്ക്കുള്ള യാത്രാവഴികൾ'
+        }
+      },
+      'mr' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'शोध:',
+          'address' : 'पत्ता:',
+          'route' : '',
+          'zoomin' : 'झूम वाढवा',
+          'zoomout' : 'झूम कमी करा',
+          'centermap' : 'नकाशा येथे केंद्रित करा',
+          'fromhere' : 'येथून दिशा-निर्देश',
+          'tohere' : 'इथपर्यंतचे दिशा-निर्देश'
+        }
+      },
+      'nl' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Zoeken:',
+          'address' : 'Adres:',
+          'route' : '',
+          'zoomin' : 'Inzoomen',
+          'zoomout' : 'Uitzoomen',
+          'centermap' : 'Plattegrond van het Center hier',
+          'fromhere' : 'Routebeschrijving vanaf dit punt',
+          'tohere' : 'Routebeschrijving naar dit punt'
+        }
+      },
+      'no' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Søk:',
+          'address' : 'Adresse:',
+          'route' : '',
+          'zoomin' :  'Zoom ind',
+          'zoomout' : 'Zoom ud',
+          'centermap' : 'Senter kartet her',
+          'fromhere' : 'Veibeskrivelse herfra',
+          'tohere' : 'Veibeskrivelse hit'
+        }
+      },
+      'pl' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Szukaj:',
+          'address' : 'Adres:',
+          'route' : '',
+          'zoomin' : 'Powiększ',
+          'zoomout' : 'Pomniejsz',
+          'centermap' : 'Wyśrodkuj mapę tutaj',
+          'fromhere' : 'Wskazówki dojazdu z tego miejsca',
+          'tohere' : 'Wskazówki dojazdu do tego miejsca'
+        }
+      },
+      'pt' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Busca:',
+          'address' : 'Endereço:',
+          'route' : '',
+          'zoomin' : 'Aumentar o zoom',
+          'zoomout' : 'Diminuir o zoom',
+          'centermap' : 'Centralizar mapa aqui',
+          'fromhere' : 'Rotas a partir daqui',
+          'tohere' : 'Rotas até aqui'
+        }
+      },
+      'pt-PT' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Busca:',
+          'address' : 'Endereço:',
+          'route' : '',
+          'zoomin' : 'Aumentar o zoom',
+          'zoomout' : 'Diminuir o zoom',
+          'centermap' : 'Centralizar mapa aqui',
+          'fromhere' : 'Direcções a partir daqui',
+          'tohere' : 'Direcções até aqui'
         }
       },
       'pt-BR' : {
-        'controls' : {
-          'search' : 'Busca:'
-        },
-        'tooltip' : {
-          'addres' : 'Endereço:',
-          'route' : 'Rota:',
-          'tohere' : 'Para Cá',
-          'fromhere' : 'Daqui',
+        'dir' : '',
+        'string' : {
+          'search' : 'Busca:',
+          'address' : 'Endereço:',
+          'route' : '',
+          'zoomin' : 'Aumentar o zoom',
+          'zoomout' : 'Diminuir o zoom',
+          'centermap' : 'Centralizar mapa aqui',
+          'fromhere' : 'Rotas a partir daqui',
+          'tohere' : 'Rotas até aqui'
+        }
+      },
+      'ro' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Căutare:',
+          'address' : 'Adresa:',
+          'route' : '',
+          'zoomin' : 'Măriți',
+          'zoomout' : 'Micșorați',
+          'centermap' : 'Centrarea hărții aici',
+          'fromhere' : 'Indicații din acest loc',
+          'tohere' : 'Indicaţii către acest loc'
+        }
+      },
+      'ru' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Поиск:',
+          'address' : 'Адрес:',
+          'route' : '',
+          'zoomin' : 'Приблизить',
+          'zoomout' : 'Отдалить',
+          'centermap' : 'Центр Карта здесь',
+          'fromhere' : 'Проложить маршрут отсюда',
+          'tohere' : 'Проложить маршрут сюда'
+        }
+      },
+      'sk' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Hľadať:',
+          'address' : 'Adresa:',
+          'route' : '',
+          'zoomin' : 'Priblížiť',
+          'zoomout' : 'Oddialiť',
+          'centermap' : 'Centrum mapu tu',
+          'fromhere' : 'Trasy smerom odtiaľto',
+          'tohere' : 'Trasy smerom sem'
+        }
+      },
+      'sl' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Iskanje:',
+          'address' : 'Naslov:',
+          'route' : '',
+          'zoomin' : 'Povečaj',
+          'zoomout' : 'Pomanjšaj',
+          'centermap' : 'Osredini zemljevid',
+          'fromhere' : 'Navodila za pot od tu',
+          'tohere' : 'Navodila za pot do sem'
+        }
+      },
+      'sr' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Тражи:',
+          'address' : 'Адреса:',
+          'route' : '',
+          'zoomin' : 'Увећај',
+          'zoomout' : 'Умањи',
+          'centermap' : 'Центар карту овде',
+          'fromhere' : 'Путања одавде',
+          'tohere' : 'Путања довде'
+        }
+      },
+      'sv' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Sök:',
+          'address' : 'Adress:',
+          'route' : '',
+          'zoomin' : 'Zooma in',
+          'zoomout' : 'Zooma ut',
+          'centermap' : 'Centrera kartan här',
+          'fromhere' : 'Vägbeskrivning härifrån',
+          'tohere' : 'Vägbeskrivning hit'
+        }
+      },
+      'ta' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'தேடல்:',
+          'address' : 'முகவரி:',
+          'route' : '',
+          'zoomin' : 'பெரிதாக்கு',
+          'zoomout' : 'சிறிதாக்கு',
+          'centermap' : 'மையப்படுத்தவும்',
+          'fromhere' : 'இங்கிருந்து திசைகள்',
+          'tohere' : 'இங்கு வரையிலான திசைகள்'
+        }
+      },
+      'te' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'శోధన:',
+          'address' : 'చిరునామా:',
+          'route' : '',
+          'zoomin' : 'దగ్గరికి జూమ్ చెయ్యి',
+          'zoomout' : 'దూరంగా జూమ్ చెయ్యి',
+          'centermap' : 'ఇక్కడ కేంద్రం చిహ్నం',
+          'fromhere' : 'ఇక్కడ నుండి దిశలు',
+          'tohere' : 'ఇక్కడికి దిశలు'
+        }
+      },
+      'th' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'ค้นหา:',
+          'address' : 'ที่อยู่:',
+          'route' : '',
+          'zoomin' : 'ซูมเข้า',
+          'zoomout' : 'ซูมออก',
+          'centermap' : 'แผนที่ศูนย์นี่',
+          'fromhere' : 'เส้นทางจากที่นี่',
+          'tohere' : 'เส้นทางมาถึงที่นี่'
+        }
+      },
+      'tl' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Search:',
+          'address' : 'Address:',
+          'route' : '',
+          'zoomin' : 'I-zoom in',
+          'zoomout' : 'I-zoom out',
+          'centermap' : 'Center mapa dito',
+          'fromhere' : 'Mga direksyon mula dito',
+          'tohere' : 'Mga direksyon papunta dito'
+        }
+      },
+      'tr' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Arama:',
+          'address' : 'Adres:',
+          'route' : '',
+          'zoomin' : 'Yakınlaştır',
+          'zoomout' : 'Uzaklaştır',
+          'centermap' : 'Burada Haritayı Ortala',
+          'fromhere' : 'Buradan başka bir noktaya yol tarifi',
+          'tohere' : 'Buraya yol tarifi'
+        }
+      },
+      'uk' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Пошук:',
+          'address' : 'Адреса:',
+          'route' : '',
+          'zoomin' : 'Наблизити',
+          'zoomout' : 'Віддалити',
+          'centermap' : 'Центр Карта тут',
+          'fromhere' : 'Маршрути звідси',
+          'tohere' : 'Маршрути сюди'
+        }
+      },
+      'vi' : {
+        'dir' : '',
+        'string' : {
+          'search' : 'Tìm kiếm:',
+          'address' : 'Địa chỉ:',
+          'route' : '',
+          'zoomin' : 'Phóng to',
+          'zoomout' : 'Thu nhỏ',
+          'centermap' : 'Trung tâm bản đồ ở đây',
+          'fromhere' : 'Chỉ đường từ đây',
+          'tohere' : 'Chỉ đường tới đây'
+        }
+      },
+      'zh-CN' : {
+        'dir' : '',
+        'string' : {
+          'search' : '搜索:',
+          'address' : '地址:',
+          'route' : '',
+          'zoomin' : '放大',
+          'zoomout' : '缩小',
+          'centermap' : '中心地图在这里',
+          'fromhere' : '从此处出发的路线',
+          'tohere' : '前往此处的路线'
+        }
+      },
+      'zh-TW' : {
+        'dir' : '',
+        'string' : {
+          'search' : '搜索:',
+          'address' : '地址:',
+          'route' : '',
+          'zoomin' : '放大',
+          'zoomout' : '縮小',
+          'centermap' : '中心地圖在這裡',
+          'fromhere' : '從這裡出發的路線',
+          'tohere' : '到達此處的路線'
         }
       }
     },
@@ -261,7 +928,7 @@
         case 'fi':return 'Suomi';break;
         case 'fil':return 'Pilipino';break;
         case 'fr':return 'Français';break;
-        case 'ga':return 'Galego';break;
+        case 'gl':return 'Galego';break;
         case 'gu':return 'ગુજરાતી';break;
         case 'hi':return 'हिन्दी';break;
         case 'hr':return 'Hrvatska';break;
@@ -556,10 +1223,8 @@
         Set : {
           Template : {
             Tooltip : function(self) {
-              var language = (self.hasAttribute('language') && self.getAttribute('language') != '') ? self.getAttribute('language') : App.BrowserLanguage();
-              console.log(self);
-              console.log(App.Translate[language]);
-              console.log(language);
+              var language = (self.hasAttribute('language') && self.getAttribute('language') != '') ? self.getAttribute('language') : App.BrowserLanguage(),
+                  lang = App.Translate[language];
               var main = document.createElement('div');
               main.setAttribute('class', "gm-tooltip");
                 var div0 = document.createElement('div');
@@ -567,6 +1232,7 @@
                 main.appendChild(div0);
                   var div1 = document.createElement('div');
                   div1.setAttribute('class', "gs-localResult gs-result");
+                  div1.setAttribute('dir', lang.dir);
                   div0.appendChild(div1);
                     var div2 = document.createElement('div');
                     div2.setAttribute('class', "gs-title");
@@ -575,7 +1241,7 @@
                       a1.setAttribute('class', "gs-title-a");
                       a1.setAttribute('href', "http://www.google.com/maps?source=uds&q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}");
                       a1.setAttribute('target',"_blank");
-                      a1.innerHTML = "Endereço:";
+                      a1.innerHTML = lang.string.address;
                       div2.appendChild(a1);
                     var div3 = document.createElement('div');
                     div3.setAttribute('class', "gs-address");
@@ -584,7 +1250,7 @@
                       span1.setAttribute('class', "gs-street gs-addressLine");
                       div3.appendChild(span1);
                         var a2 = document.createElement('a');
-                        a2.setAttribute('href', "http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0");
+                        a2.setAttribute('href', "http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=" + language + "&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0");
                         a2.setAttribute('target',"_blank");
                         a2.innerHTML = "{{raw_route.long_name}}, {{raw_nr}} {{raw_bairro}}";
                         span1.appendChild(a2);
@@ -596,7 +1262,7 @@
                       span3.setAttribute('class', "gs-city gs-addressLine");
                       div3.appendChild(span3);
                         var a3 = document.createElement('a');
-                        a3.setAttribute('href', "http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=pt-BR&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0");
+                        a3.setAttribute('href', "http://maps.google.com/maps/place?q={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}&amp;hl=" + language + "&amp;authuser=0&amp;cd=1&amp;cad=src:ppiwlink&amp;ei=3xfFT4K-MY-IzAWZkcXlDQ&amp;dtab=0");
                         a3.setAttribute('target',"_blank");
                         a3.innerHTML = "{{raw_locality.long_name}}/{{raw_administrative_area_level_1.short_name}}";
                         span3.appendChild(a3);
@@ -605,7 +1271,7 @@
                     div1.appendChild(div4);
                       var span4 = document.createElement('span');
                       span4.setAttribute('class', "gs-label");
-                      span4.innerHTML = "Rota:&nbsp;";
+                      span4.innerHTML = lang.string.route;
                       div4.appendChild(span4);
                       var span5 = document.createElement('span');
                       span5.setAttribute('class', "gs-secondary-link");
@@ -614,7 +1280,7 @@
                         a4.setAttribute('class', "gs-secondary-link-a");
                         a4.setAttribute('href', "http://www.google.com/maps?source=uds&daddr={{route.long_name}}%2C+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}%2C {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:to");
                         a4.setAttribute('target',"_blank");
-                        a4.innerHTML = "Para cá";
+                        a4.innerHTML = lang.string.tohere;
                         span5.appendChild(a4);
                       var span5 = document.createElement('span');
                       span5.setAttribute('class', "gs-spacer");
@@ -627,7 +1293,7 @@
                         a5.setAttribute('class', "gs-secondary-link-a");
                         a5.setAttribute('href', "http://www.google.com/maps?source=uds&saddr={{route.long_name}},+{{nr}}+{{bairro}}{{locality.long_name}}+-+{{administrative_area_level_1.short_name}}, {{cep}}{{country.long_name}}+({{route.long_name}},+{{nr}})+@+{{latitude}},{{longitude}}&iwstate1=dir:from");
                         a5.setAttribute('target',"_blank");
-                        a5.innerHTML = "Daqui";
+                        a5.innerHTML = lang.string.fromhere;
                         span6.appendChild(a5);
               return main;
             },
@@ -831,6 +1497,8 @@
             },
             ContextMenu : function(map, self) {
               if((self.hasAttribute('contextMenuControl') && self.getAttribute('contextMenuControl') != '') || (self.getAttribute('contextMenuControl') == 'true')) {
+                var language = (self.hasAttribute('language') && self.getAttribute('language') != '') ? self.getAttribute('language') : App.BrowserLanguage(),
+                    lang = App.Translate[language];
                 //Construtor
                 function ContextMenu(map, options){
                   options = options || {};
@@ -901,6 +1569,7 @@
                   if(this.classNames_.menu){
                     menu.className = this.classNames_.menu;
                   }
+                  menu.setAttribute('dir', lang.dir);
                   menu.style.cssText = 'display:none; position:absolute';
                   for(var i = 0, j = this.menuItems_.length; i<j; i++){
                     if(this.menuItems_[i].label && this.menuItems_[i].eventName){
@@ -944,15 +1613,15 @@
                 var contextMenuOptions = {};
                 contextMenuOptions.classNames = {menu:'context_menu', menuSeparator:'context_menu_separator'};
                 var menuItems = [];
-                menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Rota daqui'});
-                menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Rota para cá'});
+                menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label: lang.string.fromhere});
+                menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label: lang.string.tohere});
                 menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Apagar rotas'});
                 menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter rotas'});
                 menuItems.push({});
-                menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Aumentar o zoom'});
-                menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Diminuir o zoom'});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label: lang.string.zoomin});
+                menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label: lang.string.zoomout});
                 menuItems.push({});
-                menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Centrarlizar mapa aqui'});
+                menuItems.push({className:'context_menu_item', eventName:'center_map_click', label: lang.string.centermap});
                 contextMenuOptions.menuItems = menuItems;
                 var contextMenu = new ContextMenu(map, contextMenuOptions);
                 google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
@@ -1150,8 +1819,6 @@
       //Finalmente Registra o Elemento
       try {
         document.registerElement('google-map', {prototype: proto});
-      } catch(e) {
-        //console.log(e);
-      }
+      } catch(e) {}
   }
 </script>
