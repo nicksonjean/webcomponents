@@ -67,7 +67,6 @@
     .pac-input{margin-top:11px;background-color:#fff;font-family:Roboto, Arial, sans-serif;font-size:11px;font-weight:300;margin-left:12px;padding:0 11px 0 13px;text-overflow:ellipsis;width:240px;position:absolute;z-index:16}
     .pac-input.controls{margin-top:11px;border:1px solid transparent;border-radius:2px;box-sizing:border-box;-moz-box-sizing:border-box;height:29px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
     .pac-input:focus{border-color:#4d90fe;}
-    /*Search Field*/
     .pac-container{font-family:Roboto;background-color:#FFF;position:absolute !important;z-index:1000;border-radius:2px;border-top:1px solid #D9D9D9;font-family:Arial,sans-serif;box-shadow:0px 2px 6px rgba(0,0,0,0.3);box-sizing:border-box;overflow:hidden;}
     .pac-container{z-index:10000 !important;width:238px !important;display:block !important;}
     .pac-container:empty{display:none !important;}
@@ -82,15 +81,16 @@
     .context_menu{font-family:Roboto;}
     .context_menu{background-color:#FFF;border-radius:2px;border-top:1px solid #D9D9D9;font-family:Arial,sans-serif;box-shadow:0px 2px 6px rgba(0,0,0,0.3);box-sizing:border-box;}
     .context_menu_item{background-color:#fff;font-family:Roboto,Arial,sans-serif;font-size:11px;font-weight:300;padding:6px 11px 6px 13px;text-overflow:ellipsis;}
-    .context_menu_item:hover{background-color:#fafafa;}
-    .context_menu_separator{background-color:#e6e6e6;height:1px;margin:0;padding:0;}
+    .context_menu_item:hover{background-color:rgb(235,235,235);}
+    .context_menu_separator{background-color:rgb(235,235,235);height:1px;margin:0;padding:0;}
     #clearDirectionsItem,#getDirectionsItem{display:none;}
     /*Language Drop Down*/
     .dropdown-container{position:absolute;margin-top:11px;}
     .dropdown{position:relative;display:inline-block;}
     .dropdown .dropdown-menu{position:absolute;top:100%;border-bottom-left-radius:2px;border-bottom-right-radius:2px;box-shadow:rgba(0,0,0,0.298039) 0px 1px 4px -1px;left:0px;right:0px;text-align:left;background-color:white;display:none;margin:0;list-style:none;width:100%;padding:0;z-index:999;}
-    .dropdown:hover .dropdown-menu{display:block;height:195px;overflow:auto !important;}
+    .dropdown:hover .dropdown-menu{display:block;height:200px;overflow:auto !important;}
     .dropdown button{cursor:pointer;min-width:120px;border:none;direction:ltr;overflow:hidden;text-align:left;position:relative;color:rgb(0,0,0);font-family:Roboto,Arial,sans-serif;-webkit-user-select:none;font-size:11px;padding:8px;border-radius:2px;-webkit-background-clip:padding-box;box-shadow:rgba(0,0,0,0.298039) 0px 1px 4px -1px;font-weight:500;background-color:rgb(255,255,255);background-clip:padding-box;z-index:1000;}
+    .dropdown button:hover{background-color:rgb(235,235,235);}
     .dropdown li{padding:2px;}
     .dropdown a{z-index:999;display:block;text-decoration:none;color:rgb(86,86,86);font-family:Roboto,Arial,sans-serif;-webkit-user-select:none;font-size:11px;padding:8px;font-weight:500;background-color:rgb(255,255,255);}
     .dropdown a:hover{background-color:rgb(235,235,235);}
@@ -338,7 +338,7 @@
       'es' : {
         'dir' : '',
         'string' : {
-          'search' : 'Search:',
+          'search' : 'Búsqueda:',
           'address' : 'Dirección:',
           'route' : '',
           'zoomin' : 'Aumentar zoom',
@@ -629,7 +629,7 @@
           'zoomin' : 'സൂം ഇന്‍',
           'zoomout' : 'സൂം ഔട്ട്',
           'centermap' : 'ഇവിടെ കേന്ദ്രം മാപ്പ്',
-          'erasedirection' : 'വ്യക്തമായ നിർദേശങ്ങൾ',
+          'erasedirection' : 'ദിശകൾ മായ്ക്കുക',
           'getdirection' : 'ദിശകൾ നേടുക',
           'fromhere' : 'ഇവിടെ നിന്നുള്ള വഴികൾ',
           'tohere' : 'ഇവിടേയ്ക്കുള്ള യാത്രാവഴികൾ'
@@ -644,7 +644,7 @@
           'zoomin' : 'झूम वाढवा',
           'zoomout' : 'झूम कमी करा',
           'centermap' : 'नकाशा येथे केंद्रित करा',
-          'erasedirection' : 'याबाबत स्पष्ट सूचना',
+          'erasedirection' : 'दिशा-निर्देश पुसून टाका',
           'getdirection' : 'दिशा-निर्देश मिळवा',
           'fromhere' : 'येथून दिशा-निर्देश',
           'tohere' : 'इथपर्यंतचे दिशा-निर्देश'
@@ -659,7 +659,7 @@
           'zoomin' : 'Inzoomen',
           'zoomout' : 'Uitzoomen',
           'centermap' : 'Plattegrond van het Center hier',
-          'erasedirection' : 'Duidelijk routebeschrijving',
+          'erasedirection' : 'Wissen routebeschrijving',
           'getdirection' : 'Krijgen routebeschrijving',
           'fromhere' : 'Routebeschrijving vanaf dit punt',
           'tohere' : 'Routebeschrijving naar dit punt'
@@ -674,7 +674,7 @@
           'zoomin' :  'Zoom ind',
           'zoomout' : 'Zoom ud',
           'centermap' : 'Senter kartet her',
-          'erasedirection' : 'Klare veibeskrivelse',
+          'erasedirection' : 'Viske veibeskrivelse',
           'getdirection' : 'Få veibeskrivelse',
           'fromhere' : 'Veibeskrivelse herfra',
           'tohere' : 'Veibeskrivelse hit'
@@ -689,8 +689,8 @@
           'zoomin' : 'Powiększ',
           'zoomout' : 'Pomniejsz',
           'centermap' : 'Wyśrodkuj mapę tutaj',
-          'erasedirection' : 'Jasne wskazówki dojazdu',
-          'getdirection' : 'Pobierz wskazówki dojazdu',
+          'erasedirection' : 'Wymazać wskazówki dojazdu',
+          'getdirection' : 'Uzyskać wskazówki dojazdu',
           'fromhere' : 'Wskazówki dojazdu z tego miejsca',
           'tohere' : 'Wskazówki dojazdu do tego miejsca'
         }
@@ -764,8 +764,8 @@
           'zoomin' : 'Приблизить',
           'zoomout' : 'Отдалить',
           'centermap' : 'Центр Карта здесь',
-          'erasedirection' : 'Стереть показания',
-          'getdirection' : 'Получить показания',
+          'erasedirection' : 'Стереть направления',
+          'getdirection' : 'Получить направление',
           'fromhere' : 'Проложить маршрут отсюда',
           'tohere' : 'Проложить маршрут сюда'
         }
@@ -794,7 +794,7 @@
           'zoomin' : 'Povečaj',
           'zoomout' : 'Pomanjšaj',
           'centermap' : 'Osredini zemljevid',
-          'erasedirection' : 'Jasne navodila',
+          'erasedirection' : 'Izbrisali navodila',
           'getdirection' : 'Pridobite navodila',
           'fromhere' : 'Navodila za pot od tu',
           'tohere' : 'Navodila za pot do sem'
@@ -809,7 +809,7 @@
           'zoomin' : 'Увећај',
           'zoomout' : 'Умањи',
           'centermap' : 'Центар карту овде',
-          'erasedirection' : 'Јасне путања',
+          'erasedirection' : 'Ерасе путања',
           'getdirection' : 'Гет путања',
           'fromhere' : 'Путања одавде',
           'tohere' : 'Путања довде'
@@ -824,7 +824,7 @@
           'zoomin' : 'Zooma in',
           'zoomout' : 'Zooma ut',
           'centermap' : 'Centrera kartan här',
-          'erasedirection' : 'Tydliga vägbeskrivning',
+          'erasedirection' : 'Radera vägbeskrivning',
           'getdirection' : 'Få vägbeskrivning',
           'fromhere' : 'Vägbeskrivning härifrån',
           'tohere' : 'Vägbeskrivning hit'
@@ -839,8 +839,8 @@
           'zoomin' : 'பெரிதாக்கு',
           'zoomout' : 'சிறிதாக்கு',
           'centermap' : 'மையப்படுத்தவும்',
-          'erasedirection' : 'தெளிவு திசைகளில்',
-          'getdirection' : 'திசைகளில் கிடைக்கும்',
+          'erasedirection' : 'திசைகளில் அழிக்கவும்',
+          'getdirection' : 'திசைகளில் பெற',
           'fromhere' : 'இங்கிருந்து திசைகள்',
           'tohere' : 'இங்கு வரையிலான திசைகள்'
         }
@@ -854,7 +854,7 @@
           'zoomin' : 'దగ్గరికి జూమ్ చెయ్యి',
           'zoomout' : 'దూరంగా జూమ్ చెయ్యి',
           'centermap' : 'ఇక్కడ కేంద్రం చిహ్నం',
-          'erasedirection' : 'స్పష్టంగా ఆదేశాలు',
+          'erasedirection' : 'ఆదేశాలు వేయండి',
           'getdirection' : 'దిశలను పొందండి',
           'fromhere' : 'ఇక్కడ నుండి దిశలు',
           'tohere' : 'ఇక్కడికి దిశలు'
@@ -869,7 +869,7 @@
           'zoomin' : 'ซูมเข้า',
           'zoomout' : 'ซูมออก',
           'centermap' : 'แผนที่ศูนย์นี่',
-          'erasedirection' : 'ทิศทางที่ชัดเจน',
+          'erasedirection' : 'ทิศทางลบ',
           'getdirection' : 'ขอเส้นทาง',
           'fromhere' : 'เส้นทางจากที่นี่',
           'tohere' : 'เส้นทางมาถึงที่นี่'
@@ -899,8 +899,8 @@
           'zoomin' : 'Yakınlaştır',
           'zoomout' : 'Uzaklaştır',
           'centermap' : 'Burada Haritayı Ortala',
-          'erasedirection' : 'Tarifi silin',
-          'getdirection' : 'Tarifi alın',
+          'erasedirection' : 'Yol tarifi silecektir',
+          'getdirection' : 'Yol tarifi almak',
           'fromhere' : 'Buradan başka bir noktaya yol tarifi',
           'tohere' : 'Buraya yol tarifi'
         }
@@ -914,8 +914,8 @@
           'zoomin' : 'Наблизити',
           'zoomout' : 'Віддалити',
           'centermap' : 'Центр Карта тут',
-          'erasedirection' : 'стерти напрямки',
-          'getdirection' : 'Прокласти маршрут',
+          'erasedirection' : 'стерти маршрути',
+          'getdirection' : 'Отримати маршрути',
           'fromhere' : 'Маршрути звідси',
           'tohere' : 'Маршрути сюди'
         }
@@ -929,7 +929,7 @@
           'zoomin' : 'Phóng to',
           'zoomout' : 'Thu nhỏ',
           'centermap' : 'Trung tâm bản đồ ở đây',
-          'erasedirection' : 'Xóa hướng',
+          'erasedirection' : 'Xoá bỏ các hướng',
           'getdirection' : 'Nhận sự chỉ dẫn',
           'fromhere' : 'Chỉ đường từ đây',
           'tohere' : 'Chỉ đường tới đây'
@@ -1147,6 +1147,13 @@
                   }
                 });
               });
+
+              google.maps.event.addListenerOnce(map, 'idle', function(){
+                setTimeout(function(){
+                  //map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                },3000);
+              });
+
             }
           }
           self.setAttribute('address', App.Ext.Map.Get.Address(mapAddress));
@@ -1405,9 +1412,12 @@
             },
             Search : function(self, element) {
               if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
+                var language = (element.hasAttribute('language') && element.getAttribute('language') != '') ? element.getAttribute('language') : App.BrowserLanguage(),
+                    lang = App.Translate[language];
                 var newNode = document.createElement("input");
                 newNode.setAttribute('type', 'search');
-                newNode.setAttribute('placeholder', 'Busca:');
+                newNode.setAttribute('placeholder', lang.string.search);
+                newNode.setAttribute('dir', lang.dir);
                 newNode.setAttribute('class', 'pac-input controls clearfix');
                 if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.userAgent.toLowerCase().indexOf('trident') > -1) {
                   newNode.style.left = 'calc(' + self.style.width + ' - ' + '262px)';
@@ -1721,8 +1731,8 @@
                 var menuItems = [];
                 menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label: lang.string.fromhere});
                 menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label: lang.string.tohere});
-                menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'erasedirectionsItem', label:'Apagar rotas'});
-                menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Obter rotas'});
+                menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'erasedirectionsItem', label: lang.string.erasedirection});
+                menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label: lang.string.getdirection});
                 menuItems.push({});
                 menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label: lang.string.zoomin});
                 menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label: lang.string.zoomout});
@@ -1837,6 +1847,29 @@
                   self.setAttribute('longitude',App.Default.longitude);
             }
             return [latitude,longitude];
+          },
+          MapTypeTMP : function(self, map) {
+            if(self.hasAttribute('maptype_tmp') && self.getAttribute('maptype_tmp') != '') {
+              switch(self.getAttribute('maptype_tmp')) {
+                case 'ROADMAP':
+                  map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                break;
+                case 'TERRAIN':
+                  map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+                break;
+                case 'SATELLITE':
+                  map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                break;
+                case 'HYBRID':
+                  map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                break;
+                default:
+                  map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+              }
+            }
+            else {
+              map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+            }
           },
           MapType : function(self, map) {
             if(self.hasAttribute('maptype') && self.getAttribute('maptype') != '') {
