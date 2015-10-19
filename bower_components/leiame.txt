@@ -1,0 +1,19 @@
+http://cors.io/
+
+Precisa Saber o IP
+http://www.geoplugin.net/php.gp?ip=187.40.143.205
+Não Retorna a Latitude e Longitude
+http://ifconfig.me/all.json
+
+http://ip-api.com/json/
+
+Livre/Pago
+1000 Requisições Diárias
+http://ipinfo.io/?callback=JSON_CALLBACK
+
+10000 Requisições Horárias
+http://freegeoip.net/json/
+
+
+https://mathiasbynens.be/demo/ip
+http://l2.io/ip/

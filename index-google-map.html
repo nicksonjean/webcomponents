@@ -10,19 +10,6 @@
       body {
         font-family: 'Roboto', sans-serif;
       }
-      span {
-        width:100%;
-        /*
-        display:block;
-        float:left;
-        */
-      }
-      p {
-        height:450px;
-        width:100%;
-        display:block;
-        float:left;
-      }
     </style>
   </head>
   <body>
@@ -46,17 +33,32 @@
 
       <p>
         <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
-        <google-map searchControl="true" address="Rua Raimunda Maria de Souza, 1309, Mossoró/RN" width="400" height="400" return="#latlong" maptype="TERRAIN"></google-map>
+        <google-map 
+          address="Rua Raimunda Maria de Souza, 1309, Mossoró/RN" 
+          width="500" 
+          height="500" 
+          border="true" 
+          tooltip="true"
+          maptype="TERRAIN" 
+          mapTypeControl="true"
+          mapTypeControlStyle="DROPDOWN" 
+          searchControl="true" 
+          languageControl="true"
+          return="#latlong" 
+          markerDrag="true" 
+          returnStyle="true" 
+          returnUpdate="true">
+        </google-map>
         <input type="text" id="latlong" />
       </p>
       -->
       <p>
-        <span style="display:block;">&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
         <google-map 
           latitude="45.518970" 
           longitude="-122.672899" 
-          width="400" 
-          height="400" 
+          width="500" 
+          height="500" 
           border="true" 
           zoom="18"
           tooltip="true"
@@ -68,15 +70,44 @@
           mapTypeControl="true"
           mapTypeControlStyle="BAR"
           streetViewControl="true"
-          searchControl="false"
+          searchControl="true"
           contextMenuControl="true"
           languageControl="true"
           disableDefaultUI="false"
           marker="https://maps.google.com/mapfiles/kml/shapes/schools_maps.png" 
           markerDrag="true"
-          return="#latlong2">
+          return="#latlong2"
+          returnStyle="true"
+          returnUpdate="true">
         </google-map>
       </p>
-
+      <!--
+      <p>
+        <span>&lt;google-map&gt;&lt;/google-map&gt;</span>
+        <google-map
+          width="500" 
+          height="500" 
+          border="true" 
+          zoom="18"
+          tooltip="true"
+          maptype="SATELLITE"
+          scrollWheel="true"
+          zoomControl="true"
+          scaleControl="true"
+          rotateControl="true"
+          mapTypeControl="true"
+          mapTypeControlStyle="BAR"
+          streetViewControl="true"
+          searchControl="true"
+          contextMenuControl="true"
+          languageControl="true"
+          disableDefaultUI="false"
+          markerDrag="true"
+          return="#latlong2"
+          returnStyle="true"
+          returnUpdate="true">
+        <google-map>
+      </p>
+      -->
   </body>
 </html>
