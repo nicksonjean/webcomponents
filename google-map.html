@@ -1073,7 +1073,7 @@
         case 'zh-TW':return '中國（繁體）';break;
       }
     },
-    mapByLatLong : function(self, that) {
+    mapByLatLong : function(self) {
       function loadMapByLatLong() {
         return new Promise(function(resolve) {
           var latitude = App.Ext.Map.Set.Coordinates(self)[0];
@@ -1161,9 +1161,9 @@
               }
               self.setAttribute('address', App.Ext.Map.Get.Address(mapAddress));
               App.Ext.Map.Set.Location(self, App.Ext.Map.Get.Address(mapAddress));
-              App.Ext.Map.Set.Control.Search(map, that, self);
+              App.Ext.Map.Set.Control.Search(map, self);
               App.Ext.Map.Set.Control.ContextMenu(map, self);
-              App.Ext.Map.Set.Control.Language(that, self, App.Languages);
+              App.Ext.Map.Set.Control.Language(self, App.Languages);
             }
           });
           resolve(map);
@@ -1175,7 +1175,7 @@
         window.data(self).instance = instance;
       });
     },
-    mapByAddress : function(self, that) {
+    mapByAddress : function(self) {
       function loadMapByAdress() {
         return new Promise(function(resolve){
           var address = App.Ext.Map.Set.Address(self);
@@ -1263,9 +1263,9 @@
                 self.setAttribute('latitude', coords.lat().toFixed(6));
                 self.setAttribute('longitude', coords.lng().toFixed(6));
                 App.Ext.Map.Set.Location(self, coords.lat().toFixed(6) + ',' + coords.lng().toFixed(6));
-                App.Ext.Map.Set.Control.Search(map, that, self);
+                App.Ext.Map.Set.Control.Search(map, self);
                 App.Ext.Map.Set.Control.ContextMenu(map, self);
-                App.Ext.Map.Set.Control.Language(that, self, App.Languages);
+                App.Ext.Map.Set.Control.Language(self, App.Languages);
               }
             }
           );
@@ -1438,17 +1438,17 @@
                         span6.appendChild(a5);
               return main;
             },
-            Search : function(self, element) {
-              if((element.hasAttribute('searchControl') && element.getAttribute('searchControl') != '') || (element.getAttribute('searchControl') == 'true')) {
-                var language = (element.hasAttribute('language') && element.getAttribute('language') != '') ? element.getAttribute('language') : App.BrowserLanguage(),
+            Search : function(self) {
+              if((self.hasAttribute('searchControl') && self.getAttribute('searchControl') != '') || (self.getAttribute('searchControl') == 'true')) {
+                var language = (self.hasAttribute('language') && self.getAttribute('language') != '') ? self.getAttribute('language') : App.BrowserLanguage(),
                     lang = App.Translate[language];
                 var newNode = document.createElement("input");
                 newNode.setAttribute('type', 'search');
                 newNode.setAttribute('placeholder', lang.string.search);
                 newNode.setAttribute('dir', lang.dir);
                 newNode.setAttribute('class', 'pac-input controls clearfix');
-                if((element.hasAttribute('languageControl') && element.getAttribute('languageControl') != '') && (element.getAttribute('languageControl') == 'true')) {
-                  newNode.style.width = 'calc(' + element.style.width + ' - ' + '354px + 50px)';
+                if((self.hasAttribute('languageControl') && self.getAttribute('languageControl') != '') && (self.getAttribute('languageControl') == 'true')) {
+                  newNode.style.width = 'calc(' + self.style.width + ' - ' + '354px + 50px)';
                   if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || isIE()) {
                     newNode.style.left = 'calc(400px - 262px)';
                     newNode.style.height = '30px';
@@ -1460,14 +1460,14 @@
                 else {
                   newNode.style.width = '240px';
                   if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || isIE()) {
-                    newNode.style.left = 'calc(' + self.style.width + ' - ' + '262px)';
+                    newNode.style.left = 'calc(' + self.element.style.width + ' - ' + '262px)';
                     newNode.style.height = '30px';
                   }
                   else {
-                    newNode.style.left = 'calc(' + self.style.width + ' - ' + '254px)';
+                    newNode.style.left = 'calc(' + self.element.style.width + ' - ' + '254px)';
                   }
                 }
-                self.parentNode.insertBefore(newNode, self);
+                self.element.parentNode.insertBefore(newNode, self.element);
                 return newNode;
               }
             }
@@ -1500,28 +1500,28 @@
             return template;
           },
           Control : {
-            Language : function(self, element, array) {
-              if((element.hasAttribute('languageControl') && element.getAttribute('languageControl') != '') && (element.getAttribute('languageControl') == 'true')) {
+            Language : function(self, array) {
+              if((self.hasAttribute('languageControl') && self.getAttribute('languageControl') != '') && (self.getAttribute('languageControl') == 'true')) {
                 var div = document.createElement('div');
                 div.setAttribute('class', "dropdown-container");
                   if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                    div.style.left = 'calc(' + element.style.width + ' - ' + '146px)';
+                    div.style.left = 'calc(' + self.style.width + ' - ' + '146px)';
                   }
                   else if (isIE()) {
-                    div.style.left = 'calc(' + element.style.width + ' - ' + '142px)';
+                    div.style.left = 'calc(' + self.style.width + ' - ' + '142px)';
                   }
                   else {
-                    div.style.left = 'calc(' + element.style.width + ' - ' + '134px)';
+                    div.style.left = 'calc(' + self.style.width + ' - ' + '134px)';
                   }
                   var span = document.createElement('span');
                   span.setAttribute('class', "dropdown dropdown-wide");
                   div.appendChild(span);
                     var button = document.createElement('button');
-                    if (!element.hasAttribute('language') && element.getAttribute('language') != '') {
+                    if (!self.hasAttribute('language') && self.getAttribute('language') != '') {
                       button.innerHTML = App.ReverseLanguage() + ' &nbsp;<i class="arrow-down"></i>';
                     }
                     else {
-                      button.innerHTML = App.ReverseLanguage(element.getAttribute('language')) + ' &nbsp;<i class="arrow-down"></i>';
+                      button.innerHTML = App.ReverseLanguage(self.getAttribute('language')) + ' &nbsp;<i class="arrow-down"></i>';
                     }
                     span.appendChild(button);
                     var ul = document.createElement('ul');
@@ -1533,22 +1533,22 @@
                       a.setAttribute('data-code',array[i].code);
                       a.onclick = function(){
                         button.innerHTML = this.innerText + ' &nbsp;<i class="arrow-down"></i>';
-                        element.setAttribute('language', this.getAttribute('data-code'));
-                        /*
-                        if (element.hasAttribute('maptype') && element.getAttribute('maptype') != '' && element.getAttribute('maptype') != 'ROADMAP') {
-                          element.setAttribute('maptype_tmp', element.getAttribute('maptype'));
-                          element.setAttribute('maptype', 'ROADMAP');
+                        self.setAttribute('language', this.getAttribute('data-code'));
+                        if (self.hasAttribute('forceUpdate') && self.getAttribute('forceUpdate') != '') {
+                          if (self.hasAttribute('maptype') && self.getAttribute('maptype') != '' && self.getAttribute('maptype') != 'ROADMAP') {
+                            self.setAttribute('maptype_tmp', self.getAttribute('maptype'));
+                            self.setAttribute('maptype', 'ROADMAP');
+                          }
                         }
-                        */
                         setTimeout(function(){ 
-                          if (element.hasAttribute('mapcall') && element.getAttribute('mapcall') != '' && element.getAttribute('mapcall') == 'mapByAddress') {
-                            App.mapByAddress(element, self);
+                          if (self.hasAttribute('mapcall') && self.getAttribute('mapcall') != '' && self.getAttribute('mapcall') == 'mapByAddress') {
+                            App.mapByAddress(self);
                           }
                           else {
-                            App.mapByLatLong(element, self);
+                            App.mapByLatLong(self);
                           }
-                          self.parentNode.removeChild(element.shadowRoot.querySelectorAll(".dropdown-container")[0]);
-                          self.parentNode.removeChild(element.shadowRoot.querySelectorAll(".pac-input")[0]);
+                          self.element.parentNode.removeChild(self.shadowRoot.querySelectorAll(".dropdown-container")[0]);
+                          self.element.parentNode.removeChild(self.shadowRoot.querySelectorAll(".pac-input")[0]);
                           document.body.removeChild(document.body.querySelectorAll(".pac-container")[0]);
                         }, 1500);
                         var lang = this.getAttribute('data-code'), script = document.getElementById("google-maps-script");
@@ -1562,15 +1562,15 @@
                       li.appendChild(a);
                       ul.appendChild(li);
                     }
-                self.parentNode.insertBefore(div, self);
+                self.element.parentNode.insertBefore(div, self.element);
                 return div;
               }
             },
-            Search : function(map, that, self) {
+            Search : function(map, self) {
               if((self.hasAttribute('searchControl') && self.getAttribute('searchControl') != '') && (self.getAttribute('searchControl') == 'true')) {
                 function reloadMap() {
                   return new Promise(function(resolve) {
-                    var input = App.Ext.Map.Set.Template.Search(that, self);
+                    var input = App.Ext.Map.Set.Template.Search(self);
                     var searchBox = new google.maps.places.SearchBox(input);
                     var currentInfoWin = false;
                     map.addListener('bounds_changed', function() {
@@ -1597,12 +1597,12 @@
                           position: place.geometry.location
                         }));
                         mapAddress = App.Ext.Map.Get.Location(place.address_components);
-                        /*
-                        if (self.hasAttribute('maptype') && self.getAttribute('maptype') != '' && self.getAttribute('maptype') != 'ROADMAP') {
-                          self.setAttribute('maptype_tmp', self.getAttribute('maptype'));
-                          self.setAttribute('maptype', 'ROADMAP');
+                        if (self.hasAttribute('forceUpdate') && self.getAttribute('forceUpdate') != '') {
+                          if (self.hasAttribute('maptype') && self.getAttribute('maptype') != '' && self.getAttribute('maptype') != 'ROADMAP') {
+                            self.setAttribute('maptype_tmp', self.getAttribute('maptype'));
+                            self.setAttribute('maptype', 'ROADMAP');
+                          }
                         }
-                        */
                         App.Ext.Map.Set.MapType(self, map);
                         if ((!self.hasAttribute('tooltip') || self.getAttribute('tooltip') == '') || self.getAttribute('tooltip') == 'true') {
                           var infoWin = new google.maps.InfoWindow({
@@ -1995,10 +1995,10 @@
   var currentScript = document._currentScript || document.currentScript,
       doc = currentScript.ownerDocument;
 
-  //Autoload da API do Google Maps v3
+  //Callback (Autoload) da API do Google Maps v3
   var __autoload = function(){
 
-    //Pseudo Implementação Singleton
+    //Função Anônima para Criação do Data Store (Armazenamento Temporário de Dados)
     (function(){
       var cache = [0], expando = 'data' + +new Date();
       function data(elem) {
@@ -2055,30 +2055,30 @@
 
       //Alterna entre Busca por Endereço ou por Latitude/Longitude
       if (this.hasAttribute('address') && this.getAttribute('address') != '') {
-        App.mapByAddress(this, this.element);
+        App.mapByAddress(this);
         this.setAttribute('mapcall', 'mapByAddress');
       }
       else if ((this.hasAttribute('latitude') && this.getAttribute('latitude') != '') && (this.hasAttribute('longitude') && this.getAttribute('longitude') != '')) {
-        App.mapByLatLong(this, this.element);
+        App.mapByLatLong(this);
         this.setAttribute('mapcall', 'mapByLatLong');
       }
       else {
-        var that = this;
+        var $this = this;
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
           function(position){
-            that.setAttribute('latitude', position.coords.latitude);
-            that.setAttribute('longitude', position.coords.longitude);
-            App.mapByLatLong(that, that.element);
-            that.setAttribute('mapcall', 'mapByLatLong');
+            $this.setAttribute('latitude', position.coords.latitude);
+            $this.setAttribute('longitude', position.coords.longitude);
+            App.mapByLatLong($this);
+            $this.setAttribute('mapcall', 'mapByLatLong');
           },
           function(error){
             console.warn('ERROR(' + error.code + '): ' + error.message);
             getJSON('http://ip-api.com/json/').then(function(data) {
-              that.setAttribute('latitude', data.lat);
-              that.setAttribute('longitude', data.lon);
-              App.mapByLatLong(that, that.element);
-              that.setAttribute('mapcall', 'mapByLatLong');
+              $this.setAttribute('latitude', data.lat);
+              $this.setAttribute('longitude', data.lon);
+              App.mapByLatLong($this);
+              $this.setAttribute('mapcall', 'mapByLatLong');
             }, function(status) {
               console.log(status);
             });
@@ -2106,21 +2106,21 @@
     };
 
     proto.updateMapType = function() {
-      var that = this;
+      var $this = this;
       var map = window.data(this).instance;
-      if(that.hasAttribute('maptype_tmp')) {
-        /*
-        setTimeout(function(){
-          that.setAttribute('maptype', that.getAttribute('maptype_tmp'));
-          that.removeAttribute('maptype_tmp');
-          if (that.hasAttribute('mapcall') && that.getAttribute('mapcall') != '' && that.getAttribute('mapcall') == 'mapByAddress') {
-            App.mapByAddress(that, that.element);
-          }
-          else {
-            App.mapByLatLong(that, that.element);
-          }
-        },1500);
-        */
+      if ($this.hasAttribute('forceUpdate') && $this.getAttribute('forceUpdate') != '') {
+        if ($this.hasAttribute('maptype_tmp') && $this.getAttribute('maptype_tmp') != '') {
+          setTimeout(function(){
+            $this.setAttribute('maptype', $this.getAttribute('maptype_tmp'));
+            $this.removeAttribute('maptype_tmp');
+            if ($this.hasAttribute('mapcall') && $this.getAttribute('mapcall') != '' && $this.getAttribute('mapcall') == 'mapByAddress') {
+              App.mapByAddress($this);
+            }
+            else {
+              App.mapByLatLong($this);
+            }
+          },1500);
+        }
       }
     };
 
