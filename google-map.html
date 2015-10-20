@@ -4,7 +4,7 @@
     .clearfix:before,.clearfix:after{content:"";display:table}
     .clearfix:after{clear:both}
     /* Map Style */
-    .gm-template{/*float:left;*/-moz-transition:width 0.01s, height 0.01s;-webkit-transition:width 0.01s, height 0.01s;-o-transition:width 0.01s, height 0.01s;transition:width 0.01s, height 0.01s}
+    .gm-template{-moz-transition:width 0.01s, height 0.01s;-webkit-transition:width 0.01s, height 0.01s;-o-transition:width 0.01s, height 0.01s;transition:width 0.01s, height 0.01s}
     .gmnoprint a img{display:none}
     .gm-template div[dir="ltr"]{visibility:hidden}
     .gmnoprint div a{display:none}
@@ -95,7 +95,7 @@
     .dropdown li{padding:2px}
     .dropdown a{z-index:999;display:block;text-decoration:none;color:rgb(86,86,86);font-family:Roboto,Arial,sans-serif;-webkit-user-select:none;font-size:11px;padding:8px;font-weight:500;background-color:rgb(255,255,255)}
     .dropdown a:hover{background-color:rgb(235,235,235)}
-    .arrow-down{width:0;height:0;position:absolute;top:12px;right:5px;border-left:3px solid transparent;border-right:3px solid transparent;border-top: 4px solid black}
+    .arrow-down{width:0;height:0;position:absolute;top:12px;border-left:3px solid transparent;border-right:3px solid transparent;border-top: 4px solid black}
   </style>
   <div class="gm-template"></div>
 </template>
@@ -1449,23 +1449,11 @@
                 newNode.setAttribute('class', 'pac-input controls clearfix');
                 if((self.hasAttribute('languageControl') && self.getAttribute('languageControl') != '') && (self.getAttribute('languageControl') == 'true')) {
                   newNode.style.width = 'calc(' + self.style.width + ' - ' + '354px + 50px)';
-                  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || isIE()) {
-                    newNode.style.left = 'calc(400px - 262px)';
-                    newNode.style.height = '30px';
-                  }
-                  else {
-                    newNode.style.left = 'calc(400px - 254px)';
-                  }
+                  newNode.style.left = 'calc(400px - 254px)';
                 }
                 else {
                   newNode.style.width = '240px';
-                  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || isIE()) {
-                    newNode.style.left = 'calc(' + self.element.style.width + ' - ' + '262px)';
-                    newNode.style.height = '30px';
-                  }
-                  else {
-                    newNode.style.left = 'calc(' + self.element.style.width + ' - ' + '254px)';
-                  }
+                  newNode.style.left = 'calc(' + self.element.style.width + ' - ' + '254px)';
                 }
                 self.element.parentNode.insertBefore(newNode, self.element);
                 return newNode;
@@ -1502,66 +1490,71 @@
           Control : {
             Language : function(self, array) {
               if((self.hasAttribute('languageControl') && self.getAttribute('languageControl') != '') && (self.getAttribute('languageControl') == 'true')) {
+                var language = (self.hasAttribute('language') && self.getAttribute('language') != '') ? self.getAttribute('language') : App.BrowserLanguage(),
+                    lang = App.Translate[language];
                 var div = document.createElement('div');
                 div.setAttribute('class', "dropdown-container");
-                  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                    div.style.left = 'calc(' + self.style.width + ' - ' + '146px)';
-                  }
-                  else if (isIE()) {
-                    div.style.left = 'calc(' + self.style.width + ' - ' + '142px)';
+                div.style.left = 'calc(' + self.style.width + ' - ' + '134px)';
+                var span = document.createElement('span');
+                span.setAttribute('class', "dropdown dropdown-wide");
+                div.appendChild(span);
+                  var button = document.createElement('button');
+                  if (!self.hasAttribute('language') && self.getAttribute('language') != '') {
+                    button.innerHTML = App.ReverseLanguage() + ' &nbsp;<i class="arrow-down" ' + (lang.dir == 'rtl' ? 'style="left:5px !important;"' : 'style="right:5px !important;"') + '></i>';
                   }
                   else {
-                    div.style.left = 'calc(' + self.style.width + ' - ' + '134px)';
+                    button.innerHTML = App.ReverseLanguage(self.getAttribute('language')) + ' &nbsp;<i class="arrow-down" ' + (lang.dir == 'rtl' ? 'style="left:5px !important;"' : 'style="right:5px !important;"') + '></i>';
                   }
-                  var span = document.createElement('span');
-                  span.setAttribute('class', "dropdown dropdown-wide");
-                  div.appendChild(span);
-                    var button = document.createElement('button');
-                    if (!self.hasAttribute('language') && self.getAttribute('language') != '') {
-                      button.innerHTML = App.ReverseLanguage() + ' &nbsp;<i class="arrow-down"></i>';
-                    }
-                    else {
-                      button.innerHTML = App.ReverseLanguage(self.getAttribute('language')) + ' &nbsp;<i class="arrow-down"></i>';
-                    }
-                    span.appendChild(button);
-                    var ul = document.createElement('ul');
-                    ul.setAttribute('class', "dropdown-menu");
-                    span.appendChild(ul);
-                    for (i in array) {
-                      var a = document.createElement('a');
-                      a.href = "javascript:void(0);";
-                      a.setAttribute('data-code',array[i].code);
-                      a.onclick = function(){
-                        button.innerHTML = this.innerText + ' &nbsp;<i class="arrow-down"></i>';
-                        self.setAttribute('language', this.getAttribute('data-code'));
-                        if (self.hasAttribute('forceUpdate') && self.getAttribute('forceUpdate') != '') {
-                          if (self.hasAttribute('maptype') && self.getAttribute('maptype') != '' && self.getAttribute('maptype') != 'ROADMAP') {
-                            self.setAttribute('maptype_tmp', self.getAttribute('maptype'));
-                            self.setAttribute('maptype', 'ROADMAP');
-                          }
+                  if(lang.dir == 'rtl') {
+                    button.style.direction = lang.dir;
+                    button.style.textAlign = 'right';
+                  }
+                  span.appendChild(button);
+                  var ul = document.createElement('ul');
+                  ul.setAttribute('class', "dropdown-menu");
+                  if(lang.dir == 'rtl') {
+                    ul.style.direction = lang.dir;
+                  }
+                  span.appendChild(ul);
+                  for (i in array) {
+                    var a = document.createElement('a');
+                    a.href = "javascript:void(0);";
+                    a.setAttribute('data-code',array[i].code);
+                    a.onclick = function(){
+                      button.innerHTML = this.innerText + ' &nbsp;<i class="arrow-down"></i>';
+                      self.setAttribute('language', this.getAttribute('data-code'));
+                      if (self.hasAttribute('forceUpdate') && self.getAttribute('forceUpdate') != '') {
+                        if (self.hasAttribute('maptype') && self.getAttribute('maptype') != '' && self.getAttribute('maptype') != 'ROADMAP') {
+                          self.setAttribute('maptype_tmp', self.getAttribute('maptype'));
+                          self.setAttribute('maptype', 'ROADMAP');
                         }
-                        setTimeout(function(){ 
-                          if (self.hasAttribute('mapcall') && self.getAttribute('mapcall') != '' && self.getAttribute('mapcall') == 'mapByAddress') {
-                            App.mapByAddress(self);
-                          }
-                          else {
-                            App.mapByLatLong(self);
-                          }
-                          self.element.parentNode.removeChild(self.shadowRoot.querySelectorAll(".dropdown-container")[0]);
-                          self.element.parentNode.removeChild(self.shadowRoot.querySelectorAll(".pac-input")[0]);
-                          document.body.removeChild(document.body.querySelectorAll(".pac-container")[0]);
-                        }, 1500);
-                        var lang = this.getAttribute('data-code'), script = document.getElementById("google-maps-script");
-                        script.parentNode.removeChild(script);
-                        document.querySelectorAll("script[src*='maps-api-v3'],script[src*='maps/api/js']").remove();
-                        delete google.maps;
-                        App.LoadScript(lang);
-                      };
-                      a.appendChild(document.createTextNode(array[i].name));
-                      var li = document.createElement('li');
-                      li.appendChild(a);
-                      ul.appendChild(li);
+                      }
+                      setTimeout(function(){ 
+                        if (self.hasAttribute('mapcall') && self.getAttribute('mapcall') != '' && self.getAttribute('mapcall') == 'mapByAddress') {
+                          App.mapByAddress(self);
+                        }
+                        else {
+                          App.mapByLatLong(self);
+                        }
+                        self.element.parentNode.removeChild(self.shadowRoot.querySelectorAll(".dropdown-container")[0]);
+                        self.element.parentNode.removeChild(self.shadowRoot.querySelectorAll(".pac-input")[0]);
+                        document.body.removeChild(document.body.querySelectorAll(".pac-container")[0]);
+                      }, 1500);
+                      var lang = this.getAttribute('data-code'), script = document.getElementById("google-maps-script");
+                      script.parentNode.removeChild(script);
+                      document.querySelectorAll("script[src*='maps-api-v3'],script[src*='maps/api/js']").remove();
+                      delete google.maps;
+                      App.LoadScript(lang);
+                    };
+                    a.appendChild(document.createTextNode(array[i].name));
+                    var li = document.createElement('li');
+                    if(lang.dir == 'rtl') {
+                      li.style.direction = lang.dir;
+                      li.style.textAlign = 'right';
                     }
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                  }
                 self.element.parentNode.insertBefore(div, self.element);
                 return div;
               }
