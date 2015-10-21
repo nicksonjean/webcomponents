@@ -33,7 +33,7 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
 
 | IE9+ | Edge12 | Chrome* | Firefox* | Safari 7+* | Opera* | Chrome Android* | Mobile Safari* |
 |:----:|:------:|:-------:|:--------:|:----------:|:------:|:---------------:|:--------------:|
-|  ✓   |    ✓   |    ✓    |     ✓    |      ✓     |    ✓    |        ✓        |        ✓       |
+|  ✓   |    ✓   |    ✓    |     ✓    |      ✓    |    ✓   |        ✓        |        ✓       |
 
 ### Características
 - Controles Adicionais
