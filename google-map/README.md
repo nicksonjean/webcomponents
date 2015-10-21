@@ -61,4 +61,5 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
     - Sem Shadow DOM - http://googlewebcomponents.github.io/google-map/components/google-map/demo/index.html
 
 ### Como Usar
-<google-map></google-map>
+
+&gt;google-map&lt;&gt;/google-map&lt;
