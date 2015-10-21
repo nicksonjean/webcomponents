@@ -62,4 +62,4 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
 
 ### Como Usar
 
-&gt;google-map&lt;&gt;/google-map&lt;
+&lt;google-map&gt;&lt;/google-map&gt;
