@@ -109,6 +109,10 @@ function convertContent(input) {
         output.appendChild(div0);
         outNode = output;
 
+        var pgSz = inputDoc.getElementsByTagName('sectPr')[0].childNodes[1],
+            width = parseInt(pgSz.getAttribute('w:w')) / 20,
+            height = parseInt(pgSz.getAttribute('w:h')) / 20;
+
         for (i = 0; inNode = inputDoc.childNodes[i]; i++) {
             j = inNode.childNodes.length;
             outNode = div0.appendChild(newHTMLnode('P'));
