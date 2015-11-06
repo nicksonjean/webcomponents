@@ -2006,7 +2006,6 @@
     })();
 
     var proto = Object.create(HTMLElement.prototype);
-
     proto.createdCallback = function() {
       var template = doc.querySelector('#gm'),
           clone = document.importNode(template.content, true);
