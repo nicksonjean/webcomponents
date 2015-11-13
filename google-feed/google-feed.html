@@ -3,6 +3,17 @@
   Date.prototype.format=function(e){var t="";var n=Date.replaceChars;for(var r=0;r<e.length;r++){var i=e.charAt(r);if(r-1>=0&&e.charAt(r-1)=="\\"){t+=i}else if(n[i]){t+=n[i].call(this)}else if(i!="\\"){t+=i}}return t};Date.replaceChars={shortMonths:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],longMonths:["January","February","March","April","May","June","July","August","September","October","November","December"],shortDays:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],longDays:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],d:function(){return(this.getDate()<10?"0":"")+this.getDate()},D:function(){return Date.replaceChars.shortDays[this.getDay()]},j:function(){return this.getDate()},l:function(){return Date.replaceChars.longDays[this.getDay()]},N:function(){return this.getDay()+1},S:function(){return this.getDate()%10==1&&this.getDate()!=11?"st":this.getDate()%10==2&&this.getDate()!=12?"nd":this.getDate()%10==3&&this.getDate()!=13?"rd":"th"},w:function(){return this.getDay()},z:function(){var e=new Date(this.getFullYear(),0,1);return Math.ceil((this-e)/864e5)},W:function(){var e=new Date(this.getFullYear(),0,1);return Math.ceil(((this-e)/864e5+e.getDay()+1)/7)},F:function(){return Date.replaceChars.longMonths[this.getMonth()]},m:function(){return(this.getMonth()<9?"0":"")+(this.getMonth()+1)},M:function(){return Date.replaceChars.shortMonths[this.getMonth()]},n:function(){return this.getMonth()+1},t:function(){var e=new Date;return(new Date(e.getFullYear(),e.getMonth(),0)).getDate()},L:function(){var e=this.getFullYear();return e%400==0||e%100!=0&&e%4==0},o:function(){var e=new Date(this.valueOf());e.setDate(e.getDate()-(this.getDay()+6)%7+3);return e.getFullYear()},Y:function(){return this.getFullYear()},y:function(){return(""+this.getFullYear()).substr(2)},a:function(){return this.getHours()<12?"am":"pm"},A:function(){return this.getHours()<12?"AM":"PM"},B:function(){return Math.floor(((this.getUTCHours()+1)%24+this.getUTCMinutes()/60+this.getUTCSeconds()/3600)*1e3/24)},g:function(){return this.getHours()%12||12},G:function(){return this.getHours()},h:function(){return((this.getHours()%12||12)<10?"0":"")+(this.getHours()%12||12)},H:function(){return(this.getHours()<10?"0":"")+this.getHours()},i:function(){return(this.getMinutes()<10?"0":"")+this.getMinutes()},s:function(){return(this.getSeconds()<10?"0":"")+this.getSeconds()},u:function(){var e=this.getMilliseconds();return(e<10?"00":e<100?"0":"")+e},e:function(){return"Not Yet Supported"},I:function(){var e=null;for(var t=0;t<12;++t){var n=new Date(this.getFullYear(),t,1);var r=n.getTimezoneOffset();if(e===null)e=r;else if(r<e){e=r;break}else if(r>e)break}return this.getTimezoneOffset()==e|0},O:function(){return(-this.getTimezoneOffset()<0?"-":"+")+(Math.abs(this.getTimezoneOffset()/60)<10?"0":"")+Math.abs(this.getTimezoneOffset()/60)+"00"},P:function(){return(-this.getTimezoneOffset()<0?"-":"+")+(Math.abs(this.getTimezoneOffset()/60)<10?"0":"")+Math.abs(this.getTimezoneOffset()/60)+":00"},T:function(){var e=this.getMonth();this.setMonth(0);var t=this.toTimeString().replace(/^.+ \(?([^\)]+)\)?$/,"$1");this.setMonth(e);return t},Z:function(){return-this.getTimezoneOffset()*60},c:function(){return this.format("Y-m-d\\TH:i:sP")},r:function(){return this.toString()},U:function(){return this.getTime()/1e3}};
   // Converte HTML String para DOM-Fragment
   String.prototype.toDOM=function(){var d=document,i,a=d.createElement("div"),b=d.createDocumentFragment();a.innerHTML=this;while(i=a.firstChild)b.appendChild(i);return b;};
+  // Protótipo para ReplaceAll com Split e Join
+  String.prototype.replaceAll=function(search,replacement){var target=this;return target.split(search).join(replacement);};
+  /* 
+   * Defiant.js v1.3.4 
+   * Search JSON structures plus smart templating with XSLT and XPath. 
+   * http://defiantjs.com 
+   * 
+   * Copyright (c) 2013-2015, Hakan Bilgin <hbi@longscript.com> 
+   * Licensed under the MIT License 
+   */ 
+  if(function(a,b){var c={init:function(){return this},work_handler:function(a){var b=Array.prototype.slice.call(a.data,1),c=a.data[0],d=tree[c].apply(tree,b);postMessage([c,d])},setup:function(b){var d=a.URL||a.webkitURL,e="var tree = {"+this.parse(b).join(",")+"};",f=new Blob([e+'self.addEventListener("message", '+this.work_handler.toString()+", false);"],{type:"text/javascript"}),g=new Worker(d.createObjectURL(f));return g.onmessage=function(a){var b=Array.prototype.slice.call(a.data,1),d=a.data[0];c.observer.emit("x10:"+d,b)},g},call_handler:function(a,b){return function(){var d=Array.prototype.slice.call(arguments,0,-1),e=arguments[arguments.length-1];d.unshift(a),c.observer.on("x10:"+a,function(a){e(a.detail[0])}),b.postMessage(d)}},compile:function(a){var b,c=this.setup("function"==typeof a?{func:a}:a),d={};if("function"==typeof a)return d.func=this.call_handler("func",c),d.func;for(b in a)d[b]=this.call_handler(b,c);return d},parse:function(a,c){var d,e,f,g=[];for(d in a)if(f=a[d],null!==f)if(f!==b){switch(f.constructor){case Date:e="new Date("+f.valueOf()+")";break;case Object:e="{"+this.parse(f).join(",")+"}";break;case Array:e="["+this.parse(f,!0).join(",")+"]";break;case String:e='"'+f.replace(/"/g,'\\"')+'"';break;case RegExp:case Function:e=f.toString();break;default:e=f}g.push(c?e:d+":"+e)}else g.push(d+":undefined");else g.push(d+":null");return g},observer:function(){var a={};return{on:function(b,c){a[b]||(a[b]=[]),a[b].unshift(c)},off:function(b,c){if(a[b]){var d=a[b].indexOf(c);a[b].splice(d,1)}},emit:function(b,c){if(a[b])for(var d={type:b,detail:c,isCanceled:!1,cancelBubble:function(){this.isCanceled=!0}},e=a[b].length;e--;){if(d.isCanceled)return;a[b][e](d)}}}}()};"undefined"==typeof module?a.x10=c.init():module.exports=c.init()}(this),"undefined"==typeof module)var module={exports:void 0};if(module.exports=Defiant=function(){"use strict";var a={is_ie:/(msie|trident)/i.test(navigator.userAgent),is_safari:/safari/i.test(navigator.userAgent),env:"production",xml_decl:'<?xml version="1.0" encoding="utf-8"?>',namespace:'xmlns:d="defiant-namespace"',tabsize:4,render:function(a,b){var c,d,e,f,g=new XSLTProcessor,h=document.createElement("span"),i={match:"/"};switch(typeof a){case"object":this.extend(i,a),i.data||(i.data=b);break;case"string":i.template=a,i.data=b;break;default:throw"error"}if(i.data=JSON.toXML(i.data),c='//xsl:template[@name="'+i.template+'"]',this.xsl_template||this.gatherTemplates(),i.sorter&&(f=this.node.selectSingleNode(this.xsl_template,c+"//xsl:for-each//xsl:sort"),f&&(i.sorter.order&&f.setAttribute("order",i.sorter.order),i.sorter.select&&f.setAttribute("select",i.sorter.select),f.setAttribute("data-type",i.sorter.type||"text"))),e=this.node.selectSingleNode(this.xsl_template,c),e.setAttribute("match",i.match),g.importStylesheet(this.xsl_template),h.appendChild(g.transformToFragment(i.data,document)),e.removeAttribute("match"),this.is_safari){d=h.getElementsByTagName("script");for(var j=0,k=d.length;k>j;j++)d[j].defer=!0}return h.innerHTML},gatherTemplates:function(){for(var a=document.getElementsByTagName("script"),b="",c=0,d=a.length;d>c;c++)"defiant/xsl-template"===a[c].type&&(b+=a[c].innerHTML);this.xsl_template=this.xmlFromString('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" '+this.namespace+">"+b.replace(/defiant:(\w+)/g,"$1")+"</xsl:stylesheet>")},getSnapshot:function(a,b){return JSON.toXML(a,b||!0)},xmlFromString:function(a){var b,c;return a=a.replace(/>\s{1,}</g,"><"),null===a.trim().match(/<\?xml/)&&(a=this.xml_decl+a),this.is_ie?(c=new ActiveXObject("Msxml2.DOMDocument"),c.loadXML(a),-1===a.indexOf("xsl:stylesheet")&&c.setProperty("SelectionLanguage","XPath")):(b=new DOMParser,c=b.parseFromString(a,"text/xml")),c},extend:function(a,b){for(var c in b)a[c]&&"object"==typeof b[c]?this.extend(a[c],b[c]):a[c]=b[c];return a},node:{}};return a}(this),"undefined"==typeof XSLTProcessor){var XSLTProcessor=function(){};XSLTProcessor.prototype={importStylesheet:function(a){this.xsldoc=a},transformToFragment:function(a){var b=a.transformNode(this.xsldoc),c=document.createElement("span");return c.innerHTML=b,c}}}else if("function"!=typeof XSLTProcessor&&!XSLTProcessor)throw"XSLTProcessor transformNode not implemented";String.prototype.fill||(String.prototype.fill=function(a,b){var c=this;for(b=b||" ";c.length<a;c+=b);return c}),String.prototype.trim||(String.prototype.trim=function(){return this.replace(/^\s+|\s+$/gm,"")}),String.prototype.xTransform||(String.prototype.xTransform=function(){var a=this;return-1===this.indexOf("translate(")&&(a=this.replace(/contains\(([^,]+),([^\\)]+)\)/g,function(a,b,c){var d="abcdefghijklmnopqrstuvwxyz",e=c.trim().slice(-1);return"contains(translate("+b+", "+e+d.toUpperCase()+e+", "+e+d+e+"),"+c.toLowerCase()+")"})),a.toString()}),"undefined"==typeof JSON&&(window.JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(a){if(a instanceof Object){var b="";if(a.constructor===Array){for(var c=0;c<a.length;b+=this.stringify(a[c])+",",c++);return"["+b.substr(0,b.length-1)+"]"}if(a.toString!==Object.prototype.toString)return'"'+a.toString().replace(/"/g,"\\$&")+'"';for(var d in a)b+='"'+d.replace(/"/g,"\\$&")+'":'+this.stringify(a[d])+",";return"{"+b.substr(0,b.length-1)+"}"}return"string"==typeof a?'"'+a.replace(/"/g,"\\$&")+'"':String(a)}}),JSON.toXML||(JSON.toXML=function(a,b){"use strict";var c,d,e,f={map:[],rx_validate_name:/^(?!xml)[a-z_][\w\d.:]*$/i,rx_node:/<(.+?)( .*?)>/,rx_constructor:/<(.+?)( d:contr=".*?")>/,rx_namespace:/ xmlns\:d="defiant\-namespace"/,rx_data:/(<.+?>)(.*?)(<\/d:data>)/i,rx_function:/function (\w+)/i,namespace:'xmlns:d="defiant-namespace"',to_xml_str:function(a){return{str:this.hash_to_xml(null,a),map:this.map}},hash_to_xml:function(a,b,c){var d,e,f,g,h,i,j,k,l=b.constructor===Array,m=[],n=[];for(d in b)if(e=b[d],(null===e||void 0===e||"NaN"===e.toString())&&(e=null),g="@"===d.slice(0,1),h=c?a:d,h==+h&&b.constructor!==Object&&(h="d:item"),null===e?(i=null,j=!1):(i=e.constructor,j=i.toString().match(this.rx_function)[1]),g)n.push(h.slice(1)+'="'+this.escape_xml(e)+'"'),"String"!==j&&n.push("d:"+h.slice(1)+'="'+j+'"');else if(null===e)m.push(this.scalar_to_xml(h,e));else switch(i){case Function:throw"JSON data should not contain functions. Please check jour structure.";case Object:m.push(this.hash_to_xml(h,e));break;case Array:if(d===h){if(f=e.constructor===Array)for(k=e.length;k--;)e[k].constructor===Array&&(f=!0),f||e[k].constructor!==Object||(f=!0);m.push(this.scalar_to_xml(h,e,f));break}case String:if("string"==typeof e&&(e=e.toString().replace(/\&/g,"&amp;").replace(/\r|\n/g,"&#13;")),"#text"===h){this.map.push(b),n.push('d:mi="'+this.map.length+'"'),n.push('d:constr="'+j+'"'),m.push(this.escape_xml(e));break}case Number:case Boolean:if("#text"===h&&"String"!==j){this.map.push(b),n.push('d:mi="'+this.map.length+'"'),n.push('d:constr="'+j+'"'),m.push(this.escape_xml(e));break}m.push(this.scalar_to_xml(h,e))}return a||(a="d:data",n.push(this.namespace),l&&n.push('d:constr="Array"')),null===a.match(this.rx_validate_name)&&(n.push('d:name="'+a+'"'),a="d:name"),c?m.join(""):(this.map.push(b),n.push('d:mi="'+this.map.length+'"'),"<"+a+(n.length?" "+n.join(" "):"")+(m.length?">"+m.join("")+"</"+a+">":"/>"))},scalar_to_xml:function(a,b,c){var d,e,f,g="";if(null===a.match(this.rx_validate_name)&&(g+=' d:name="'+a+'"',a="d:name",c=!1),(null===b||"NaN"===b.toString())&&(b=null),null===b)return"<"+a+' d:constr="null"/>';if(1===b.length&&b[0].constructor===Object){d=this.hash_to_xml(!1,b[0]);var h=d.match(this.rx_node),i=d.match(this.rx_constructor);return h=null!==h?h[2].replace(this.rx_namespace,"").replace(/>/,"").replace(/"\/$/,'"'):"",i=null!==i?i[2]:"",d=d.match(this.rx_data),d=null!==d?d[2]:"","<"+a+h+" "+i+' d:type="ArrayItem">'+d+"</"+a+">"}return 0===b.length&&b.constructor===Array?"<"+a+' d:constr="Array"/>':c?this.hash_to_xml(a,b,!0):(e=b.constructor,f=e.toString().match(this.rx_function)[1],d=e===Array?this.hash_to_xml("d:item",b,!0):this.escape_xml(b),g+=' d:constr="'+f+'"',this.map.push(b),g+=' d:mi="'+this.map.length+'"',"#text"===a?this.escape_xml(b):"<"+a+g+">"+d+"</"+a+">")},escape_xml:function(a){return String(a).replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/&nbsp;/g,"&#160;")}};switch(typeof b){case"function":return e=x10.compile(f),void e.to_xml_str(a,function(c){b({doc:Defiant.xmlFromString(c.str),src:a,map:c.map})});case"boolean":return c=f.to_xml_str.call(f,a),{doc:Defiant.xmlFromString(c.str),src:a,map:c.map};default:return c=f.to_xml_str.call(f,a),d=Defiant.xmlFromString(c.str),this.search.map=c.map,d}}),JSON.search||(JSON.search=function(a,b,c){"use strict";var d,e,f=a.doc&&a.doc.nodeType,g=f?a.doc:JSON.toXML(a),h=f?a.map:this.search.map,i=f?a.src:a,j=Defiant.node[c?"selectSingleNode":"selectNodes"](g,b.xTransform()),k=[];for(c&&(j=[j]),e=j.length;e--;)switch(j[e].nodeType){case 2:case 3:k.unshift(j[e].nodeValue);break;default:d=+j[e].getAttribute("d:mi"),k.unshift(h[d-1])}return"development"===Defiant.env&&(this.trace=JSON.mtrace(i,k,j)),k}),JSON.mtrace||(JSON.mtrace=function(a,b,c){"use strict";for(var d,e,f,g,h,i=window,j=JSON.stringify,k=j(a,null,"	").replace(/\t/g,""),l=[],m=0,n=c.length,o=n?c[m].ownerDocument.documentElement:!1,p=(this.search.map,0);n>m;m++){switch(c[m].nodeType){case 2:e=c[m].ownerElement?c[m].ownerElement.getAttribute("d:"+c[m].nodeName):"String",d='"@'+c[m].nodeName+'": '+i[e](b[m]),f=k.indexOf(d),h=0;break;case 3:e=c[m].parentNode.getAttribute("d:constr"),d=i[e](b[m]),d='"'+c[m].parentNode.nodeName+'": '+("Number"===d?d:'"'+d+'"'),f=k.indexOf(d),h=0;break;default:if(c[m]===o)continue;"String"===c[m].getAttribute("d:constr")||"Number"===c[m].getAttribute("d:constr")?(e=c[m].getAttribute("d:constr"),d=i[e](b[m]),f=k.indexOf(d,p),d='"'+c[m].nodeName+'": '+("Number"===e?d:'"'+d+'"'),h=0,p=f+1):(d=j(b[m],null,"	").replace(/\t/g,""),f=k.indexOf(d),h=d.match(/\n/g).length)}g=k.substring(0,f).match(/\n/g).length+1,l.push([g,h])}return l}),Defiant.node.selectNodes=function(a,b){if(a.evaluate){for(var c=a.createNSResolver(a.documentElement),d=a.evaluate(b,a,c,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null),e=[],f=0,g=d.snapshotLength;g>f;f++)e.push(d.snapshotItem(f));return e}return a.selectNodes(b)},Defiant.node.selectSingleNode=function(a,b){if(a.evaluate){var c=this.selectNodes(a,b);return c.length>0?c[0]:null}return a.selectSingleNode(b)},Defiant.node.prettyPrint=function(a){var b,c,d=Defiant,e=d.tabsize,f=d.xml_decl.toLowerCase();d.is_ie?c=a.xml:(b=new XMLSerializer,c=b.serializeToString(a)),"development"!==d.env&&(c=c.replace(/ \w+\:d=".*?"| d\:\w+=".*?"/g,""));for(var g,h,i=c.trim().replace(/(>)\s*(<)(\/*)/g,"$1\n$2$3"),j=i.split("\n"),k=-1,l=0,m=j.length;m>l;l++)(0!==l||j[l].toLowerCase()!==f)&&(g=null!==j[l].match(/<[A-Za-z_\:]+.*?>/g),h=null!==j[l].match(/<\/[\w\:]+>/g),null!==j[l].match(/<.*?\/>/g)&&(g=h=!0),g&&k++,j[l]=String().fill(k,"	")+j[l],g&&h&&k--,!g&&h&&k--);return j.join("\n").replace(/\t/g,String().fill(e," "))},Defiant.node.toJSON=function(a,b){"use strict";var c=function(a){var b,d,e,f,g,h,i,j,k,l,m={},n=window;switch(a.nodeType){case 1:for(g=a.getAttribute("d:constr"),"Array"===g?m=[]:"String"===g&&""===a.textContent&&(m=""),b=a.attributes,j=0,k=b.length;k>j;j++)l=b.item(j),null===l.nodeName.match(/\:d|d\:/g)&&(g=a.getAttribute("d:"+l.nodeName),h=g&&"undefined"!==g?"null"===l.nodeValue?null:n[g]("false"===l.nodeValue?"":l.nodeValue):l.nodeValue,m["@"+l.nodeName]=h);break;case 3:d=a.parentNode.getAttribute("d:type"),h=d?n[d]("false"===a.nodeValue?"":a.nodeValue):a.nodeValue,m=h}if(a.hasChildNodes())for(j=0,k=a.childNodes.length;k>j;j++)if(e=a.childNodes.item(j),f=e.nodeName,b=a.attributes,"d:name"===f&&(f=e.getAttribute("d:name")),"#text"===f)g=a.getAttribute("d:constr"),"undefined"===g&&(g=void 0),i=e.textContent||e.text,h="Boolean"===g&&"false"===i?"":i,g||b.length?g&&1===k?m=n[g](h):a.hasChildNodes()&&b.length<3?m=g?n[g](h):h:m[f]=g?n[g](h):h:m=h;else{if(m[f]){m[f].push?m[f].push(c(e)):m[f]=[m[f],c(e)];continue}switch(g=e.getAttribute("d:constr")){case"null":m.push?m.push(null):m[f]=null;break;case"Array":e.parentNode.firstChild===e&&"Array"===g&&"d:item"!==f?"d:item"===f||"Array"===g?(h=c(e),m[f]=h.length?[h]:h):m[f]=c(e):m.push?m.push(c(e)):m[f]=c(e);break;case"String":case"Number":case"Boolean":i=e.textContent||e.text,h="Boolean"===g&&"false"===i?"":i,m.push?m.push(n[g](h)):m[f]=c(e);break;default:m.push?m.push(c(e)):m[f]=c(e)}}return 1===a.nodeType&&"ArrayItem"===a.getAttribute("d:type")&&(m=[m]),m},d=9===a.nodeType?a.documentElement:a,e=c(d),f=e[d.nodeName];return d===d.ownerDocument.documentElement&&f&&f.constructor===Array&&(e=f),b&&"true"===b.toString()&&(b="	"),b?JSON.stringify(e,null,b):e},"undefined"!=typeof jQuery&&!function(a){"use strict";a.fn.defiant=function(a,b){return this.html(Defiant.render(a,b)),this}}(jQuery);
 </script>
 <template id="feed">
     <style>
@@ -10,17 +21,30 @@
         :host(.different){}
     </style>
     <div class="feed_template">
-        <h1 class="feed_title">{{feed.title}}</h1>
-        <div class="line"></div>
-        <ul class="entries">{{feed.entries}}</ul>
-        <small>Última Atualização: {{feed.updated}}</small>
+        <div class="feed_widget" data-order={{order}}>
+            <div class="feed_title dropdown dropdown-wide">
+              <button>
+                {{title}}
+                <span class="arrow-down"></span>
+              </button>
+              <ul class="dropdown-menu">{{list}}</ul>
+            </div>
+            <div class="line"></div>
+            <ul class="entries">{{items}}</ul>
+            <small>Última Atualização: {{updated}}</small>
+        </div>
     </div>
 </template>
 <template id="entries">
     <li>
         <a href="{{link}}" target="_blank" class="entry_title">{{title}}</a>
-        <small class="entry_published">{{publishedDate}}</small>
-        <p>{{contentSnippet}}</p>
+        <small class="entry_published">{{publishedFormatedDate}}</small>
+        <p>{{contentFormatedSnippet}}</p>
+    </li>
+</template>
+<template id="list">
+    <li>
+        <a href="javascript:void(0)">{{title}}</a>
     </li>
 </template>
 <script>
@@ -28,35 +52,36 @@
   App = {
     Def : {
       url: 'http://feeds.bbci.co.uk/news/england/rss.xml',
-      entries : 20,
+      entries : 10,
       refresh : 10000
     },
     Ext : {
       MicroTemplate : function(temp, data) {
-       data = [].concat(data);
-       for (var i in data)
-         for (var f in data[i])
-           temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
-       return temp;
+        data = [].concat(data);
+        for (var i in data)
+          for (var f in data[i])
+            temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
+        return temp;
       },
       MakeRequest : function(url, entry) {
-        var template = 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={{entries}}&q={{url}}&callback=__autoload';
+        var template = 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={{entries}}&q={{url}}';
         var data = { url : url, entries : entry }
         return App.Ext.MicroTemplate(template, data);
       },
-      FetchFeed : function(url) {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-        //document.body.appendChild(script);
-      },
-      FetchStyle : function(url, root) {
+      ApplyStyle : function(url, root) {
         var style = document.createElement('style');
         style.setAttribute("type", "text/css");
         var textNode = document.createTextNode("@import '" + url + "';");
         style.appendChild(textNode);
         root.appendChild(style);
+      },
+      ShortTitle : function(title) {
+        if(title.length >= 20) {
+          return title.split(' - ')[0];
+        }
+        else {
+          return title;
+        }
       }
     }
   };
@@ -70,12 +95,14 @@
               var template = doc.querySelector('#feed'),
                   clone = document.importNode(template.content, true),
                   content = template.content.querySelector('.feed_template').innerHTML,
-                  entries = doc.querySelector('#entries').content.querySelector('li');
+                  entries = doc.querySelector('#entries').content.querySelector('li'),
+                  list = doc.querySelector('#list').content.querySelector('li');
 
               this.shadowRoot = this.createShadowRoot();
               this.shadowRoot.appendChild(clone);
               this.element = this.shadowRoot.querySelector('.feed_template');
               this.entries = entries.outerHTML;
+              this.list = list.outerHTML;
   
               //Atributos Pseudo-Opcionais
               var url = this.hasAttribute('url') && this.getAttribute('url') != '' ? this.getAttribute('url') : App.Def.url
@@ -84,53 +111,274 @@
               //Salva o Objeto e o Feed uma Variável
               var self = this,
                   feed = [],
+                  j = [],
+                  k = [],
                   root = this.shadowRoot;
+                  feed.meta = [];
+                  feed.data = [];
+
+              //Função Anônima para Criação do Data Store (Armazenamento Temporário de Dados)
+              (function(){
+                  var cache = [0], expando = 'data' + +new Date();
+                  function data(elem) {
+                      var cacheIndex = elem[expando], nextCacheIndex = cache.length;
+                      if(!cacheIndex) {
+                          cacheIndex = elem[expando] = nextCacheIndex;
+                          cache[cacheIndex] = {};
+                      }
+                      return cache[cacheIndex];
+                  }
+                  window.data = data;
+              })();
 
               window.onload = function() {
-                  //Limpa o Modelo
                   self.element.innerHTML = '';
                   var urls = url.split(',');
                   if(urls.length == 1) {
-                      App.Ext.FetchFeed(App.Ext.MakeRequest(urls.toString(), entry));
+                      j.push(0);
+                      k.push(0);
+                      //App.Ext.FetchFeed(App.Ext.MakeRequest(urls.toString(), entry), 0);
                   }
                   else {
+                      //Obtém a Ordem
                       for (var key in urls) {
-                          App.Ext.FetchFeed(App.Ext.MakeRequest(urls[key], entry));
+                          feed.meta.push({ 'id' : parseInt(key), 'feedUrl' : urls[key] });
+                      }
+
+                      for (var key in urls) {
+                          j.push(parseInt(key));
+                          k.push(parseInt(key));
+                          getJSONP(App.Ext.MakeRequest(urls[key], entry)).then(function(data){
+                              if(window.iterate == feed.meta[window.iterate].id) {
+                                  feed.data.push(data.responseData.feed);
+                                  if(feed.meta.length === window.iterate + 1) {
+                                      __autoload(feed);
+                                  }
+                              }
+                          });
                       }
                   }
-                  App.Ext.FetchStyle(self.getAttribute('css'), root);
+                  App.Ext.ApplyStyle(self.getAttribute('css'), root);
               };
 
               __autoload = function(data){
-                  var result = data.responseData.feed,
-                      status = data.responseStatus,
-                      items = '';
 
-                  //Itera os Itens
-                  for (var key in result.entries) {
-                      //Formata a Data
-                      result.entries[key].publishedDate = new Date(result.entries[key].publishedDate).format('d/m/Y \\à\\s h:i:s');
-                      items += App.Ext.MicroTemplate(self.entries, result.entries[key]);
+                          var result = [], items = '';
+                          for (u = 0; u < data.meta.length; u++) {
+                              result.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
+                              result[u].order = u;
+                              result[u].shortTitle = App.Ext.ShortTitle(result[u].title);
+                              result[u].updated = new Date().format('d/m/Y \\à\\s h:i:s');
+                              result[u].list = array_diff(j,k.splice(k.indexOf(u), 1));
+                              for (var key in result[u].entries) {
+                                  result[u].entries[key].publishedFormatedDate = new Date(result[u].entries[key].publishedDate).format('d/m/Y \\à\\s h:i:s');
+                                  result[u].entries[key].contentFormatedSnippet = result[u].entries[key].contentSnippet.replaceAll(' ...', '...');
+                                  items += App.Ext.MicroTemplate(self.entries, result[u].entries[key]);
+                              }
+                              result[u].items = items;
+                          }
+                          console.log(result);
+
+                          var obj = {
+                                  "car": [
+                                      {"id": 0, "color": [1,2], "name": "Volvo"},
+                                      {"id": 1, "color": [0,2], "name": "Saab"},
+                                      {"id": 2, "color": [0,1], "name": "Peugeot"}
+                                  ]
+                              };
+
+                          var reds2 = JSON.search(obj, '//*[id="' + 0 + '"]');
+                          var reds  = JSON.search(obj, '//*[id!="' + 0 + '"]');
+                          //console.log(reds2);
+                          //console.log(reds);
+
+                          /*
+                  function loadFeed() {
+                      return new Promise(function(resolve) {
+                          var result = [], items = '';
+                          for (u = 0; u < data.meta.length; u++) {
+                              result.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
+                          }
+                          console.log(result);
+
+                          result.order = i++;
+                          result.updated = new Date().format('d/m/Y \\à\\s h:i:s');
+                          result.list = array_diff(j,k.splice(k.indexOf(i - 1), 1));
+                          for (var key in result.entries) {
+                              result.entries[key].publishedFormatedDate = new Date(result.entries[key].publishedDate).format('d/m/Y \\à\\s h:i:s');
+                              result.entries[key].contentFormatedSnippet = result.entries[key].contentSnippet.replaceAll(' ...', '...');
+                              items += App.Ext.MicroTemplate(self.entries, result.entries[key]);
+                          }
+                          result.items = items;
+                          feed.unshift(result);
+                          resolve(feed);
+                      });
                   }
 
-                  //Modelo de Objetos do Feed
-                  var model = {
-                      'feed.author' : result.author,
-                      'feed.title' : result.title,
-                      'feed.description' : result.description,
-                      'feed.link' : result.link,
-                      'feed.type' : result.type,
-                      'feed.updated' : new Date().format('d/m/Y \\à\\s h:i:s'),
-                      'feed.entries' : items
-                  };
+                  //Obtém as Instancia do Mapa
+                  var promise = loadFeed();
+                  promise.then(function(instance) {
+                      window.data(self).instance = instance;
+                  });
+                  */
 
-                  //Aplica o Conteúdo no Modelo
-                  feed.push(App.Ext.MicroTemplate(content, model));
-                  self.element.innerHTML = feed.join('');
+                  //conteudo = App.Ext.MicroTemplate(content, window.data(self).instance[0]).replaceAll(' ...', '...');
+                  //feed.push(conteudo);
+                  //self.element.innerHTML = feed.join('');
+
+                  //console.log(window.data(self).instance[0]);
               };
           }
       }
   });
   //Finalmente Registra o Elemento
-  document.registerElement('google-feed', {prototype: proto});
+  try {
+    document.registerElement('google-feed', {prototype: proto});
+  } catch(e) {}
+
+  function getJSONP(url){
+      return new Promise(function(resolve, reject){
+          window.iterate = 0;
+          var id = '_' + Math.round(10000 * Math.random());
+          var callbackName = 'jsonp_callback_' + id;
+          window[callbackName] = function(data){
+              delete window[callbackName];
+              var ele = document.getElementById(id);
+              ele.parentNode.removeChild(ele);
+              resolve(data);
+              return window.iterate++;
+          };
+          var src = url + '&callback=' + callbackName;
+          var script = document.createElement('script');
+          script.src = src;
+          script.id = id;
+          script.addEventListener('error', reject);
+          (document.getElementsByTagName('head')[0] || document.body || document.documentElement).appendChild(script);
+      })
+  }
+
+  function getJSON(url) {
+    return new Promise(function(resolve, reject) {
+      var xhr = typeof XMLHttpRequest != 'undefined' ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      xhr.open('GET', url, true);
+      xhr.onload = function() {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            resolve(JSON.parse(this.responseText));
+          }
+          else {
+            reject(Error(req.statusText));
+            //reject(xhr.status);
+          }
+        }
+      };
+      xhr.onerror = function() {
+        reject(Error("Network Error Status:" + xhr.statusText));
+      };
+      xhr.send();
+    });
+  }
+
+  function isIE(bool) {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf('MSIE ');
+    if (msie > 0) {
+      return (typeof bool !== 'undefined') ? parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10) : true;
+    }
+    var trident = ua.indexOf('Trident/');
+    if (trident > 0) {
+      var rv = ua.indexOf('rv:');
+      return (typeof bool !== 'undefined') ? parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10) : true;
+    }
+    var edge = ua.indexOf('Edge/');
+    if (edge > 0) {
+      return (typeof bool !== 'undefined') ? parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10) : true;
+    }
+    return false;
+  }
+
+  function array_ksort(src) {
+    var keys = Object.keys( src ), target = {};
+    keys.sort();
+    keys.forEach(function ( key ) {
+      target[ key ] = src[ key ];
+    });
+    return target;
+  };
+
+  function array_diff(a1, a2) {
+      var a = [], diff = [];
+      for (var i = 0; i < a1.length; i++) {
+          a[a1[i]] = true;
+      }
+      for (var i = 0; i < a2.length; i++) {
+          if (a[a2[i]]) {
+              delete a[a2[i]];
+          } else {
+              a[a2[i]] = true;
+          }
+      }
+      for (var k in a) {
+          diff.push(k);
+      }
+      return diff;
+  };
+
+  //Micro Promise para IEca
+  if(isIE()) {
+    function Promise(fn) {
+      var state = 'pending', value, deferred = null;
+      function resolve(newValue) {
+        if(newValue && typeof newValue.then === 'function') {
+          newValue.then(resolve, reject);
+          return;
+        }
+        state = 'resolved';
+        value = newValue;
+        if(deferred) {
+          handle(deferred);
+        }
+      }
+      function reject(reason) {
+        state = 'rejected';
+        value = reason;
+        if(deferred) {
+          handle(deferred);
+        }
+      }
+      function handle(handler) {
+        if(state === 'pending') {
+          deferred = handler;
+          return;
+        }
+        var handlerCallback;
+        if(state === 'resolved') {
+          handlerCallback = handler.onResolved;
+        } else {
+          handlerCallback = handler.onRejected;
+        }
+        if(!handlerCallback) {
+          if(state === 'resolved') {
+            handler.resolve(value);
+          } else {
+            handler.reject(value);
+          }
+          return;
+        }
+        var ret = handlerCallback(value);
+        handler.resolve(ret);
+      }
+      this.then = function(onResolved, onRejected) {
+        return new Promise(function(resolve, reject) {
+          handle({
+            onResolved: onResolved,
+            onRejected: onRejected,
+            resolve: resolve,
+            reject: reject
+          });
+        });
+      };
+      fn(resolve, reject);
+    }
+  };
 </script>
