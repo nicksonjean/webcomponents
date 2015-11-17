@@ -51,8 +51,7 @@
   App = {
     Def : {
       url: 'http://feeds.bbci.co.uk/news/england/rss.xml',
-      entries : 10,
-      refresh : 10000
+      entries : 10
     },
     Ext : {
       MicroTemplate : function(temp, data) {
@@ -81,7 +80,74 @@
         else {
           return title;
         }
+      },
+      CheckUpdate : function(update) {
+        if (/^[0-9]+$/.test(update)) {
+          return parseInt(update);
+        }
+        else {
+          var time = update.match(/(\d+|h|m|s)/g),
+              delay = time[0],
+              scale = time[1];
+          if(scale == 'h') {
+            return ((delay * 60) * 60) * 1000
+          }
+          else if(scale == 'm') {
+            return (delay * 60) * 1000
+          }
+          else if(scale == 's') {
+            return delay * 1000;
+          }
+        }
       }
+    },
+    Callback : function(self, feed, loop) {
+      //Atributos Pseudo-Opcionais
+      var url = self.hasAttribute('url') && self.getAttribute('url') != '' ? self.getAttribute('url') : App.Def.url,
+          entry = self.hasAttribute('entries') && self.getAttribute('entries') != '' ? self.getAttribute('entries') : App.Def.entries,
+          update = self.hasAttribute('update') && self.getAttribute('update') != '' ? self.getAttribute('update') : App.Def.update;
+
+      self.element.innerHTML = '';
+      var urls = url.split(','), iterator = 0;
+      if(urls.length == 1) {
+          loop.meta.push(0);
+          loop.data.push(0);
+          getJSONP(App.Ext.MakeRequest(urls.toString(), entry)).then(function(data){
+              feed.data.push(data.responseData.feed);
+              __autoload(feed);
+          });
+      }
+      else {
+          //Obtém a Ordem
+          for (var key in urls) {
+              feed.meta.push({'id' : parseInt(key), 'feedUrl' : urls[key]});
+          }
+          //Obtém os Feeds
+          for (var key in urls) {
+              loop.meta.push(parseInt(key));
+              loop.data.push(parseInt(key));
+              getJSONP(App.Ext.MakeRequest(urls[key], entry)).then(function(data){
+                  iterator = window.iterate;
+                  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                      if((iterator - 1) == feed.meta[(iterator - 1)].id) {
+                          feed.data.push(data.responseData.feed);
+                          if(feed.meta.length === window.iterate) {
+                              __autoload(feed);
+                          }
+                      }
+                  }
+                  else {
+                      if(window.iterate == feed.meta[iterator].id) {
+                          feed.data.push(data.responseData.feed);
+                          if(feed.meta.length === iterator + 1) {
+                              __autoload(feed);
+                          }
+                      }
+                  }
+              });
+          }
+      }
+      App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
     }
   };
 
@@ -92,74 +158,47 @@
       createdCallback: {
           value: function() {
               var template = doc.querySelector('#feed'),
-                  clone = document.importNode(template.content, true),
-                  content = template.content.querySelector('.feed_template').innerHTML,
-                  entries = doc.querySelector('#entries').content.querySelector('li'),
-                  list = doc.querySelector('#list').content.querySelector('li'),
+                  clone    = document.importNode(template.content, true),
+                  content  = template.content.querySelector('.feed_template').innerHTML,
+                  entries  = doc.querySelector('#entries').content.querySelector('li'),
+                  list     = doc.querySelector('#list').content.querySelector('li'),
                   dropdown = doc.querySelector('#dropdown').content.querySelector('ul');
 
               this.shadowRoot = this.createShadowRoot();
               this.shadowRoot.appendChild(clone);
-              this.element = this.shadowRoot.querySelector('.feed_template');
-              this.entries = entries.outerHTML;
-              this.list = list.outerHTML;
+              this.element    = this.shadowRoot.querySelector('.feed_template');
+
+              //Subtemplates
+              this.entries  = entries.outerHTML;
+              this.list     = list.outerHTML;
               this.dropdown = dropdown.outerHTML;
 
-              //Atributos Pseudo-Opcionais
-              var url = this.hasAttribute('url') && this.getAttribute('url') != '' ? this.getAttribute('url') : App.Def.url
-                  entry = this.hasAttribute('entries') && this.getAttribute('entries') != '' ? this.getAttribute('entries') : App.Def.entries;
-
-              //Salva o Objeto e o Feed uma Variável
+              //Inicializa as Váriáveis
               var self = this,
                   feed = [],
-                  j = [],
-                  k = [],
-                  root = this.shadowRoot;
-                  feed.meta = [];
-                  feed.data = [];
+                  loop = [];
+
+              //Prepara as matrizes necessárias do(s) feed(s)
+              loop.meta = [];
+              loop.data = [];
+              feed.meta = [];
+              feed.data = [];
+
+              var update = self.hasAttribute('update') && self.getAttribute('update') != '' ? self.getAttribute('update') : null;
 
               window.onload = function() {
-                  self.element.innerHTML = '';
-                  var urls = url.split(','), iterator = 0;
-                  if(urls.length == 1) {
-                      j.push(0);
-                      k.push(0);
-                      getJSONP(App.Ext.MakeRequest(urls.toString(), entry)).then(function(data){
-                          feed.data.push(data.responseData.feed);
-                          __autoload(feed);
-                      });
+                  //console.log(content);
+                  App.Callback(self, feed, loop);
+                  //console.log(new Date().format('H:i:s'));
+                  /*
+                  if(update !== null) {
+                      setInterval(function(){
+                          console.log(content);
+                          //App.Callback(self, feed, loop);
+                          //console.log(new Date().format('H:i:s'));
+                      }, App.Ext.CheckUpdate(update));
                   }
-                  else {
-                      //Obtém a Ordem
-                      for (var key in urls) {
-                          feed.meta.push({'id' : parseInt(key), 'feedUrl' : urls[key]});
-                      }
-                      //Obtém os Feeds
-                      for (var key in urls) {
-                          j.push(parseInt(key));
-                          k.push(parseInt(key));
-                          getJSONP(App.Ext.MakeRequest(urls[key], entry)).then(function(data){
-                              iterator = window.iterate;
-                              if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                                  if((iterator - 1) == feed.meta[(iterator - 1)].id) {
-                                      feed.data.push(data.responseData.feed);
-                                      if(feed.meta.length === window.iterate) {
-                                          __autoload(feed);
-                                      }
-                                  }
-                              }
-                              else {
-                                  if(window.iterate == feed.meta[iterator].id) {
-                                      feed.data.push(data.responseData.feed);
-                                      if(feed.meta.length === iterator + 1) {
-                                          __autoload(feed);
-                                      }
-                                  }
-                              }
-                          });
-                      }
-                  }
-                  App.Ext.ApplyStyle(self.getAttribute('css'), root);
+                  */
               };
 
               __autoload = function(data){
@@ -171,7 +210,7 @@
                                   temp.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
                               for (u = 0; u < data.meta.length; u++) {
                                   result.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
-                                  var sequence = array_diff(j,k.splice(k.indexOf(u), 1)), dropdown = [];
+                                  var sequence = array_diff(loop.meta,loop.data.splice(loop.data.indexOf(u), 1)), dropdown = [];
                                   result[u].id = u.toString();
                                   result[u].shortTitle = App.Ext.ShortTitle(result[u].title);
                                   result[u].updated = new Date().format('d/m/Y \\à\\s H:i:s');
@@ -272,28 +311,6 @@
       })
   }
 
-  function getJSON(url) {
-    return new Promise(function(resolve, reject) {
-      var xhr = typeof XMLHttpRequest != 'undefined' ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-      xhr.open('GET', url, true);
-      xhr.onload = function() {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-            resolve(JSON.parse(this.responseText));
-          }
-          else {
-            reject(Error(req.statusText));
-            //reject(xhr.status);
-          }
-        }
-      };
-      xhr.onerror = function() {
-        reject(Error("Network Error Status:" + xhr.statusText));
-      };
-      xhr.send();
-    });
-  }
-
   function isIE(bool) {
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf('MSIE ');
@@ -311,15 +328,6 @@
     }
     return false;
   }
-
-  function array_sort(src) {
-    var keys = Object.keys(src), target = {};
-    keys.sort();
-    keys.forEach(function (key) {
-      target[key] = src[key];
-    });
-    return target;
-  };
 
   function array_ksort(array, key) {
     return array.sort(function(a, b) {
