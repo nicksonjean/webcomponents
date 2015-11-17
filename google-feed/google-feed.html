@@ -118,23 +118,9 @@
                   feed.meta = [];
                   feed.data = [];
 
-              //Função Anônima para Criação do Data Store (Armazenamento Temporário de Dados)
-              (function(){
-                  var cache = [0], expando = 'data' + +new Date();
-                  function data(elem) {
-                      var cacheIndex = elem[expando], nextCacheIndex = cache.length;
-                      if(!cacheIndex) {
-                          cacheIndex = elem[expando] = nextCacheIndex;
-                          cache[cacheIndex] = {};
-                      }
-                      return cache[cacheIndex];
-                  }
-                  window.data = data;
-              })();
-
               window.onload = function() {
                   self.element.innerHTML = '';
-                  var urls = url.split(',');
+                  var urls = url.split(','), iterator = 0;
                   if(urls.length == 1) {
                       j.push(0);
                       k.push(0);
@@ -153,10 +139,21 @@
                           j.push(parseInt(key));
                           k.push(parseInt(key));
                           getJSONP(App.Ext.MakeRequest(urls[key], entry)).then(function(data){
-                              if(window.iterate == feed.meta[window.iterate].id) {
-                                  feed.data.push(data.responseData.feed);
-                                  if(feed.meta.length === window.iterate + 1) {
-                                      __autoload(feed);
+                              iterator = window.iterate;
+                              if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                                  if((iterator - 1) == feed.meta[(iterator - 1)].id) {
+                                      feed.data.push(data.responseData.feed);
+                                      if(feed.meta.length === window.iterate) {
+                                          __autoload(feed);
+                                      }
+                                  }
+                              }
+                              else {
+                                  if(window.iterate == feed.meta[iterator].id) {
+                                      feed.data.push(data.responseData.feed);
+                                      if(feed.meta.length === iterator + 1) {
+                                          __autoload(feed);
+                                      }
                                   }
                               }
                           });
@@ -164,14 +161,14 @@
                   }
                   App.Ext.ApplyStyle(self.getAttribute('css'), root);
               };
+
               __autoload = function(data){
                   function loadFeed() {
                       return new Promise(function(resolve) {
                           var temp = [], result = [], first = false;
                           if(data.data.length > 1) {
-                              for (u = 0; u < data.meta.length; u++) {
+                              for (u = 0; u < data.meta.length; u++)
                                   temp.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
-                              }
                               for (u = 0; u < data.meta.length; u++) {
                                   result.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
                                   var sequence = array_diff(j,k.splice(k.indexOf(u), 1)), dropdown = [];
@@ -218,27 +215,26 @@
                   //Obtém as Instancia do(s) Feed(s)
                   var promise = loadFeed();
                   promise.then(function(instance) {
-                      window.data(self).instance = instance;
-                  });
 
-                  //Aplica o Template
-                  var conteudo = [];
-                  for (var key in window.data(self).instance) {
-                      conteudo.push(App.Ext.MicroTemplate(content, window.data(self).instance[key]));
-                  }
-                  self.element.innerHTML = conteudo.join('');
+                      //Aplica o Template
+                      var conteudo = [];
+                      for (var key in instance) {
+                          conteudo.push(App.Ext.MicroTemplate(content, instance[key]));
+                      }
+                      self.element.innerHTML = conteudo.join('');
 
-                  //Adiciona o Evento de Toggle do Feed caso exista mais de um
-                  $$('.list-toggle', self.shadowRoot).forEach(function(element) {
-                      element.addEventListener('click', function(event) {
-                          $$('.feed_widget', self.shadowRoot).forEach(function(widgets) {
-                              widgets.style.display = "none";
+                      //Adiciona o Evento de Toggle do Feed caso exista mais de um
+                      $$('.list-toggle', self.shadowRoot).forEach(function(element) {
+                          element.addEventListener('click', function(event) {
+                              $$('.feed_widget', self.shadowRoot).forEach(function(widgets) {
+                                  widgets.style.display = "none";
+                              });
+                              var id = this.getAttribute('data-widget');
+                              self.shadowRoot.getElementById("feed_" + id).style.display = 'block';
                           });
-                          var id = this.getAttribute('data-widget');
-                          self.shadowRoot.getElementById("feed_" + id).style.display = 'block';
                       });
-                  });
 
+                  });
               };
           }
       }
@@ -265,7 +261,6 @@
               ele.parentNode.removeChild(ele);
               resolve(data);
               window.iterate++;
-              return window.iterate;
           };
           var src = url + '&callback=' + callbackName;
           var script = document.createElement('script');
@@ -273,6 +268,7 @@
           script.id = id;
           script.addEventListener('error', reject);
           (document.getElementsByTagName('head')[0] || document.body || document.documentElement).appendChild(script);
+          return window.iterate;
       })
   }
 

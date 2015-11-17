@@ -80,7 +80,6 @@ ul.entries li:last-child {
   top: 4px;
   margin: -4px 2px 1px 2px;
 }
-
 ::-webkit-scrollbar {
   width: 6px;
   background: rgba(255,255,255,0.5);
@@ -97,8 +96,6 @@ ul.entries li:last-child {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(113,112,107,0.4);
 }
-
-
 .arrow-down {
   width: 0;
   height: 0;
