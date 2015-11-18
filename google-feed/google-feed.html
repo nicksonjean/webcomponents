@@ -147,7 +147,10 @@
               });
           }
       }
-      App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
+      if(typeof first == 'undefined') {
+          App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
+          first = true;
+      }
     }
   };
 
@@ -187,18 +190,12 @@
               var update = self.hasAttribute('update') && self.getAttribute('update') != '' ? self.getAttribute('update') : null;
 
               window.onload = function() {
-                  //console.log(content);
                   App.Callback(self, feed, loop);
-                  //console.log(new Date().format('H:i:s'));
-                  /*
                   if(update !== null) {
                       setInterval(function(){
-                          console.log(content);
-                          //App.Callback(self, feed, loop);
-                          //console.log(new Date().format('H:i:s'));
+                          App.Callback(self, feed, loop);
                       }, App.Ext.CheckUpdate(update));
                   }
-                  */
               };
 
               __autoload = function(data){
@@ -272,6 +269,18 @@
                               self.shadowRoot.getElementById("feed_" + id).style.display = 'block';
                           });
                       });
+
+                      //Reinicia Variáveis
+                      feed = [];
+                      loop = [];
+
+                      feed.meta = [];
+                      feed.data = [];
+
+                      loop.meta = [];
+                      loop.data = [];
+
+                      instance = null;
 
                   });
               };

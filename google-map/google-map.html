@@ -1359,6 +1359,34 @@
               }
             }
             return mapAddress;
+          },
+          DMS2DD : function(degrees, minutes, seconds, direction) {
+            var dd = degrees + minutes / 60 + seconds / (60 * 60);
+            if (direction == "E") direction = "L";
+            if (direction == "W") direction = "O";
+            if (direction == "S" || direction == "W" || direction == "O") {
+              dd = dd * -1;
+            }
+            return dd;
+          },
+          DD2DMS : function(dms, type){
+            var sign = 1, Abs=0;
+            var days, minutes, secounds, direction;
+            if(dms < 0)  { sign = -1; }
+            Abs = Math.abs( Math.round(dms * 1000000.));
+            if(type == "lat" && Abs > (90 * 1000000)){
+              return false;
+            } else if(type == "lon" && Abs > (180 * 1000000)){
+              return false;
+            }
+            days = Math.floor(Abs / 1000000);
+            minutes = Math.floor(((Abs/1000000) - days) * 60);
+            secounds = ( Math.floor((( ((Abs/1000000) - days) * 60) - minutes) * 100000) * 60 / 100000 ).toFixed();
+            days = days * sign;
+            if(type == 'lat') direction = days < 0 ? 'S' : 'N';
+            if(type == 'lon') direction = days < 0 ? 'W' : 'E';
+            if(type == 'lon') direction = days < 0 ? 'O' : 'L';
+            return (days * sign) + 'º ' + minutes + "' " + secounds + "'' " + direction;
           }
         },
         Set : {
