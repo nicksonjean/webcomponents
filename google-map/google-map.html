@@ -1,3 +1,10 @@
+<!--
+Google Map Web Componente
+
+@element google-map
+@demo https://github.com/nicksonjean/webcomponents/tree/master/google-map
+@author Nickson Jeanmerson
+-->
 <!-- Google Map Template -->
 <template id="gm">
   <style>
@@ -992,7 +999,7 @@
       script.type = 'text/javascript';
       script.async = true;
       script.defer = true;
-      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&sensor=true&libraries=places&callback=__autoload';
+      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&sensor=false&libraries=places&callback=__autoload';
       if (typeof lang == 'string' && lang !== undefined) { script.src += '&language=' + lang; }
       script.id = "google-maps-script";
       document.getElementsByTagName("head")[0].appendChild(script);
@@ -1360,33 +1367,34 @@
             }
             return mapAddress;
           },
-          DMS2DD : function(degrees, minutes, seconds, direction) {
-            var dd = degrees + minutes / 60 + seconds / (60 * 60);
-            if (direction == "E") direction = "L";
-            if (direction == "W") direction = "O";
-            if (direction == "S" || direction == "W" || direction == "O") {
-              dd = dd * -1;
+          DMS2DD : function(s) {
+            var sw = /[sw]/i.test(s);
+            var f = sw? -1 : 1;
+            var bits = s.match(/[\d.]+/g);
+            var result = 0;
+            for (var i=0, iLen=bits.length; i<iLen; i++) {
+              result += bits[i]/f;
+              f *= 60;
             }
-            return dd;
+            return result.toFixed(6);
           },
-          DD2DMS : function(dms, type){
+          DD2DMS : function(dd, type){
             var sign = 1, Abs=0;
-            var days, minutes, secounds, direction;
-            if(dms < 0)  { sign = -1; }
-            Abs = Math.abs( Math.round(dms * 1000000.));
+            var degrees, minutes, secounds, direction;
+            if(dd < 0)  { sign = -1; }
+            Abs = Math.abs( Math.round(dd * 1000000.));
             if(type == "lat" && Abs > (90 * 1000000)){
               return false;
             } else if(type == "lon" && Abs > (180 * 1000000)){
               return false;
             }
-            days = Math.floor(Abs / 1000000);
-            minutes = Math.floor(((Abs/1000000) - days) * 60);
-            secounds = ( Math.floor((( ((Abs/1000000) - days) * 60) - minutes) * 100000) * 60 / 100000 ).toFixed();
-            days = days * sign;
-            if(type == 'lat') direction = days < 0 ? 'S' : 'N';
-            if(type == 'lon') direction = days < 0 ? 'W' : 'E';
-            if(type == 'lon') direction = days < 0 ? 'O' : 'L';
-            return (days * sign) + 'º ' + minutes + "' " + secounds + "'' " + direction;
+            degrees = Math.floor(Abs / 1000000);
+            minutes = Math.floor(((Abs/1000000) - degrees) * 60);
+            secounds = (Math.floor((( ((Abs/1000000) - degrees) * 60) - minutes) * 100000) * 60 / 100000).toFixed(4);
+            degrees = degrees * sign;
+            if(type == 'lat') direction = degrees < 0 ? 'S' : 'N';
+            if(type == 'lon') direction = degrees < 0 ? 'W' : 'E';
+            return (degrees * sign) + '° ' + minutes + "′ " + secounds + "″ " + direction;
           }
         },
         Set : {
@@ -2079,8 +2087,16 @@
         this.setAttribute('mapcall', 'mapByAddress');
       }
       else if ((this.hasAttribute('latitude') && this.getAttribute('latitude') != '') && (this.hasAttribute('longitude') && this.getAttribute('longitude') != '')) {
-        App.mapByLatLong(this);
-        this.setAttribute('mapcall', 'mapByLatLong');
+        if (/^-?\d*(\.\d+)?$/.test(this.getAttribute('latitude')) && /^-?\d*(\.\d+)?$/.test(this.getAttribute('longitude'))) {
+          App.mapByLatLong(this);
+          this.setAttribute('mapcall', 'mapByLatLong');
+        }
+        else {
+          this.setAttribute('latitude', App.Ext.Map.Get.DMS2DD(this.getAttribute('latitude')));
+          this.setAttribute('longitude', App.Ext.Map.Get.DMS2DD(this.getAttribute('longitude')));
+          App.mapByLatLong(this);
+          this.setAttribute('mapcall', 'mapByLatLong');
+        }
       }
       else {
         var $this = this;

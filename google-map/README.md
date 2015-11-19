@@ -36,23 +36,29 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
 |  ✓   |    ✓   |    ✓    |     ✓    |      ✓    |    ✓   |        ✓        |        ✓       |
 
 ### Características
-- Controles Adicionais
+- Múltiplas Formas de Entrada:
+  - Suporte a Latitude e Longitude no formato DMS: (Graus, Minutos, Segundos e Direção);
+    - Por Exemplo: Latitude = 45° 31′ 8.2920″ N e Longitude = 122° 40′ 22.4364″ W
+  - Suporte a Latitude e Longitude no formato DD: (Direção Decimal);
+    - Por Exemplo: Latitude = 45.518970 e Longitude = -122.672899
+  - Suporta a Geração do Mapa a partir de um endereço (geo-localização reversa);
+- Controles Adicionais:
   - Possibilidade de seleção de idiomas em tempo real, com todos os 53 idiomas suportados pelo google maps - https://developers.google.com/maps/faq#languagesupport
   - Possibilidade de busca geo-reversa de localidade, através de endereço, com pesquisa instantanea e auto-complete - https://developers.google.com/maps/documentation/javascript/places-autocomplete
   - Além dos controles normais do google maps: como botões de zoom, rotação e tipos de mapas - https://developers.google.com/maps/documentation/javascript/controls
   - Menu de contexto para criação de rotas entre outras funcionalidades - http://googlemapsmania.blogspot.com.br/2012/04/create-google-maps-context-menu.html;
-- Pino/Marcador Customizado
+- Pino/Marcador Customizado:
   - Possibilidade de customizar o pino/marcador que demarca a coordenada "0" da localidade encontrada, com uma imagem personalizada;
   - Possibilidade de anexar ao pino/marcador eventos de arrastar e soltar de forma que atualizem ou não através de flag booleana um tooltip e/ou um retorno;
-- Melhor eficiência, qualidade, padronização, estrutura e consistência;
-  - Utilização de Promises/A+ (then/catch) para obtenção da API de Mapas de Google e principamente na obtenção de arquivos externos;
+- Uso de Técnicas/Tecnologias Atuais:
+  - Utilização de Promises/A+ (then/catch) para obtenção da API de Mapas do Google e principamente na obtenção de arquivos externos;
   - Fallback Extremo, com possibilidade de uso do componente até para quando não for oferecido nem latitude e longitude e nem o endereço, assim o mapa tenta fazer uso do Geolocation API, e mesmo que não seja dada permissão para uso do Geolocation API, uma requisição remota é feita para obtenção da latitude e longitude da conexão com base no IP e dessa forma o mapa é gerada, porém não pôde ser testado satisfatóriamente;
-- Retorno
-  - Capacidade de retornar ou as coordenadas ou o endereço completo de acordo com a geolocalização do mapa ou tipo de entrada fornecida;
-  - Também é dado o controle a alguns aspectos da estilização do retorno como bordas, dimensões e etc.
-- Direção de escrita
+- Direção de Escrita:
   - Suporte total tanto à LTR quanto à RTL;
   - De acordo com o idioma escolhido o mapa se ajusta totalmente à direção de escrita;
+- Múltiplas Formas de Retorno:
+  - Capacidade de retornar ou as coordenadas ou o endereço completo de acordo com a geolocalização do mapa ou tipo de entrada fornecida;
+  - Também é dado o controle a alguns aspectos da estilização do retorno como bordas, dimensões e etc.
 
 ### Limitações Conhecidas
 - Street View
@@ -61,5 +67,10 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
     - Sem Shadow DOM - http://googlewebcomponents.github.io/google-map/components/google-map/demo/index.html
 
 ### Como Usar
+- Vejam o arquivo: index-google-map.html
+
+### Exemplos 
 
 &lt;google-map&gt;&lt;/google-map&gt;
+
+Em Breve...
