@@ -61,10 +61,14 @@
             temp = temp.replace(new RegExp('{{' + f + '}}', 'ig'), data[i][f]);
         return temp;
       },
-      MakeRequest : function(url, entry) {
-        var template = 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num={{entries}}&q={{url}}';
-        var data = { url : url, entries : entry }
-        return App.Ext.MicroTemplate(template, data);
+      MakeRequest : function(url) {
+        var YQL = {
+          prefix : 'https://query.yahooapis.com/v1/public/yql?q=',
+          query : "SELECT * FROM feednormalizer WHERE url IN('{{url}}') AND output='rss_2.0' AND prexsl='<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"><xsl:output omit-xml-declaration=\"yes\"/><xsl:template match=\"node()|@*\"><xsl:copy><xsl:apply-templates select=\"node()|@*\"/></xsl:copy></xsl:template><xsl:template match=\"image\"/></xsl:stylesheet>'",
+          sufix : '&diagnostics=true&format=json'
+        };
+        var data = { url : url };
+        return YQL.prefix + encodeURIComponent(App.Ext.MicroTemplate(YQL.query, data)) + YQL.sufix;
       },
       ApplyStyle : function(url, root) {
         var style = document.createElement('style');
@@ -108,11 +112,13 @@
           update = self.hasAttribute('update') && self.getAttribute('update') != '' ? self.getAttribute('update') : App.Def.update;
 
       self.element.innerHTML = '';
-      var urls = url.split(','), iterator = 0;
+      var urls = url.split(',').join("','"), iterator = 0;
+      console.log(decodeURIComponent(App.Ext.MakeRequest(urls)));
+      /*
       if(urls.length == 1) {
           loop.meta.push(0);
           loop.data.push(0);
-          getJSONP(App.Ext.MakeRequest(urls.toString(), entry)).then(function(data){
+          getJSONP(App.Ext.MakeRequest(urls.toString())).then(function(data){
               feed.data.push(data.responseData.feed);
               __autoload(feed);
           });
@@ -151,6 +157,7 @@
           App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
           first = true;
       }
+      */
     }
   };
 
