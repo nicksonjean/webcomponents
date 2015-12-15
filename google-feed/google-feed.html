@@ -5,6 +5,8 @@
   String.prototype.toDOM=function(){var d=document,i,a=d.createElement("div"),b=d.createDocumentFragment();a.innerHTML=this;while(i=a.firstChild)b.appendChild(i);return b;};
   // Protótipo para ReplaceAll com Split e Join
   String.prototype.replaceAll=function(search,replacement){var target=this;return target.split(search).join(replacement);};
+  // Protótipo para Truncar Strings
+  String.prototype.truncate = function(limit){var bits,i;bits=this.split('');if(bits.length>limit){for(i=bits.length-1;i>-1;--i){if(i>limit){bits.length=i;}else if(' '===bits[i]){bits.length=i;break;}}bits.push('...');}return bits.join('');}
   /* 
    * Defiant.js v1.3.4 
    * Search JSON structures plus smart templating with XSLT and XPath. 
@@ -112,52 +114,35 @@
           update = self.hasAttribute('update') && self.getAttribute('update') != '' ? self.getAttribute('update') : App.Def.update;
 
       self.element.innerHTML = '';
-      var urls = url.split(',').join("','"), iterator = 0;
-      console.log(decodeURIComponent(App.Ext.MakeRequest(urls)));
-      /*
+      var urls = url.split(',');
+
       if(urls.length == 1) {
+          //Reseta as Matrizes
           loop.meta.push(0);
           loop.data.push(0);
-          getJSONP(App.Ext.MakeRequest(urls.toString())).then(function(data){
-              feed.data.push(data.responseData.feed);
-              __autoload(feed);
-          });
       }
       else {
+          //Reseta as Matrizes
+          loop.meta.length = 0;
+          loop.data.length = 0;
+          feed.meta.length = 0;
+          feed.data.length = 0;
           //Obtém a Ordem
-          for (var key in urls) {
-              feed.meta.push({'id' : parseInt(key), 'feedUrl' : urls[key]});
-          }
-          //Obtém os Feeds
           for (var key in urls) {
               loop.meta.push(parseInt(key));
               loop.data.push(parseInt(key));
-              getJSONP(App.Ext.MakeRequest(urls[key], entry)).then(function(data){
-                  iterator = window.iterate;
-                  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                      if((iterator - 1) == feed.meta[(iterator - 1)].id) {
-                          feed.data.push(data.responseData.feed);
-                          if(feed.meta.length === window.iterate) {
-                              __autoload(feed);
-                          }
-                      }
-                  }
-                  else {
-                      if(window.iterate == feed.meta[iterator].id) {
-                          feed.data.push(data.responseData.feed);
-                          if(feed.meta.length === iterator + 1) {
-                              __autoload(feed);
-                          }
-                      }
-                  }
-              });
+              feed.meta.push({'id' : parseInt(key), 'feedUrl' : urls[key]});
           }
       }
+      //Obtém o(s) Feed(s)
+      getJSONP(App.Ext.MakeRequest(urls.join("','"))).then(function(data){
+          feed.data.push(data.query);
+          __autoload(feed);
+      });
       if(typeof first == 'undefined') {
           App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
           first = true;
       }
-      */
     }
   };
 
@@ -194,6 +179,7 @@
               feed.meta = [];
               feed.data = [];
 
+              var entry = self.hasAttribute('entries') && self.getAttribute('entries') != '' ? self.getAttribute('entries') : App.Def.entries;
               var update = self.hasAttribute('update') && self.getAttribute('update') != '' ? self.getAttribute('update') : null;
 
               window.onload = function() {
@@ -209,15 +195,18 @@
                   function loadFeed() {
                       return new Promise(function(resolve) {
                           var temp = [], result = [], first = false;
-                          if(data.data.length > 1) {
+                          if(data.meta.length > 1) {
                               for (u = 0; u < data.meta.length; u++)
-                                  temp.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
+                                  temp.push({
+                                      'title' : data.data[0].results.rss[u].channel.title,
+                                      'feedUrl' :JSON.search(data.data, '//*[id="' + data.meta[u].feedUrl + '"]')[0]['id']
+                                  });
                               for (u = 0; u < data.meta.length; u++) {
-                                  result.push(JSON.search(data.data, '//*[feedUrl="' + data.meta[u].feedUrl + '"]')[0]);
+                                  result.push(data.data[0].results.rss[u].channel);
                                   var sequence = array_diff(loop.meta,loop.data.splice(loop.data.indexOf(u), 1)), dropdown = [];
                                   result[u].id = u.toString();
-                                  result[u].shortTitle = App.Ext.ShortTitle(result[u].title);
-                                  result[u].updated = new Date().format('d/m/Y \\à\\s H:i:s');
+                                  result[u].shortTitle = App.Ext.ShortTitle(data.data[0].results.rss[u].channel.title);
+                                  result[u].updated = new Date(data.data[0].results.rss[u].channel.pubDate).format('d/m/Y \\à\\s H:i:s');
                                   var items = '', list = '';
                                   if(first == true) 
                                       dropdown.push({'id': result[u].id, 'type' : 'active', 'title' : result[u].shortTitle});
@@ -228,26 +217,26 @@
                                       list += App.Ext.MicroTemplate(self.list, result[u].sequence[key]);
                                   result[u].list = App.Ext.MicroTemplate(self.dropdown, {'dropdown' : list});
                                   result[u].arrow = App.Ext.MicroTemplate('<span class="arrow-down"></span>', {'arrow' : list});
-                                  for (var key in result[u].entries) {
-                                      result[u].entries[key].publishedFormatedDate = new Date(result[u].entries[key].publishedDate).format('d/m/Y \\à\\s H:i:s');
-                                      result[u].entries[key].contentFormatedSnippet = result[u].entries[key].contentSnippet.replaceAll(' ...', '...');
-                                      items += App.Ext.MicroTemplate(self.entries, result[u].entries[key]);
+                                  for (key = 0; key <= (entry - 1); key++) {
+                                      result[u].item[key].publishedFormatedDate = new Date(result[u].item[key].pubDate).format('d/m/Y \\à\\s H:i:s');
+                                      result[u].item[key].contentFormatedSnippet = result[u].item[key].description.replace(/<\/?[^>]+(>|$)/g, "").replaceAll(' ...', '...').replace(/\s+([.,?;!":])/g,'$1').truncate(185);
+                                      items += App.Ext.MicroTemplate(self.entries, result[u].item[key]);
                                   }
                                   result[u].items = items;
                               }
                           }
                           else {
-                              result = data.data;
+                              result[0] = data.data[0].results.rss.channel;
                               result[0].id = '0';
                               result[0].shortTitle = App.Ext.ShortTitle(result[0].title);
-                              result[0].updated = new Date().format('d/m/Y \\à\\s H:i:s');
+                              result[0].updated = new Date(result[0].pubDate).format('d/m/Y \\à\\s H:i:s');
                               var items = '', list = '', arrow = '';
-                              result[0].list = list;
-                              for (var key in result[0].entries) {
-                                  result[0].entries[key].publishedFormatedDate = new Date(result[0].entries[key].publishedDate).format('d/m/Y \\à\\s H:i:s');
-                                  result[0].entries[key].contentFormatedSnippet = result[0].entries[key].contentSnippet.replaceAll(' ...', '...');
-                                  items += App.Ext.MicroTemplate(self.entries, result[0].entries[key]);
+                              for (key = 0; key <= (entry - 1); key++) {
+                                  result[0].item[key].publishedFormatedDate = new Date(result[0].item[key].pubDate).format('d/m/Y \\à\\s H:i:s');
+                                  result[0].item[key].contentFormatedSnippet = result[0].item[key].description.replace(/<\/?[^>]+(>|$)/g, "").replaceAll(' ...', '...').replace(/\s+([.,?;!":])/g,'$1').truncate(185);
+                                  items += App.Ext.MicroTemplate(self.entries, result[0].item[key]);
                               }
+                              result[0].list  = list;
                               result[0].arrow = arrow;
                               result[0].items = items;
                           }
