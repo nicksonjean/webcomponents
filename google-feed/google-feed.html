@@ -6,7 +6,7 @@
   // Protótipo para ReplaceAll com Split e Join
   String.prototype.replaceAll=function(search,replacement){var target=this;return target.split(search).join(replacement);};
   // Protótipo para Truncar Strings
-  String.prototype.truncate = function(limit){var bits,i;bits=this.split('');if(bits.length>limit){for(i=bits.length-1;i>-1;--i){if(i>limit){bits.length=i;}else if(' '===bits[i]){bits.length=i;break;}}bits.push('...');}return bits.join('');}
+  String.prototype.truncate=function(limit){var bits,i;bits=this.split('');if(bits.length>limit){for(i=bits.length-1;i>-1;--i){if(i>limit){bits.length=i;}else if(' '===bits[i]){bits.length=i;break;}}bits.push('...');}return bits.join('');}
   /* 
    * Defiant.js v1.3.4 
    * Search JSON structures plus smart templating with XSLT and XPath. 
@@ -155,10 +155,10 @@
       }
       else {
           //Reseta as Matrizes
-          loop.meta.length = 0;
-          loop.data.length = 0;
-          feed.meta.length = 0;
-          feed.data.length = 0;
+          loop.meta = [];
+          loop.data = [];
+          feed.meta = [];
+          feed.data = [];
           //Obtém a Ordem
           for (var key in urls) {
               loop.meta.push(parseInt(key));
@@ -167,9 +167,11 @@
           }
       }
 
-      __autoload = function(feed, self){
+      __autoload = function(feed, loop, auto, self){
           //Carrega o Tema
-          App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
+          if(auto == false) {
+            App.Ext.ApplyStyle(self.getAttribute('css'), self.shadowRoot);
+          }
           function loadFeed() {
               return new Promise(function(resolve) {
                   var temp = [], result = [], first = false;
@@ -181,20 +183,23 @@
                           });
                       for (u = 0; u < feed.meta.length; u++) {
                           result.push(feed.data[0].results.rss[u].channel);
-                          var sequence = array_diff(loop.meta,loop.data.splice(loop.data.indexOf(u), 1)), dropdown = [];
                           result[u].id = u.toString();
                           result[u].shortTitle = App.Ext.ShortTitle(feed.data[0].results.rss[u].channel.title);
                           result[u].updated = new Date(feed.data[0].results.rss[u].channel.pubDate).format('d/m/Y \\à\\s H:i:s');
                           var items = '', list = '';
-                          if(first == true) 
-                              dropdown.push({'id': result[u].id, 'type' : 'active', 'title' : result[u].shortTitle});
-                          for (var key in sequence)
-                              dropdown.push({'id': sequence[key], 'type' : 'inactive', 'title' : App.Ext.ShortTitle(temp[sequence[key]].title)});
-                          result[u].sequence = array_ksort(dropdown, 'id');
-                          for (var key in result[u].sequence)
-                              list += App.Ext.MicroTemplate(self.list, result[u].sequence[key]);
-                          result[u].list = App.Ext.MicroTemplate(self.dropdown, {'dropdown' : list});
-                          result[u].arrow = App.Ext.MicroTemplate('<span class="arrow-down"></span>', {'arrow' : list});
+                          if(auto == false) {
+                              var sequence = array_diff(loop.meta,loop.data.splice(loop.data.indexOf(u), 1)), dropdown = [];
+                              if(first == true)
+                                  dropdown.push({'id': result[u].id, 'type' : 'active', 'title' : result[u].shortTitle});
+                              for (var key in sequence)
+                                  dropdown.push({'id': sequence[key], 'type' : 'inactive', 'title' : App.Ext.ShortTitle(temp[sequence[key]].title)});
+                              result[u].sequence = array_ksort(dropdown, 'id');
+                              result[u].dropdown = dropdown;
+                              for (var key in result[u].sequence)
+                                  list += App.Ext.MicroTemplate(self.list, result[u].sequence[key]);
+                              result[u].list = App.Ext.MicroTemplate(self.dropdown, {'dropdown' : list});
+                              result[u].arrow = App.Ext.MicroTemplate('<span class="arrow-down"></span>', {'arrow' : list});
+                          }
                           for (key = 0; key <= (entry - 1); key++) {
                               result[u].item[key].publishedFormatedDate = new Date(result[u].item[key].pubDate).format('d/m/Y \\à\\s H:i:s');
                               result[u].item[key].contentFormatedSnippet = result[u].item[key].description.replace(/<\/?[^>]+(>|$)/g, "").replaceAll(' ...', '...').replace(/\s+([.,?;!":])/g,'$1').truncate(185);
@@ -247,13 +252,10 @@
               //Reinicia Variáveis
               feed = [];
               loop = [];
-
               feed.meta = [];
               feed.data = [];
-
               loop.meta = [];
               loop.data = [];
-
               instance = null;
 
           });
@@ -263,7 +265,7 @@
       //Obtém o(s) Feed(s)
       getJSONP(App.Ext.MakeRequest(urls.join("','"))).then(function(data){
           feed.data.push(data.query);
-          __autoload(feed, self);
+          __autoload(feed, loop, false, self);
       });
 
       //Atualiza o(s) Feed(s)
@@ -272,7 +274,7 @@
               self.element.innerHTML = '';
               getJSONP(App.Ext.MakeRequest(urls.join("','"))).then(function(data){
                   feed.data.push(data.query);
-                  __autoload(feed, self);
+                  __autoload(feed, loop, true, self);
               });
           }, App.Ext.CheckUpdate(update));
       }
