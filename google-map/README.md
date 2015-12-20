@@ -12,7 +12,7 @@ iniciativa de criar um outro Custom Web Component para o Google Maps.
 
 ### Tecnologias usadas:
 
-É utilizado o seguinte conjunto de tecnologias para criação desse componente:
+É utilizado o seguinte conjunto de tecnologias para criação desse componente web:
 
 - **WebComponents** - https://github.com/webcomponents/webcomponentsjs
   - **Custom Elements** - http://www.w3.org/TR/custom-elements/
@@ -20,7 +20,7 @@ iniciativa de criar um outro Custom Web Component para o Google Maps.
   - **Shadow DOM** - http://www.w3.org/TR/shadow-dom/
   - **Templates** - http://www.w3.org/TR/components-intro/#template-section
 
-Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melhor estabilidade do componente:
+Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melhor estabilidade do componente web:
 
 - **Promise/A+** - https://promisesaplus.com/ com Polyfill para IE9+
 - **Geolocation API** - http://dev.w3.org/geo/api/spec-source.html Obtendo a localização do mapa quando não for fornecido nem latitude e longitude e nem um endereço válido
@@ -52,7 +52,7 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
   - Possibilidade de anexar ao pino/marcador eventos de arrastar e soltar de forma que atualizem ou não através de flag booleana um tooltip e/ou um retorno;
 - Uso de Técnicas/Tecnologias Atuais:
   - Utilização de Promises/A+ (then/catch) para obtenção da API de Mapas do Google e principamente na obtenção de arquivos externos;
-  - Fallback Extremo, com possibilidade de uso do componente até para quando não for oferecido nem latitude e longitude e nem o endereço, assim o mapa tenta fazer uso do Geolocation API, e mesmo que não seja dada permissão para uso do Geolocation API, uma requisição remota é feita para obtenção da latitude e longitude da conexão com base no IP e dessa forma o mapa é gerada, porém não pôde ser testado satisfatóriamente;
+  - Fallback Extremo, com possibilidade de uso do componente web até para quando não for oferecido nem latitude e longitude e nem o endereço, assim o mapa tenta fazer uso do Geolocation API, e mesmo que não seja dada permissão para uso do Geolocation API, uma requisição remota é feita para obtenção da latitude e longitude da conexão com base no IP e dessa forma o mapa é gerada, porém não pôde ser testado satisfatóriamente;
 - Direção de Escrita:
   - Suporte total tanto à LTR quanto à RTL;
   - De acordo com o idioma escolhido o mapa se ajusta totalmente à direção de escrita;

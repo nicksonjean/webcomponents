@@ -13,7 +13,7 @@ feeds;
 
 ### Tecnologias usadas:
 
-É utilizado o seguinte conjunto de tecnologias para criação desse componente:
+É utilizado o seguinte conjunto de tecnologias para criação desse componente web:
 
 - **WebComponents** - https://github.com/webcomponents/webcomponentsjs
   - **Custom Elements** - http://www.w3.org/TR/custom-elements/
@@ -24,8 +24,9 @@ feeds;
 Base/Conceito:
 
 - Feeder - VanillaJS Feed Reader - http://www.pinceladasdaweb.com.br/blog/2015/09/28/feeder-vanillajs-feed-reader/ e https://github.com/pinceladasdaweb/Feeder
+- Feed Widget - TutorialZine - http://tutorialzine.com/2010/02/feed-widget-jquery-css-yql/
 
-Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melhor estabilidade do componente:
+Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melhor estabilidade do componente web:
 
 - **Promise/A+** - https://promisesaplus.com/ com Polyfill para IE9+
 - **YQL** - https://developer.yahoo.com/yql/console/, Linguagem para criação de APIs criada pelo Yahoo baseado em SQL
@@ -54,7 +55,7 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
   - Independentemente do(s) formato(s) do(s) feed(s) no parâmetro url, toda a saída será padronizada no formato RSS 2.0, graças à tabela feednormalizer do YQL;
 - Total Personalização com Temas/Skins:
   - Possibilidade de customização da exibição do componente web com um css anexado diretamente ao mesmo, dando total liberdade de criação de temas/skins personalizados;
-  - O arquivo CSS do tema/skin usado para customização do componente tanto pode estar hospedado localmente quanto remotamente;
+  - O arquivo CSS do tema/skin usado para customização visual do componente web tanto pode estar hospedado localmente quanto remotamente;
 - Menu Dropdown para Escolha do Feed Ativo:
   - Quando mais de um feed é informado no parâmetro url, um menu dropdown é exibido para se escolher o feed ativo para exibição;
 - Uso de Técnicas/Tecnologias Atuais:
@@ -62,7 +63,7 @@ Adicionalmente, foi feito uso das mais novas técnicas para se garantir uma melh
 
 ### Como Usar
 
-- O Web Componente possui os seguintes parâmetros/atributos:
+- O componente web possui os seguintes parâmetros/atributos:
 
 | Parâmetro/Atributo                 | Descrição                                                            |
 | ---------------------------------- |:--------------------------------------------------------------------:|
