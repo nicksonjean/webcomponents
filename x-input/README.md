@@ -79,7 +79,7 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 ### Tabela para Números Inteiros
 
-|    Tipo     |                  Valor Min/Máx                   <th colspan=3>      Inteiros Permitidos      |
+|    Tipo     |                  Valor Min/Máx                         Inteiros Permitidos      |
 |:-----------:|:------------------------------------------------:|:--------:|:--------:|:------:|
 |   x-type    |                     Padrão                       | Unsigned | Negative | Signed |
 | positiveint | 0 à 18446744073709552000                         |    ✓     |          |        |
@@ -94,7 +94,7 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 ### Tabela para Números Decimais
 
-|    Tipo     |                  Valor Min/Máx                   <th colspan=3>      Decimais Permitidos      |
+|    Tipo     |                  Valor Min/Máx                         Decimais Permitidos      |
 |:-----------:|:------------------------------------------------:|:--------:|:--------:|:------:|
 |   x-type    |                     Padrão                       | Unsigned | Negative | Signed |
 | positivedec | 0 à 18446744073709552000.00                      |    ✓     |          |        |
