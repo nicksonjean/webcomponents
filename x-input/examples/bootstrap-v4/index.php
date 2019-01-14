@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap 4.0.0-alpha.6 -->
-    <link rel="stylesheet" href="plugins/bootstrap-v4/dist/css/bootstrap.min.css" />
-    <!-- Datatables for Bootstrap 4-->
+    <!-- Bootstrap v4.2.1 -->
+    <link rel="stylesheet" href="plugins/bootstrap-v4/dist/css/bootstrap-4.2.1.min.css" />
+    <!-- Datatables for Bootstrap v4-->
     <link rel="stylesheet" href="plugins/bootstrap-responsive-datatables/dist/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="plugins/bootstrap-responsive-datatables/dist/css/responsive.bootstrap4.min.css" />
     <!-- Bootstrap Responsive Tabs v2.0.1 -->
@@ -408,18 +408,20 @@
 
     </div>
 
-    <!-- jQuery 3.2.1 -->
+    <!-- jQuery 3.3.1 -->
     <!--[if gte IE 9]><!-->
-      <script src="plugins/jquery/dist/js/jquery-3.2.1.min.js"></script>
-      <script>window.jQuery || document.write('<script src="plugins/jquery/dist/js/jquery-3.2.1.min.js"><\/script>')</script>
+      <script src="plugins/jquery/dist/js/jquery-3.3.1.min.js"></script>
+      <script>window.jQuery || document.write('<script src="plugins/jquery/dist/js/jquery-3.3.1.min.js"><\/script>')</script>
     <!--<![endif]-->
     <!--[if lt IE 9]>
       <script src="plugins/jquery/dist/js/jquery-1.12.4.min.js"></script>
       <script>window.jQuery || document.write('<script src="plugins/jquery/dist/js/jquery-1.12.4.min.js"><\/script>')</script>
     <![endif]-->
-    <script src="plugins/bootstrap-v4/dist/js/popper.min.js"></script>
-    <script src="plugins/bootstrap-v4/dist/js/bootstrap.min.js"></script>
-    <!-- Datatables for Bootstrap 4-->
+    <!-- Popper 1.14.6 -->
+    <script src="plugins/bootstrap-v4/dist/js/popper-1.14.6.min.js"></script>
+    <!-- Bootstrap v4.2.1 -->
+    <script src="plugins/bootstrap-v4/dist/js/bootstrap-4.2.1.min.js"></script>
+    <!-- Datatables for Bootstrap v4-->
     <script src="plugins/bootstrap-responsive-datatables/dist/js/jquery.dataTables.min.js"></script>
     <script src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.bootstrap4.min.js"></script>
     <script src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.responsive.min.js"></script>
@@ -440,7 +442,7 @@
     <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <!-- X-Input WebComponent v0.5a-->
     <!--<link rel="import" href="../../src/x-input.html">-->
-    <link rel="import" href="../../dist/standalone/x-input.html">
+    <link rel="import" href="../../dist/standalone/x-input.min.html">
     <script>
       $(function(){
 
@@ -473,7 +475,8 @@
             infoPostFix: "",
             searchText: "Filtrar",
             url: "",
-            search: '<div class="input-group"><span class="input-group-addon" style="background-color:white; color:#0275d8"><i class="fa fa-search"></i></span></div>',
+            //search: '<div class="input-group"><span class="input-group-addon" style="background-color:white; color:#0275d8"><i class="fa fa-search"></i></span></div>', //Bootstrap v4.0.0-beta.2
+            search: '<div class="input-group"><div class="input-group-append"><span class="input-group-text" style="background-color:white; color:#007bff"><i class="fa fa-search"></i></span></div></div>', //Bootstrap v4.2.1
             paginate: {
               first: "<i class='fa fa-angle-double-left'></i>",
               previous: "<i class='fa fa-angle-left'></i>",
@@ -498,11 +501,24 @@
             // Ajusta a Responsividade da Páginação
             $('.dataTables_paginate').parent().removeClass('col-md-7').addClass('col-md-10');
 
+            /*
+            // Bootstrap v4.0.0-beta.2
             // Remove o Label do Filtro de Páginas
             $(".dataTables_length").find('select').removeAttr('name').end().find('label').replaceWith($(".dataTables_length").find('select').removeClass('input-sm')).end().parent().removeClass('col-sm-12 col-md-6').addClass('col-2 col-lg-3');
 
             // Remove o Label do Filtro de Buscas
             $(".dataTables_filter").find('label').replaceWith($(".dataTables_filter").find('label').children().removeClass('input-sm')).end().find('input[type="search"]').prependTo('.dataTables_filter .input-group').parent().parent().parent().removeClass('col-sm-12 col-md-6').addClass('col-lg-3 push-lg-6 col-10');
+            */
+
+            // Bootstrap v4.2.1
+            // Remove o Label do Filtro de Páginas
+            $(".dataTables_length").find('select').removeAttr('name').end().find('label').replaceWith($(".dataTables_length").find('select').removeClass('input-sm')).end().parent().removeClass('col-sm-12 col-md-6').addClass('col-2 col-lg-9');
+
+            // Remove o Label do Filtro de Buscas
+            $(".dataTables_filter").find('label').replaceWith($(".dataTables_filter").find('label').children().removeClass('input-sm')).end().find('input[type="search"]').prependTo('.dataTables_filter .input-group').parent().parent().parent().removeClass('col-sm-12 col-md-6').addClass('col-lg-3 push-6 col-10');
+
+            // Ajusta a Altura do Filtro de Buscas
+            $('.form-control-sm').css('height', 'calc(1.8125rem + 5px)');
 
             // Remove Inline Form
             $('.dt-bootstrap').removeClass('dataTables_wrapper').removeClass('form-inline');

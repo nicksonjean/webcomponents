@@ -36,14 +36,14 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 - Suporte e Recursos Adicionais:
   - Adiciona máscara e comportamentos (eventos customizados) ao input padrão do HTML5;
   - Não obstrui o submit form em qualquer linguagem de servidor ou até mesmo Javascript ou NodeJS;
-  - Funciona também com ajax e outras formas de obtenção de dados, como JSON e Javascript com atribuição direta ou indireta com ou sem linguagem de servidor e etc;
-  - É completamente agnóstico à estilização/tematização, dando suporte desde jQuery UI, Semantic UI, Foudation, Bootstrap 2, 3 ou 4 até Material Design (MDL) e outros;
-  - Carrega opcionalmente o perfil de 172 formato de escrita monetário, todas presentes no Wikipedia, baseadas na ISO 4217;
-  - Carrega opcionalmente o perfil de várias máscaras de data e hora, bem como também várias máscaras comuns como Telefone, CEP, ISBN, CPF/CNPJ com validação embutida, quando cabível;
+  - Funciona também com ajax e outras formas de obtenção de dados, como JSON e Javascript com atribuição direta ou indireta com ou sem linguagem de servidor;
+  - É completamente agnóstico à estilização/tematização, dando suporte desde jQuery UI, Semantic UI, Foudation, Bootstrap 2, 3 ou 4 até Material Design (MDL) entre outros;
+  - Carrega na versão Standalone o perfil de 172 formatos de escrita monetária, todas presentes no Wikipedia, baseadas na ISO 4217;
+  - Carrega na versão Standalone o perfil de várias máscaras de data e hora, bem como, várias máscaras comuns como Telefone, CEP, ISBN, CPF/CNPJ com validação embutida, quando cabível;
 - Tipos de Entrada
   - Carrega automáticamente vários perfis numéricos semelhantes aos tipos de dados do SQL-92, como por exemplo:
-    - Inteiro: Possui os padrões [tinyint, smallint, mediumint, integer, bigint], e ainda os tipos pré-definidios [positiveint, negativeint, percentint, zerofillint]
-    - Decimal: Possui os padrões [decimal, currency], e ainda os tipos pré-definidios [positivedec, negativedec, percentdec, zerofilldec]
+    - Inteiro: Possui os padrões [tinyint, smallint, mediumint, integer, bigint], e ainda os tipos pré-definididos [positiveint, negativeint, percentint, zerofillint]
+    - Decimal: Possui os padrões [decimal, currency], e ainda os tipos pré-definididos [positivedec, negativedec, percentdec, zerofilldec]
 - Múltiplas Formas de Configuração:
   - É possível limitar valores de entrada com um valor mínimo ou máximo inferior à Math.pow(2,64), de acordo com tipo, veja as tabelas para numeros inteiros e decimais;
   - É possível customizar o tipo decimal com a quantidade de dígitos, o separador de milhares e o separador de decimais;
@@ -79,7 +79,7 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 ### Tabela para Números Inteiros
 
-|    Tipo     |                  Valor Min/Máx                   |          |   Int    |        |
+|    Tipo     |                  Valor Min/Máx                   |          | Inteiros |        |
 |:-----------:|:------------------------------------------------:|:--------:|:--------:|:------:|
 |   x-type    |                     Padrão                       | Unsigned | Negative | Signed |
 | positiveint | 0 à 18446744073709552000                         |    ✓     |          |        |
@@ -94,7 +94,7 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 ### Tabela para Números Decimais
 
-|    Tipo     |                  Valor Min/Máx                   |          |   Dec    |        |
+|    Tipo     |                  Valor Min/Máx                   |          | Decimais |        |
 |:-----------:|:------------------------------------------------:|:--------:|:--------:|:------:|
 |   x-type    |                     Padrão                       | Unsigned | Negative | Signed |
 | positivedec | 0 à 18446744073709552000.00                      |    ✓     |          |        |
@@ -104,7 +104,7 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 ### ToDo
 
-- [x] Separar versão stand-alone do componente trazendo consigo mesmo todas as regras pré-definidas;
+- [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
 - [ ] Recriar as regras em arquivos externos dividindo-as individualmente;
 - [ ] Ao recriar as regras, será preciso capacitar o componente à carregar as regras de uma forma não-estática;
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-load-rule="";

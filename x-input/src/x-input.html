@@ -100,10 +100,11 @@ Licensed under the MIT license
 <style>
   input[is]::-ms-clear {  display: none; width : 0; height: 0; }
   input[is]::-ms-reveal {  display: none; width : 0; height: 0; }
-  input[is]::-webkit-input-placeholder { color: #0275d8; }
-  input[is]::-moz-placeholder{ color: #0275d8; }
-  input[is]:-ms-input-placeholder { color: #0275d8; }
-  input[is]:-ms-input-placeholder:focus { color: #0275d8; }
+  input[is]::-webkit-input-placeholder { color: #007bff; }
+  input[is]:-ms-input-placeholder { color: #007bff; }
+  input[is]:-ms-input-placeholder:focus { color: #007bff; }
+  input[is]:-moz-placeholder{ color: #007bff; }
+  input[is]::-moz-placeholder{ color: #007bff; }
 </style>
 <script>
   var App = App || {}, Pattern = Pattern || [], MaskedInput;
@@ -5320,7 +5321,7 @@ Licensed under the MIT license
             };
 
             /*
-             * Principais Atributos Públicos dos Tipos: [positiveint, negativeint, smallint, mediumint, integer, bigint]
+             * Atributos Públicos dos Tipos: [positiveint, negativeint, smallint, mediumint, integer, bigint]
              * @property x-dir=Opts(['ltr'|'rtl']) String
              * @property x-min=[-9-0-9]{1,n} String
              * @property x-max=[-9-0-9]{1,n} String
@@ -6145,7 +6146,7 @@ Licensed under the MIT license
             };
 
             /*
-             * Principais Atributos Públicos dos Tipos: [positivedec, negativedec, currency, percentage, etc..]
+             * Atributos Públicos dos Tipos: [positivedec, negativedec, currency, percentage, etc..]
              * @property x-dir=Opts([ltr|rtl]) String
              * @property x-decimal-digits=[-9-0-9]{1,n} String
              * @property x-decimal-char=[-9-0-9]{1,n} String

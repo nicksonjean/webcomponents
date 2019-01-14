@@ -1,0 +1,120 @@
+/* Fix RTL */
+.bootstrap-select > .dropdown-toggle.rtl .filter-option {
+  text-align: right;
+  direction: rtl;
+}
+.bootstrap-select > .dropdown-toggle.rtl {
+  text-align: left;
+}
+.bootstrap-select > .dropdown-toggle.rtl .filter-option-inner {
+  padding-left: 0;
+  padding-right: 0;
+}
+.bootstrap-select > .dropdown-toggle.rtl::after {
+  margin-left: 0em;
+}
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .popover-header,
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .bs-searchbox input {
+  text-align: right;
+  direction: rtl;
+}
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .close {
+  float: left;
+  margin-top: -3px;
+  margin-left: -4px;
+}
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .inner {
+  direction:rtl;
+  text-align: right;
+  overflow-x: hidden;
+}
+.bootstrap-select .rtl + .dropdown-menu li a span.text {
+  margin-right: 0px;
+}
+.bootstrap-select .rtl + .dropdown-menu .inner.show > ul > li.selected.active > a > span.bs-ok-default.check-mark {
+  margin-right: 90%;
+}
+/*
+brackets displays wrongly for right to left display style
+https://stackoverflow.com/questions/5741522/brackets-displays-wrongly-for-right-to-left-display-style
+*/
+.bootstrap-select .rtl + .dropdown-menu li a span.text:after,
+.bootstrap-select .rtl + .dropdown-menu li a span.text:before {
+  content: "\200E‎";
+}
+/* End Fix RTL */
+
+/* Fix Width, Paddings & Margins */
+.bs-searchbox {
+  padding: 4px 0px;
+}
+.bootstrap-select .popover-header {
+  margin: 0 -4px;
+  display:none;/* Oculta o Header */
+}
+.bootstrap-select > .dropdown-toggle + .dropdown-menu .close {
+  margin-top: -3px;
+  margin-right: -4px;
+}
+.bootstrap-select .no-results {
+  margin: 0;
+}
+/*
+.bootstrap-select .dropdown-menu.open { 
+  width: 100%;
+}
+.bootstrap-select .dropdown-menu.inner > li > a {
+  white-space: initial;
+}
+.bootstrap-select.btn-group {
+  width: auto !important;
+}
+*/
+.bootstrap-select .dropdown-menu {
+  min-width: 0px !important;
+  width: 100%; 
+}
+.bootstrap-select .btn{
+  width: 100%;
+}
+
+/* End Fix Width */
+
+/* Fix Margin-Bottom Bug */
+.bootstrap-select .dropdown-menu {
+  margin-bottom: 0; /*Fix*/
+  font-size: 14.5px;
+  padding: 4px;
+  min-width: 100%;
+}
+/* End Fix Margin-Bottom Bug */
+
+/* Fix Scrolling Bug */
+.bootstrap-select .dropdown-item {
+  white-space: initial;
+}
+/* End Fix Scrolling Bug */
+
+/* Animate Caret */
+.dropdown-toggle:after,
+.dropup .dropdown-toggle:after {
+  transition:all ease 0s;
+}
+.bootstrap-select-caret-animate{
+}
+.bootstrap-select-caret-animate:after{
+  transition:all ease 0s;
+  transform:rotate(180deg);
+}
+/* End Animate Caret */
+
+/* Block level inputs */
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+}
+/*
+https://github.com/snapappointments/bootstrap-select/issues/351
+https://github.com/snapappointments/bootstrap-select/issues/2109
+*/

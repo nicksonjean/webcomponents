@@ -1,23 +1,23 @@
 <!--
-X Input - Componente Web
+X Select - Componente Web
 É um Componente para Criação de Campos de Formulário Inteligentes
-e com Comportamento e Máscara, Util para Criação de Formulários Ricos
+permtindo alimentar os Opções destes, diretamente de Objetos JSON
+carregados diretamente ou por meio de stream de alta resposta.
 
-@element input
-@property is="x-input"
-@demo https://github.com/nicksonjean/webcomponents/tree/master/x-input
+Compatível com:
+ * Vanilla Select agnóstico à Framework;
+ * jQuery Chosen https://harvesthq.github.io/chosen/
+ * jQuery Select2 https://github.com/select2/select2/
+ * jQuery Bootstrap-Select https://developer.snapappointments.com/bootstrap-select/
+
+@element select
+@property is="x-select"
+@demo https://github.com/nicksonjean/webcomponents/tree/master/x-select
 @author Nickson Jeanmerson
-
-
-https://pt.wikipedia.org/wiki/ISO_4217
-https://justforex.com/pt/education/currencies
-https://pt.wikipedia.org/wiki/S%C3%ADmbolos_monet%C3%A1rios
-https://www.ifcmarkets.com.br/about-forex/currencies-and-abbreviations
-http://travel.fyicenter.com/Currency/Currency_Decimal_Places_ISO_4217.php
-http://testws.galileo.com/GWSSample/Help/GWSHelp/mergedprojects/xmlselectmainhelp/codes/xws_currency_codes.htm
 -->
 
 <script src="../polyfills/es5-shim.min.js"></script>
+<script src="../polyfills/es5-sham.min.js"></script>
 <script src="../polyfills/es6-shim.min.js"></script>
 
 <!--
@@ -52,25 +52,116 @@ https://gist.github.com/spiralx/68cf40d7010d829340cb
 Licensed under the MIT License 
 -->
 <script src="../polyfills/object-assign.js"></script>
+
+<!--
+Defiant.js v1.3.4 
+Search JSON structures plus smart templating with XSLT and XPath. 
+http://defiantjs.com 
+
+Copyright (c) 2013-2015, Hakan Bilgin <hbi@longscript.com> 
+Licensed under the MIT License 
+-->
+<script src="../plugins/defiant.js/defiant.min.js"></script>
+
+<!--
+ST.js
+JSON Selector + Transformer
+JSON Template over JSON
+https://selecttransform.github.io/site/
+
+https://github.com/SelectTransform/st.js
+Licensed under the MIT License 
+-->
+<script src="../plugins/st.js/st.js"></script>
+
+<!--
+greenlet v1.0.1 
+Move an async function into its own thread.
+https://github.com/developit/greenlet
+
+Copyright (c) 2018, Jason Miller <hbi@longscript.com> 
+Licensed under the MIT License 
+https://unpkg.com/greenlet@0.1.2/dist/greenlet.umd.js
+-->
+<script type="text/javascript" src="../plugins/oboe.js/oboe-browser.min.js"></script>
 <script>
-  /* 
-   * Defiant.js v1.3.4 
-   * Search JSON structures plus smart templating with XSLT and XPath. 
-   * http://defiantjs.com 
-   * 
-   * Copyright (c) 2013-2015, Hakan Bilgin <hbi@longscript.com> 
-   * Licensed under the MIT License 
-   */ 
-  if(function(a,b){var c={init:function(){return this},work_handler:function(a){var b=Array.prototype.slice.call(a.data,1),c=a.data[0],d=tree[c].apply(tree,b);postMessage([c,d])},setup:function(b){var d=a.URL||a.webkitURL,e="var tree = {"+this.parse(b).join(",")+"};",f=new Blob([e+'self.addEventListener("message", '+this.work_handler.toString()+", false);"],{type:"text/javascript"}),g=new Worker(d.createObjectURL(f));return g.onmessage=function(a){var b=Array.prototype.slice.call(a.data,1),d=a.data[0];c.observer.emit("x10:"+d,b)},g},call_handler:function(a,b){return function(){var d=Array.prototype.slice.call(arguments,0,-1),e=arguments[arguments.length-1];d.unshift(a),c.observer.on("x10:"+a,function(a){e(a.detail[0])}),b.postMessage(d)}},compile:function(a){var b,c=this.setup("function"==typeof a?{func:a}:a),d={};if("function"==typeof a)return d.func=this.call_handler("func",c),d.func;for(b in a)d[b]=this.call_handler(b,c);return d},parse:function(a,c){var d,e,f,g=[];for(d in a)if(f=a[d],null!==f)if(f!==b){switch(f.constructor){case Date:e="new Date("+f.valueOf()+")";break;case Object:e="{"+this.parse(f).join(",")+"}";break;case Array:e="["+this.parse(f,!0).join(",")+"]";break;case String:e='"'+f.replace(/"/g,'\\"')+'"';break;case RegExp:case Function:e=f.toString();break;default:e=f}g.push(c?e:d+":"+e)}else g.push(d+":undefined");else g.push(d+":null");return g},observer:function(){var a={};return{on:function(b,c){a[b]||(a[b]=[]),a[b].unshift(c)},off:function(b,c){if(a[b]){var d=a[b].indexOf(c);a[b].splice(d,1)}},emit:function(b,c){if(a[b])for(var d={type:b,detail:c,isCanceled:!1,cancelBubble:function(){this.isCanceled=!0}},e=a[b].length;e--;){if(d.isCanceled)return;a[b][e](d)}}}}()};"undefined"==typeof module?a.x10=c.init():module.exports=c.init()}(this),"undefined"==typeof module)var module={exports:void 0};if(module.exports=Defiant=function(){"use strict";var a={is_ie:/(msie|trident)/i.test(navigator.userAgent),is_safari:/safari/i.test(navigator.userAgent),env:"production",xml_decl:'<?xml version="1.0" encoding="utf-8"?>',namespace:'xmlns:d="defiant-namespace"',tabsize:4,render:function(a,b){var c,d,e,f,g=new XSLTProcessor,h=document.createElement("span"),i={match:"/"};switch(typeof a){case"object":this.extend(i,a),i.data||(i.data=b);break;case"string":i.template=a,i.data=b;break;default:throw"error"}if(i.data=JSON.toXML(i.data),c='//xsl:template[@name="'+i.template+'"]',this.xsl_template||this.gatherTemplates(),i.sorter&&(f=this.node.selectSingleNode(this.xsl_template,c+"//xsl:for-each//xsl:sort"),f&&(i.sorter.order&&f.setAttribute("order",i.sorter.order),i.sorter.select&&f.setAttribute("select",i.sorter.select),f.setAttribute("data-type",i.sorter.type||"text"))),e=this.node.selectSingleNode(this.xsl_template,c),e.setAttribute("match",i.match),g.importStylesheet(this.xsl_template),h.appendChild(g.transformToFragment(i.data,document)),e.removeAttribute("match"),this.is_safari){d=h.getElementsByTagName("script");for(var j=0,k=d.length;k>j;j++)d[j].defer=!0}return h.innerHTML},gatherTemplates:function(){for(var a=document.getElementsByTagName("script"),b="",c=0,d=a.length;d>c;c++)"defiant/xsl-template"===a[c].type&&(b+=a[c].innerHTML);this.xsl_template=this.xmlFromString('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" '+this.namespace+">"+b.replace(/defiant:(\w+)/g,"$1")+"</xsl:stylesheet>")},getSnapshot:function(a,b){return JSON.toXML(a,b||!0)},xmlFromString:function(a){var b,c;return a=a.replace(/>\s{1,}</g,"><"),null===a.trim().match(/<\?xml/)&&(a=this.xml_decl+a),this.is_ie?(c=new ActiveXObject("Msxml2.DOMDocument"),c.loadXML(a),-1===a.indexOf("xsl:stylesheet")&&c.setProperty("SelectionLanguage","XPath")):(b=new DOMParser,c=b.parseFromString(a,"text/xml")),c},extend:function(a,b){for(var c in b)a[c]&&"object"==typeof b[c]?this.extend(a[c],b[c]):a[c]=b[c];return a},node:{}};return a}(this),"undefined"==typeof XSLTProcessor){var XSLTProcessor=function(){};XSLTProcessor.prototype={importStylesheet:function(a){this.xsldoc=a},transformToFragment:function(a){var b=a.transformNode(this.xsldoc),c=document.createElement("span");return c.innerHTML=b,c}}}else if("function"!=typeof XSLTProcessor&&!XSLTProcessor)throw"XSLTProcessor transformNode not implemented";String.prototype.fill||(String.prototype.fill=function(a,b){var c=this;for(b=b||" ";c.length<a;c+=b);return c}),String.prototype.trim||(String.prototype.trim=function(){return this.replace(/^\s+|\s+$/gm,"")}),String.prototype.xTransform||(String.prototype.xTransform=function(){var a=this;return-1===this.indexOf("translate(")&&(a=this.replace(/contains\(([^,]+),([^\\)]+)\)/g,function(a,b,c){var d="abcdefghijklmnopqrstuvwxyz",e=c.trim().slice(-1);return"contains(translate("+b+", "+e+d.toUpperCase()+e+", "+e+d+e+"),"+c.toLowerCase()+")"})),a.toString()}),"undefined"==typeof JSON&&(window.JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(a){if(a instanceof Object){var b="";if(a.constructor===Array){for(var c=0;c<a.length;b+=this.stringify(a[c])+",",c++);return"["+b.substr(0,b.length-1)+"]"}if(a.toString!==Object.prototype.toString)return'"'+a.toString().replace(/"/g,"\\$&")+'"';for(var d in a)b+='"'+d.replace(/"/g,"\\$&")+'":'+this.stringify(a[d])+",";return"{"+b.substr(0,b.length-1)+"}"}return"string"==typeof a?'"'+a.replace(/"/g,"\\$&")+'"':String(a)}}),JSON.toXML||(JSON.toXML=function(a,b){"use strict";var c,d,e,f={map:[],rx_validate_name:/^(?!xml)[a-z_][\w\d.:]*$/i,rx_node:/<(.+?)( .*?)>/,rx_constructor:/<(.+?)( d:contr=".*?")>/,rx_namespace:/ xmlns\:d="defiant\-namespace"/,rx_data:/(<.+?>)(.*?)(<\/d:data>)/i,rx_function:/function (\w+)/i,namespace:'xmlns:d="defiant-namespace"',to_xml_str:function(a){return{str:this.hash_to_xml(null,a),map:this.map}},hash_to_xml:function(a,b,c){var d,e,f,g,h,i,j,k,l=b.constructor===Array,m=[],n=[];for(d in b)if(e=b[d],(null===e||void 0===e||"NaN"===e.toString())&&(e=null),g="@"===d.slice(0,1),h=c?a:d,h==+h&&b.constructor!==Object&&(h="d:item"),null===e?(i=null,j=!1):(i=e.constructor,j=i.toString().match(this.rx_function)[1]),g)n.push(h.slice(1)+'="'+this.escape_xml(e)+'"'),"String"!==j&&n.push("d:"+h.slice(1)+'="'+j+'"');else if(null===e)m.push(this.scalar_to_xml(h,e));else switch(i){case Function:throw"JSON data should not contain functions. Please check jour structure.";case Object:m.push(this.hash_to_xml(h,e));break;case Array:if(d===h){if(f=e.constructor===Array)for(k=e.length;k--;)e[k].constructor===Array&&(f=!0),f||e[k].constructor!==Object||(f=!0);m.push(this.scalar_to_xml(h,e,f));break}case String:if("string"==typeof e&&(e=e.toString().replace(/\&/g,"&amp;").replace(/\r|\n/g,"&#13;")),"#text"===h){this.map.push(b),n.push('d:mi="'+this.map.length+'"'),n.push('d:constr="'+j+'"'),m.push(this.escape_xml(e));break}case Number:case Boolean:if("#text"===h&&"String"!==j){this.map.push(b),n.push('d:mi="'+this.map.length+'"'),n.push('d:constr="'+j+'"'),m.push(this.escape_xml(e));break}m.push(this.scalar_to_xml(h,e))}return a||(a="d:data",n.push(this.namespace),l&&n.push('d:constr="Array"')),null===a.match(this.rx_validate_name)&&(n.push('d:name="'+a+'"'),a="d:name"),c?m.join(""):(this.map.push(b),n.push('d:mi="'+this.map.length+'"'),"<"+a+(n.length?" "+n.join(" "):"")+(m.length?">"+m.join("")+"</"+a+">":"/>"))},scalar_to_xml:function(a,b,c){var d,e,f,g="";if(null===a.match(this.rx_validate_name)&&(g+=' d:name="'+a+'"',a="d:name",c=!1),(null===b||"NaN"===b.toString())&&(b=null),null===b)return"<"+a+' d:constr="null"/>';if(1===b.length&&b[0].constructor===Object){d=this.hash_to_xml(!1,b[0]);var h=d.match(this.rx_node),i=d.match(this.rx_constructor);return h=null!==h?h[2].replace(this.rx_namespace,"").replace(/>/,"").replace(/"\/$/,'"'):"",i=null!==i?i[2]:"",d=d.match(this.rx_data),d=null!==d?d[2]:"","<"+a+h+" "+i+' d:type="ArrayItem">'+d+"</"+a+">"}return 0===b.length&&b.constructor===Array?"<"+a+' d:constr="Array"/>':c?this.hash_to_xml(a,b,!0):(e=b.constructor,f=e.toString().match(this.rx_function)[1],d=e===Array?this.hash_to_xml("d:item",b,!0):this.escape_xml(b),g+=' d:constr="'+f+'"',this.map.push(b),g+=' d:mi="'+this.map.length+'"',"#text"===a?this.escape_xml(b):"<"+a+g+">"+d+"</"+a+">")},escape_xml:function(a){return String(a).replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/&nbsp;/g,"&#160;")}};switch(typeof b){case"function":return e=x10.compile(f),void e.to_xml_str(a,function(c){b({doc:Defiant.xmlFromString(c.str),src:a,map:c.map})});case"boolean":return c=f.to_xml_str.call(f,a),{doc:Defiant.xmlFromString(c.str),src:a,map:c.map};default:return c=f.to_xml_str.call(f,a),d=Defiant.xmlFromString(c.str),this.search.map=c.map,d}}),JSON.search||(JSON.search=function(a,b,c){"use strict";var d,e,f=a.doc&&a.doc.nodeType,g=f?a.doc:JSON.toXML(a),h=f?a.map:this.search.map,i=f?a.src:a,j=Defiant.node[c?"selectSingleNode":"selectNodes"](g,b.xTransform()),k=[];for(c&&(j=[j]),e=j.length;e--;)switch(j[e].nodeType){case 2:case 3:k.unshift(j[e].nodeValue);break;default:d=+j[e].getAttribute("d:mi"),k.unshift(h[d-1])}return"development"===Defiant.env&&(this.trace=JSON.mtrace(i,k,j)),k}),JSON.mtrace||(JSON.mtrace=function(a,b,c){"use strict";for(var d,e,f,g,h,i=window,j=JSON.stringify,k=j(a,null,"	").replace(/\t/g,""),l=[],m=0,n=c.length,o=n?c[m].ownerDocument.documentElement:!1,p=(this.search.map,0);n>m;m++){switch(c[m].nodeType){case 2:e=c[m].ownerElement?c[m].ownerElement.getAttribute("d:"+c[m].nodeName):"String",d='"@'+c[m].nodeName+'": '+i[e](b[m]),f=k.indexOf(d),h=0;break;case 3:e=c[m].parentNode.getAttribute("d:constr"),d=i[e](b[m]),d='"'+c[m].parentNode.nodeName+'": '+("Number"===d?d:'"'+d+'"'),f=k.indexOf(d),h=0;break;default:if(c[m]===o)continue;"String"===c[m].getAttribute("d:constr")||"Number"===c[m].getAttribute("d:constr")?(e=c[m].getAttribute("d:constr"),d=i[e](b[m]),f=k.indexOf(d,p),d='"'+c[m].nodeName+'": '+("Number"===e?d:'"'+d+'"'),h=0,p=f+1):(d=j(b[m],null,"	").replace(/\t/g,""),f=k.indexOf(d),h=d.match(/\n/g).length)}g=k.substring(0,f).match(/\n/g).length+1,l.push([g,h])}return l}),Defiant.node.selectNodes=function(a,b){if(a.evaluate){for(var c=a.createNSResolver(a.documentElement),d=a.evaluate(b,a,c,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null),e=[],f=0,g=d.snapshotLength;g>f;f++)e.push(d.snapshotItem(f));return e}return a.selectNodes(b)},Defiant.node.selectSingleNode=function(a,b){if(a.evaluate){var c=this.selectNodes(a,b);return c.length>0?c[0]:null}return a.selectSingleNode(b)},Defiant.node.prettyPrint=function(a){var b,c,d=Defiant,e=d.tabsize,f=d.xml_decl.toLowerCase();d.is_ie?c=a.xml:(b=new XMLSerializer,c=b.serializeToString(a)),"development"!==d.env&&(c=c.replace(/ \w+\:d=".*?"| d\:\w+=".*?"/g,""));for(var g,h,i=c.trim().replace(/(>)\s*(<)(\/*)/g,"$1\n$2$3"),j=i.split("\n"),k=-1,l=0,m=j.length;m>l;l++)(0!==l||j[l].toLowerCase()!==f)&&(g=null!==j[l].match(/<[A-Za-z_\:]+.*?>/g),h=null!==j[l].match(/<\/[\w\:]+>/g),null!==j[l].match(/<.*?\/>/g)&&(g=h=!0),g&&k++,j[l]=String().fill(k,"	")+j[l],g&&h&&k--,!g&&h&&k--);return j.join("\n").replace(/\t/g,String().fill(e," "))},Defiant.node.toJSON=function(a,b){"use strict";var c=function(a){var b,d,e,f,g,h,i,j,k,l,m={},n=window;switch(a.nodeType){case 1:for(g=a.getAttribute("d:constr"),"Array"===g?m=[]:"String"===g&&""===a.textContent&&(m=""),b=a.attributes,j=0,k=b.length;k>j;j++)l=b.item(j),null===l.nodeName.match(/\:d|d\:/g)&&(g=a.getAttribute("d:"+l.nodeName),h=g&&"undefined"!==g?"null"===l.nodeValue?null:n[g]("false"===l.nodeValue?"":l.nodeValue):l.nodeValue,m["@"+l.nodeName]=h);break;case 3:d=a.parentNode.getAttribute("d:type"),h=d?n[d]("false"===a.nodeValue?"":a.nodeValue):a.nodeValue,m=h}if(a.hasChildNodes())for(j=0,k=a.childNodes.length;k>j;j++)if(e=a.childNodes.item(j),f=e.nodeName,b=a.attributes,"d:name"===f&&(f=e.getAttribute("d:name")),"#text"===f)g=a.getAttribute("d:constr"),"undefined"===g&&(g=void 0),i=e.textContent||e.text,h="Boolean"===g&&"false"===i?"":i,g||b.length?g&&1===k?m=n[g](h):a.hasChildNodes()&&b.length<3?m=g?n[g](h):h:m[f]=g?n[g](h):h:m=h;else{if(m[f]){m[f].push?m[f].push(c(e)):m[f]=[m[f],c(e)];continue}switch(g=e.getAttribute("d:constr")){case"null":m.push?m.push(null):m[f]=null;break;case"Array":e.parentNode.firstChild===e&&"Array"===g&&"d:item"!==f?"d:item"===f||"Array"===g?(h=c(e),m[f]=h.length?[h]:h):m[f]=c(e):m.push?m.push(c(e)):m[f]=c(e);break;case"String":case"Number":case"Boolean":i=e.textContent||e.text,h="Boolean"===g&&"false"===i?"":i,m.push?m.push(n[g](h)):m[f]=c(e);break;default:m.push?m.push(c(e)):m[f]=c(e)}}return 1===a.nodeType&&"ArrayItem"===a.getAttribute("d:type")&&(m=[m]),m},d=9===a.nodeType?a.documentElement:a,e=c(d),f=e[d.nodeName];return d===d.ownerDocument.documentElement&&f&&f.constructor===Array&&(e=f),b&&"true"===b.toString()&&(b="	"),b?JSON.stringify(e,null,b):e},"undefined"!=typeof jQuery&&!function(a){"use strict";a.fn.defiant=function(a,b){return this.html(Defiant.render(a,b)),this}}(jQuery);
-</script>
-<script>
-  var App = App || {};
+  var App = App || {}, Pattern = Pattern || [];
   App = 
   {
+    "DEFAULT": {
+      "PLACES": {
+        "PATTERN": {
+          "RULE": {
+            "loading": "Carregando...",
+            "default": "Escolha uma Opção",
+            "source" : function(){ return "source" },
+            "value" : function(){ return "value" },
+            "text" : function(){ return "text" },
+            "filter" : function(){ return "filter" },
+            "rightAlign": function(){ return "rightAlign" }
+          }
+        }
+      }
+    },
+    "PATTERN": {
+      "PLACES" : {
+        "STATE" : {
+          "RULE" : {
+            "default" : "Escolha um Estado",
+            "source" : "http://192.168.1.2/componentes_web/webcomponents/x-select/src/data/Estados_Compacted.json",
+            "value" : "//ID",
+            "text" : "//Nome",
+            "filter" : "ID",
+            "rightAlign" : false
+          }
+        },
+        "CITY" : {
+          "RULE" : {
+            "default" : "Escolha uma Cidade",
+            "source" : "http://192.168.1.2/componentes_web/webcomponents/x-select/src/data/Cidades_Compacted.json",
+            "value" : '//*[Estado="{$ID}"]/ID',
+            "text" : '//*[Estado="{$ID}"]/Nome',
+            "filter" : "ID",
+            "loader" : "Estado",
+            "rightAlign" : false
+          }
+        },
+        "DISTRICT" : {
+          "RULE" : {
+            "default" : "Escolha um Bairro",
+            "source" : "http://192.168.1.2/componentes_web/webcomponents/x-select/src/data/Bairros_Compacted.json",
+            "value" : '//*[Cidade="{$ID}"]/ID',
+            "text" : '//*[Cidade="{$ID}"]/Nome',
+            "loader" : "Cidade",
+            "rightAlign" : false
+          }
+        }
+      }
+    },
     "EXT": {
-      //https://codepen.io/Vovastradamus/pen/emGNgd
-      //https://gist.github.com/jaredreich/971c43d9336dce7ade942b6a8acb2e6a
+      "Get" : {
+        "Element" : {
+          "ByAttribute" : function(attribute, value, element_type) {
+            element_type = element_type || "*";
+            var All = document.getElementsByTagName(element_type);
+            for (var i = 0; i < All.length; i++) {
+              if (All[i].getAttribute(attribute) == value) { 
+                return All[i]; 
+              }
+            }
+          }
+        }
+      },
+      /*
+       * Pure JavaScript AddClass and RemoveClass functions
+       * by Jared Reich and Vladimir
+       * https://codepen.io/Vovastradamus/pen/emGNgd
+       * https://gist.github.com/jaredreich/971c43d9336dce7ade942b6a8acb2e6a
+       */
       "Class" : {
+        "Contains": function(o, c) {
+          return (' ' + o.className + ' ').indexOf(' ' + c + ' ') > -1;
+        },
         "Add" : function(o, c){
           var re = new RegExp("(^|\\s)" + c + "(\\s|$)", "g")
           if (re.test(o.className)) return
@@ -98,9 +189,185 @@ Licensed under the MIT License
           };
           xhr.open("GET", path, true);
           xhr.send();
+        },
+        "jQuery" : function() {
+          return (typeof jQuery == 'undefined') ? false : true;
+        },
+        "Chosen" : function(element) {
+          jQuery(element).each(function () {
+            jQuery(this).chosen({
+              rtl: (jQuery(this).attr('x-dir') && jQuery(this).attr('x-dir') == 'rtl') ? true : false,
+              allow_single_deselect: jQuery(this).attr('data-allow-clear'),
+              no_results_text: 'Nenhuma opção encontrada para: '
+            })
+            .trigger('chosen:updated');
+          });
+        },
+        "Select2" : function(element) {
+          jQuery(element).each(function () {
+            jQuery(this).select2({
+              theme: 'bootstrap',
+              width: '100%',
+              dir: (jQuery(this).attr('x-dir') && jQuery(this).attr('x-dir') == 'rtl') ? 'rtl' : 'ltr',
+              allowClear: jQuery(this).attr('data-allow-clear'),
+              placeholder: jQuery(this).attr('data-placeholder'),
+              language: {
+                noResults: function() { return 'Nenhuma opção encontrada'; }
+              }
+            })
+            .on('select2:unselecting', function(e) {
+              jQuery(this).data('unselecting1', true);
+              jQuery(this).data('unselecting2', true);
+            })
+            .on('select2:open', function(e) {
+              var unselecting1 = jQuery(this).data('unselecting1');
+              var unselecting2 = jQuery(this).data('unselecting2');
+              if(unselecting1 || unselecting2) {
+                jQuery(this).select2('close');
+                if(unselecting1) {
+                  jQuery(this).data('unselecting1', false);
+                }
+                else {
+                  jQuery(this).data('unselecting2', false);
+                }
+              }
+            })
+            .trigger('updated');
+          });
+        },
+        "BootstrapSelect": function(element, empty) {
+          if (empty === undefined) {
+            jQuery(element).each(function () {
+              jQuery(this).selectpicker({
+                noneResultsText: 'Nenhuma opção encontrada para: {0}',
+                liveSearchPlaceholder: '',
+                noneSelectedText: '',
+                liveSearch: true,
+                showTick: true,
+                size: 7,
+                style : (jQuery(this).attr('x-dir') && jQuery(this).attr('x-dir') == 'rtl') ? 'rtl btn-light' : 'btn-light',
+                width: '100%',
+                header: jQuery(this).attr('x-default'),
+                title : jQuery(this).attr('data-placeholder')
+              })
+              .selectpicker('refresh')
+              .selectpicker('setSize')
+              .selectpicker('render')
+            });
+          }
+          else {
+            jQuery(element).each(function () {
+              jQuery(this).selectpicker({
+                noneResultsText: 'Nenhuma opção encontrada para: {0}',
+                liveSearchPlaceholder: '',
+                noneSelectedText: '',
+                liveSearch: true,
+                showTick: true,
+                size: 7,
+                style : (jQuery(this).attr('x-dir') && jQuery(this).attr('x-dir') == 'rt') ? 'rtl btn-light' : 'btn-light',
+                width: '100%',
+                header: jQuery(this).attr('x-default'),
+                title : jQuery(this).attr('data-placeholder')
+              })
+              .val(empty)
+              .selectpicker('refresh')
+              .selectpicker('setSize')
+              .selectpicker('render')
+            });
+          }
+        }
+      },
+      "Select" : {
+        "Option" : {
+          "SetLoading": function(element, disabled) {
+            var defaultOption = document.createElement('option');
+            defaultOption.text = App.DEFAULT.PLACES.PATTERN.RULE.loading;
+            if (disabled === undefined) {
+              defaultOption.readonly = true;
+              defaultOption.disabled = true;
+            }
+            defaultOption.className = "allow_single_deselect_option";
+            element.add(defaultOption);
+            element.selectedIndex = 0;
+          },
+          "SetDefault": function(element) {
+            if (element.hasAttribute('x-default') && element.getAttribute('x-default') != '') {
+              element.options[0].text = element.getAttribute('x-default');
+            }
+          },
+          "SetEmpty": function(element) {
+            var option = document.createElement("option");
+            option.text = "";
+            option.value = "";
+            option.className = "allow_single_deselect_option";
+            element.appendChild(option);
+          },
+          "SetTransition" : function(element, index) {
+            element.options[index].text = App.DEFAULT.PLACES.PATTERN.RULE.loading;
+            element.options[index].selected = true;
+            element.options[index].readonly = true;
+            element.options[index].disabled = false;
+            setTimeout(function(){
+              element.options[index].text = element.getAttribute('x-default');
+              element.options[index].readonly = true;
+              element.options[index].disabled = true;
+              element.options[index].selected = true;
+            }, 1000);
+          },
+          "Add": function(element, response, value, text) {
+            if (value === undefined && text === undefined) {
+              var option = '';
+              for (var i = 0; i < response.length; i++) option += response[i].tag;
+              element.innerHTML += option;
+            }
+            else {
+              var value = JSON.search(response, value),
+                  text = JSON.search(response, text),
+                  option = undefined;
+              for (var i = 0; i < value.length; i++) {
+                option = document.createElement('option');
+                option.text = text[i];
+                option.value = value[i];
+                if (element.hasAttribute('x-selected') && element.getAttribute('x-selected') != '') {
+                  if( (element.getAttribute('x-selected') == value[i]) || (element.getAttribute('x-selected') == text[i]) ) {
+                    option.setAttribute('selected','selected');
+                    option.selected = true;
+                  }
+                }
+                element.add(option);
+              };
+            }
+          },
+          "Reselect" : function(element, value) {
+            var op = element.getElementsByTagName("option");
+            for(var i = 0; i < op.length; i++) {
+              op[i].removeAttribute('selected');
+              if(op[i].value.toLowerCase() == value) {
+                op[i].selected = true;
+                op[i].setAttribute('selected','selected');
+              }
+            }
+          },
+          "Remove": function(element, value) {
+            var op = element.getElementsByTagName("option");
+            for(var i = 0; i < op.length; i++) {
+            if (op.options[i].value == value)
+              op.remove(i);
+            }
+          },
+          "RemoveAll": function(element) {
+            for(var i = element.options.length - 1; i >= 0; i--) {
+              element.remove(i);
+            }
+          }
         }
       },
       "Format": {
+        "ArrayDuplicates" : function(myArr, prop) {
+          return myArr.filter(function(obj, pos, arr) {
+            return (arr.map(function(mapObj) { return mapObj[prop]; }).indexOf(obj[prop]) === pos);
+          });
+        }
       },
       "JSON": {
         "Template": function(object) {
@@ -131,9 +398,13 @@ Licensed under the MIT License
           }
         }
       },
-      "Reset": {
-      },
       "Validate": {
+        "is": function(p) {
+          if (Array.isArray(p)) return 'array';
+          else if (typeof p == 'string') return 'string';
+          else if (p != null && typeof p == 'object') return 'object';
+          else return 'other';
+        },
         "isNumber": function(str) {
           return !isNaN(parseFloat(str)) && isFinite(str);
         }
@@ -157,7 +428,7 @@ Licensed under the MIT License
       window.data = data;
     })();
 
-    /* Cross-browser fallback */
+    // Cross-browser fallback
     var currentScript = document._currentScript || document.currentScript,
       doc = currentScript.ownerDocument,
       proto = Object.create(HTMLSelectElement.prototype);
@@ -165,66 +436,455 @@ Licensed under the MIT License
     proto.createdCallback = function() {
 
       //Inicializa as Váriáveis
-      var self = this;
+      var build = document.createEvent('Event'),
+          Instance = 0;
 
-      //console.log(this);
+      // Define um Evento para Construção do Componente
+      build.initEvent('build', true, true);
 
-        //http://labs.myn.com.br/2012/12/json-cidades-e-estados-brasileiros.html
-        //https://pastebin.com/DWZnyfwc
+      // Compatibilizar com o Plugin jQuery Chosen
+      if (App.EXT.Load.jQuery() && this.hasAttribute('x-plugin') && this.getAttribute('x-plugin') == 'chosen') {
+        this.setAttribute('data-allow-clear', 1);
+        App.EXT.Select.Option.SetEmpty(this);
+        if (this.hasAttribute('x-dir') && this.getAttribute('x-dir') == 'rtl') {
+          App.EXT.Class.Add(this, 'chosen-rtl')
+        }
+      }
+      // Compatibilizar com o Plugin jQuery Select2
+      if (App.EXT.Load.jQuery() && this.hasAttribute('x-plugin') && this.getAttribute('x-plugin') == 'select2') {
+        this.setAttribute('data-allow-clear', 1);
+        App.EXT.Select.Option.SetEmpty(this);
+      }
+      // Compatibilizar com o Plugin jQuery Bootstrap.Select
+      if (App.EXT.Load.jQuery() && this.hasAttribute('x-plugin') && this.getAttribute('x-plugin') == 'select') {
+        this.setAttribute('data-allow-clear', 1);
+      }
 
-        //http://goessner.net/articles/JsonPath/
-        //https://en.wikibooks.org/wiki/XPath/CSS_Equivalents
+      // Evento para Construção do Componente
+      App.EXT.Event.Add(this, ['build'], function(event) {
 
-        //http://umashanthan.blogspot.com.br/2015/11/json-path-expression-for.html
-        //http://www.defiantjs.com/#xpath_evaluator
+        //Reinicializa as Váriáveis
+        var _self = event.target;
 
-        //http://jsonpath.com/
-        //https://jsonpath.curiousconcept.com/
-        //https://github.com/visionmedia/superagent
-        //https://gist.github.com/enriquebv/9a68bdd97435ffe89bfb6080138ccabe
+        // Se Houver Opção Padrão Exibe Carregando
+        if (_self.hasAttribute('x-default') && _self.getAttribute('x-default') != '') {
 
-        //https://stackoverflow.com/questions/28879696/equivalent-of-getjson-function-without-jquery
+          // x-default
+          _self.setAttribute('placeholder', _self.getAttribute('x-default'));
 
-        //http://youmightnotneedjquery.com/
-        //$[*].nome
-        App.EXT.Load.JSON(this.getAttribute('x-source'), 
-          function(response){
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'chosen') {
+            _self.setAttribute('data-placeholder', App.DEFAULT.PLACES.PATTERN.RULE.loading);
+          }
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select2') {
+            _self.setAttribute('data-placeholder', App.DEFAULT.PLACES.PATTERN.RULE.loading);
+          }
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+            _self.setAttribute('data-placeholder', App.DEFAULT.PLACES.PATTERN.RULE.loading);
+          }
 
-            if (self.hasAttribute('x-default') && self.getAttribute('x-default') != '') {
-              var defaultOption = document.createElement('option');
-              defaultOption.text = self.getAttribute('x-default');
-              self.add(defaultOption);
-              self.selectedIndex = 0;
+          // Apenas para o Vanilla
+          if (!_self.hasAttribute('x-plugin')) {
+            App.EXT.Select.Option.SetLoading(_self);
+          }
+        }
+
+        // Se Hover um Loader
+        var node = _self.getAttribute('x-loader') == null ? '!' : '$' + _self.getAttribute('x-loader'),
+            response = [];
+
+        oboe(_self.getAttribute('x-source')).node(node, function(xhr, path, ancestors) {
+          if (node === '!') {
+            if (xhr !== null) {
+              response = xhr;
             }
+          }
+          else {
+            var value_ref = document.querySelector(_self.getAttribute('x-reference')).getAttribute('x-selected');
+            if(xhr == value_ref) {
+              if (xhr !== null) {
+                response.push(ancestors[ancestors.length - 2]);
+              }
+            }
+          }
+        })
+        .done(function(result) {
+          if(Array.isArray(response) && response.length) {
+            // Criar as Opções
+            if (_self.hasAttribute('x-template') && _self.getAttribute('x-template') != '') {
+              if (
+                   (_self.hasAttribute('x-selected') && _self.getAttribute('x-selected') != '') &&
+                   (_self.hasAttribute('x-filter') && _self.getAttribute('x-filter') != '')
+                ){
+                var result = ST.select({ "objeto": response })
+                  .transformWith(
+                    {
+                      "{{ #let }}": [{
+                        filter: _self.getAttribute('x-filter'),
+                        selected: _self.getAttribute('x-selected')
+                      }, {
+                        "{{ #each objeto }}": {
+                          "tag": [{
+                            "{{ #if eval(filter) == selected }}": _self.getAttribute('x-template').replace('<option', '<option selected="selected"')
+                          }, {
+                            "{{ #else }}": _self.getAttribute('x-template')
+                          }]
+                        }
+                      }]
+                    }
+                  )
+                  .root();
+              }
+              else {
+                var result = ST.select({ "objeto": response })
+                  .transformWith({
+                    "{{ #each objeto }}": {
+                      "tag": _self.getAttribute('x-template')
+                    }
+                  })
+                  .root();
+              }
+              App.EXT.Select.Option.Add(_self, result);
 
-            var option;
-            for (var i = 0; i < response.length; i++) {
-              var value = JSON.search(response, self.getAttribute('x-value')),
-                  text = JSON.search(response, self.getAttribute('x-text'));
+              // Compatibilizar com o Plugin Bootstrap.Select
+              if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+                _self.setAttribute('data-placeholder', _self.getAttribute('x-default'));
+                App.EXT.Load.BootstrapSelect('select[is="x-select"][x-plugin="select"]');
+                //App.EXT.Load.BootstrapSelect(_self);
+                // Releseciona o Option
+                if (_self.hasAttribute('x-selected') && _self.getAttribute('x-selected') != '') {
+                  App.EXT.Load.BootstrapSelect(_self, (jQuery(_self).attr('x-selected') && jQuery(_self).attr('x-selected') !== undefined) ? jQuery(_self).attr('x-selected') : '');
+                }
+                // Correção para Selecionar o Option Correto
+                jQuery(_self).find('.bs-title-option').remove();
+                jQuery(_self).append('<option style="display:none"></option>');
+                // Correção da Altura do DropDown Menu
+                jQuery(_self).on('shown.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                  App.EXT.Load.BootstrapSelect(_self);
+                  jQuery(_self).parent().find('.btn.dropdown-toggle').addClass('bootstrap-select-caret-animate');
+                });
+                jQuery(_self).on('hidden.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                  jQuery(_self).parent().find('.btn.dropdown-toggle').removeClass('bootstrap-select-caret-animate');
+                });
+              }
+            }
+            else {
+              if (_self.hasAttribute('x-reference') && _self.getAttribute('x-reference') != '') {
+                var _self_ref = document.querySelector(_self.getAttribute('x-reference')),
+                    _self_val = (App.EXT.Load.jQuery()) ? jQuery(_self_ref) : _self_ref.options[_self_ref.selectedIndex];
 
-              option = document.createElement('option');
-              option.text = text[i];
-              option.value = value[i];
-              if (self.hasAttribute('x-selected') && self.getAttribute('x-selected') != '') {
-                if( (self.getAttribute('x-selected') == value[i]) || (self.getAttribute('x-selected') == text[i]) ) {
-                  option.selected = true;
+                if (_self_val !== undefined) {
+                  App.EXT.Select.Option.Add(_self, response, _self.getAttribute('x-value').replace('{$ID}', _self_val.val() || _self_val.value), _self.getAttribute('x-text').replace('{$ID}', _self_val.val() || _self_val.value));
+                }
+                else {
+                  App.EXT.Select.Option.Add(_self, response, _self.getAttribute('x-value').replace('{$ID}', _self_ref.getAttribute('x-selected')), _self.getAttribute('x-text').replace('{$ID}', _self_ref.getAttribute('x-selected')));
                 }
               }
-              self.add(option);
+              else {
+                App.EXT.Select.Option.Add(_self, response, _self.getAttribute('x-value').replace('{$ID}', _self.getAttribute('x-selected')), _self.getAttribute('x-text').replace('{$ID}', _self.getAttribute('x-selected')));
+              }
 
-            };
-          }, 
-          function(xhr){
-            console.log(xhr)
+              // Compatibilizar com o Plugin Bootstrap.Select
+              if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+                _self.setAttribute('data-placeholder', _self.getAttribute('x-default'));
+                App.EXT.Load.BootstrapSelect('select[is="x-select"][x-plugin="select"]');
+                //App.EXT.Load.BootstrapSelect(_self);
+                // Correção da Altura do DropDown Menu
+                jQuery(_self).on('shown.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                  App.EXT.Load.BootstrapSelect(_self);
+                  jQuery(_self).parent().find('.btn.dropdown-toggle').addClass('bootstrap-select-caret-animate');
+                });
+                jQuery(_self).on('hidden.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                  jQuery(_self).parent().find('.btn.dropdown-toggle').removeClass('bootstrap-select-caret-animate');
+                });
+              }
+            }
+
+            // Se Houver Opção Padrão Exibe a Opção Padrão no Estado Inicial
+            if (_self.hasAttribute('x-default') && _self.getAttribute('x-default') != '') {
+              if (!_self.hasAttribute('x-plugin')) {
+                App.EXT.Select.Option.SetDefault(_self);
+              }
+            }
+
+            // Compatibilizar com o Plugin jQuery Chosen
+            if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'chosen') {
+              _self.setAttribute('data-placeholder', _self.getAttribute('x-default'));
+              App.EXT.Load.Chosen('select[is="x-select"][x-plugin="chosen"]');
+              //App.EXT.Load.Chosen(_self);
+            }
+            // Compatibilizar com o Plugin jQuery Select2
+            if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select2') {
+              _self.setAttribute('data-placeholder', _self.getAttribute('x-default'));
+              App.EXT.Load.Select2('select[is="x-select"][x-plugin="select2"]');
+              //App.EXT.Load.Select2(_self);
+            }
+
           }
-        );
+        });
 
+      }, false);
+
+      // Regras Embutidas Automaticamente
+      if (this.hasAttribute('x-type') && this.getAttribute('x-type') != '') {
+
+        var x_type = this.getAttribute('x-type').toUpperCase(), Rule = undefined;
+
+        switch(x_type.toLowerCase()) {
+          case 'state': // Estados
+          case 'city': // Cidades
+          case 'district': // Bairros
+
+            // Obtém a Matriz de Regra pelo Tipo do Componente
+            Rule = App.PATTERN.PLACES[x_type];
+
+            // Reatribue o Obje
+            Pattern[x_type] = Rule;
+
+            // Armazenamento do Objeto Principal
+            var $this = this, 
+                // Define Timer dos Inputs
+                Timeout = undefined, 
+                // Obtém o Template de Configuração
+                Template = App.EXT.JSON.Template(App.DEFAULT.PLACES.PATTERN),
+                // Carrega as Regras Padrão do Tipo do Componente
+                DEFAULT = Template(Rule.RULE);
+
+            // Matriz Única do Elemento
+            window.data(this).input = [];
+
+            var Config = {
+              "Rule": {
+                "loading": DEFAULT.RULE.loading,
+                "default": (!this.hasAttribute('x-default') && this.getAttribute('x-default') != '') ? Rule.RULE.default : this.getAttribute('x-default'),
+                "source" : (!this.hasAttribute('x-source') && this.getAttribute('x-source') != '') ? Rule.RULE.source : this.getAttribute('x-source'),
+                "value" : (!this.hasAttribute('x-value') && this.getAttribute('x-value') != '') ? Rule.RULE.value : this.getAttribute('x-value'),
+                "text" : (!this.hasAttribute('x-text') && this.getAttribute('x-text') != '') ? Rule.RULE.text : this.getAttribute('x-text'),
+                "filter" : (!this.hasAttribute('x-filter') && this.getAttribute('x-filter') != '') ? Rule.RULE.filter : this.getAttribute('x-filter'),
+                "loader" : (!this.hasAttribute('x-loader') && this.getAttribute('x-loader') != '') ? Rule.RULE.loader : this.getAttribute('x-loader'),
+                "rightAlign": (!this.hasAttribute('x-dir') && this.getAttribute('x-dir') != '') ? Rule.RULE.rightAlign : ((this.getAttribute('x-dir') == 'ltr') ? false : true)
+              }
+            }
+
+            /*
+             * Atributos Privados dos Tipos: [state, city, district]
+             * @property x-source=[*]{1} String
+             * @property x-value=[*]{1} String
+             * @property x-text=[*]{1} String
+             * @property x-filter=[*]{1} String
+             */
+            /*
+             * Atributos Públicos dos Tipos: [state, city, district]
+             * @property x-dir=Opts(['ltr'|'rtl']){0,1} String
+             * @property x-default=[*]{0,1} String
+             * @property x-selected=[*]{0,1} String
+             * @property x-connect=[*]{0,1} String
+             * @property x-reference=[*]{0,1} String
+             */
+
+             // Aplica o Atributo x-default
+             if (!this.hasAttribute('x-default') || this.getAttribute('x-default') == '')
+               if (Config.Rule.default !== undefined)
+                 this.setAttribute('x-default', Config.Rule.default);
+
+             // Aplica o Atributo x-source
+             if (!this.hasAttribute('x-source') || this.getAttribute('x-source') == '')
+               if (Config.Rule.source !== undefined)
+                 this.setAttribute('x-source', Config.Rule.source);
+
+             // Aplica o Atributo x-value
+             if (!this.hasAttribute('x-value') || this.getAttribute('x-value') == '')
+               if (Config.Rule.value !== undefined)
+                 this.setAttribute('x-value', Config.Rule.value);
+
+             // Aplica o Atributo x-text
+             if (!this.hasAttribute('x-text') || this.getAttribute('x-text') == '')
+               if (Config.Rule.text !== undefined)
+                 this.setAttribute('x-text', Config.Rule.text);
+
+             // Aplica o Atributo x-filter
+             if (!this.hasAttribute('x-filter') || this.getAttribute('x-filter') == '')
+               if (Config.Rule.filter !== undefined)
+                 this.setAttribute('x-filter', Config.Rule.filter);
+
+             // Aplica o Atributo x-loader
+             if (!this.hasAttribute('x-loader') || this.getAttribute('x-loader') == '')
+               if (Config.Rule.loader !== undefined)
+                 this.setAttribute('x-loader', Config.Rule.loader);
+
+            this.style.direction = Config.Rule.rightAlign == true ? 'rtl' : 'ltr';
+            this.setAttribute('dir', Config.Rule.rightAlign == true ? 'rtl' : 'ltr');
+
+          break;
+        }
+
+        // Dispara o Evento para Construção do Componente
+        this.dispatchEvent(build);
+
+      }
+      // Criação de Regras Manual
+      else {
+
+        // Dispara o Evento para Construção do Componente
+        this.dispatchEvent(build);
+
+      }
+
+      function component_reload(obj) {
+        //Reinicializa as Váriáveis
+        var _self = obj;
+
+        // Atualiza o Elemento Selecionado no Atributo x-selected
+        if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'chosen') {
+          _self.setAttribute('x-selected', jQuery(_self).val());
+        }
+        else if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select2') {
+          _self.setAttribute('x-selected', jQuery(_self).val());
+        }
+        else if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+          _self.setAttribute('x-selected', jQuery(_self).val());
+        }
+        else {
+          _self.setAttribute('x-selected', _self.options[_self.selectedIndex].value);
+          // Deseleciona a Opção Anterior
+          App.EXT.Select.Option.Reselect(_self, _self.options[_self.selectedIndex].value);
+        }
+
+        if (_self.hasAttribute('x-connect') && _self.getAttribute('x-connect') != '') {
+          var _self_con = document.querySelector(_self.getAttribute('x-connect'));
+
+          // Ajuste para Obtenção do Select para o Bootstrap.Select
+          if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+            _self_con = _self_con.children[0];
+          }
+          // Dispara o Evento on Change para Iniciar a Reação em Cadeia
+          _self_con.dispatchEvent(new Event('change'));
+
+          // Remove Todos os Options Presentes
+          App.EXT.Select.Option.RemoveAll(_self_con);
+
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'chosen') {
+            _self_con.setAttribute('data-allow-clear', 1);
+            App.EXT.Select.Option.SetLoading(_self_con);
+          }
+          else if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select2') {
+            _self_con.setAttribute('data-allow-clear', 1);
+            App.EXT.Select.Option.SetLoading(_self_con);
+          }
+          else if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+            _self_con.setAttribute('data-allow-clear', 1);
+          }
+          // Remove o Atributo x-selected
+          _self_con.removeAttribute('x-selected');
+          // Recria e Repopula os Elementos Envolvidos
+          _self_con.dispatchEvent(build);
+          // Atualiza a Transição do Loading para o Valor Atribuído à x-default
+          if (!_self.hasAttribute('x-plugin')) {
+            App.EXT.Select.Option.SetTransition(_self_con, 0);
+          }
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self_con.hasAttribute('x-plugin') && _self_con.getAttribute('x-plugin') == 'chosen') {
+            _self_con.setAttribute('data-placeholder', App.DEFAULT.PLACES.PATTERN.RULE.loading);
+            App.EXT.Load.Chosen(_self_con);
+            // Reaplica o Placeholder
+            setTimeout(function(){
+              _self_con.setAttribute('data-placeholder', _self_con.getAttribute('x-default'));
+              App.EXT.Load.Chosen(_self_con);
+            }, 10);
+            jQuery('.allow_single_deselect_option').empty();
+            //jQuery('option[class="allow_single_deselect_option"]').remove();
+            App.EXT.Select.Option.SetEmpty(_self_con);
+          }
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self_con.hasAttribute('x-plugin') && _self_con.getAttribute('x-plugin') == 'select2') {
+            _self_con.setAttribute('data-placeholder', App.DEFAULT.PLACES.PATTERN.RULE.loading);
+            App.EXT.Load.Select2(_self_con);
+            // Reaplica o Placeholder
+            setTimeout(function(){
+              _self_con.setAttribute('data-placeholder', _self_con.getAttribute('x-default'));
+              App.EXT.Load.Select2(_self_con);
+            }, 10);
+            jQuery('.allow_single_deselect_option').empty();
+            //jQuery('option[class="allow_single_deselect_option"]').remove();
+            App.EXT.Select.Option.SetEmpty(_self_con);
+          }
+          // Compatibilizar com jQuery
+          if (App.EXT.Load.jQuery() && _self_con.hasAttribute('x-plugin') && _self_con.getAttribute('x-plugin') == 'select') {
+            _self_con.setAttribute('data-placeholder', App.DEFAULT.PLACES.PATTERN.RULE.loading);
+            App.EXT.Load.BootstrapSelect(_self_con);
+            // Reaplica o Placeholder
+            setTimeout(function(){
+              _self_con.setAttribute('data-placeholder', _self_con.getAttribute('x-default'));
+              App.EXT.Load.BootstrapSelect(_self_con);
+              // Correção da Altura do DropDown Menu
+              jQuery('.bootstrap-select .dropdown-menu').css({'margin-bottom': '0px'});
+              // Correção para Selecionar o Option Correto
+              jQuery(_self_con).append('<option style="display:none"></option>');
+            }, 1000);
+          }
+
+        }
+        else {
+          // Se Houver Opção Padrão Exibe a Opção Padrão
+          if (_self.hasAttribute('x-default') && _self.getAttribute('x-default') != '') {
+            setTimeout(function(){
+              if (!_self.hasAttribute('x-plugin')) {
+                App.EXT.Select.Option.SetDefault(_self);
+              }
+              // Compatibilizar com jQuery
+              if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'chosen') {
+                _self.setAttribute('data-placeholder', _self.getAttribute('x-default'));
+                App.EXT.Load.Chosen(_self);
+              }
+              // Compatibilizar com jQuery
+              if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select2') {
+                _self.setAttribute('data-placeholder', _self.getAttribute('x-default'));
+                App.EXT.Load.Select2(_self);
+              }
+              // Compatibilizar com jQuery
+              if (App.EXT.Load.jQuery() && _self.hasAttribute('x-plugin') && _self.getAttribute('x-plugin') == 'select') {
+                _self.setAttribute('placeholder', _self.getAttribute('x-default'));
+                App.EXT.Load.BootstrapSelect(_self);
+              }
+            }, 10);
+          }
+        }
+      }
+
+      // Compatibilizar com jQuery
+      if (!App.EXT.Load.jQuery()){
+        // Evento onChange do Parent
+        App.EXT.Event.Add(this, ['change'], function(event) {
+          // Desabilita a Propagação do Evento e o Borbulhamento
+          event.stopPropagation();
+          event.preventDefault();
+          component_reload(event.target);
+        }, false);
+      }
+      else {
+        $(this).on('change', function(event) {
+          // Desabilita a Propagação do Evento e o Borbulhamento
+          event.stopPropagation();
+          event.preventDefault();
+          component_reload(event.target);
+        });
+      }
+
+      // Define o Índice da Instancia como um Atributo
+      var Element = document.querySelectorAll('select[is="x-select"]'), Index;
+      for (Index = 0; Index < Element.length; ++Index) {
+        Element[Index].setAttribute('x-instance', Index);
+      }
+      Instance = this.getAttribute('x-instance');
     };
 
-    /* Cross-browser fallback */
+    // Cross-browser fallback
     document.registerElement = document.registerElement || document.register;
 
-    /* Element registration using x-tag format */
+    // Element registration using x-tag format
     document.registerElement('x-select', {
       extends: 'select',
       prototype: proto

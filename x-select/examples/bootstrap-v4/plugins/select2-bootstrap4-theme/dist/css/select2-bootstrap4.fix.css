@@ -1,0 +1,65 @@
+.select2-container--bootstrap4 .select2-selection__clear {
+  padding-left: 0.285em;
+}
+
+.select2-container--bootstrap4[dir="rtl"] {
+  /**
+     * Single Select2
+     *
+     * 1. Makes sure that .select2-selection__placeholder is positioned
+     *    correctly.
+     */
+  /**
+     * Multiple Select2
+     */
+}
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--single {
+  padding-left: 1.5rem;
+  padding-right: 0.75rem; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+  padding-right: 0;
+  padding-left: 0;
+  text-align: right; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--single .select2-selection__clear {
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 1.15em;
+  padding-right: .225em;
+  margin-top: 0.5em;
+  border-radius: 100%;
+  background-color: #6c757d;
+  color: #f8f9fa;
+  float: right;
+  margin-right: 0.3em; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--single .select2-selection__clear {
+  float: left; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--single .select2-selection__arrow {
+  left: 0.75rem;
+  right: auto; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--single .select2-selection__arrow b {
+  margin-left: -14px; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--multiple .select2-selection__choice,
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--multiple .select2-selection__placeholder,
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--multiple .select2-search--inline {
+  float: right; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--multiple .select2-selection__choice {
+  margin-left: 0;
+  margin-right: 0.375rem; }
+
+.select2-container--bootstrap4[dir="rtl"] .select2-selection--multiple .select2-selection__choice__remove {
+  margin-left: 2px;
+  margin-right: auto; }
+
+.select2-container--bootstrap4 .select2-dropdown[dir="rtl"] .select2-results__options {
+  text-align: right; }
+
+.select2-container--bootstrap4 .select2-results > .select2-results__options {
+  margin: 0 4px 4px; }
