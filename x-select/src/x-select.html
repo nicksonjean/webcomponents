@@ -85,6 +85,35 @@ https://unpkg.com/greenlet@0.1.2/dist/greenlet.umd.js
 -->
 <script type="text/javascript" src="../plugins/oboe.js/oboe-browser.min.js"></script>
 <script>
+  var URL = URL || {};
+  URL =
+  {
+    "Parse" : function(url) {
+      var parser = document.createElement('a'),
+          searchObject = {},
+          queries, split, i;
+      parser.href = url;
+      queries = parser.search.replace(/^\?/, '').split('&');
+      for( i = 0; i < queries.length; i++ ) {
+          split = queries[i].split('=');
+          searchObject[split[0]] = split[1];
+      }
+      return {
+          protocol: parser.protocol,
+          host: parser.host,
+          hostname: parser.hostname,
+          port: parser.port,
+          pathname: parser.pathname,
+          search: parser.search,
+          searchObject: searchObject,
+          hash: parser.hash
+      };
+    },
+    "Domain": function(url) {
+      return URL.Parse(url).protocol + '//' + URL.Parse(url).host;
+    }
+  };
+
   var App = App || {}, Pattern = Pattern || [];
   App = 
   {
@@ -108,7 +137,7 @@ https://unpkg.com/greenlet@0.1.2/dist/greenlet.umd.js
         "STATE" : {
           "RULE" : {
             "default" : "Escolha um Estado",
-            "source" : "http://192.168.1.2/componentes_web/webcomponents/x-select/src/data/Estados_Compacted.json",
+            "source" : URL.Domain(document.URL) +  "/componentes_web/webcomponents/x-select/src/data/Estados_Compacted.json",
             "value" : "//ID",
             "text" : "//Nome",
             "filter" : "ID",
@@ -118,7 +147,7 @@ https://unpkg.com/greenlet@0.1.2/dist/greenlet.umd.js
         "CITY" : {
           "RULE" : {
             "default" : "Escolha uma Cidade",
-            "source" : "http://192.168.1.2/componentes_web/webcomponents/x-select/src/data/Cidades_Compacted.json",
+            "source" : URL.Domain(document.URL) +  "/componentes_web/webcomponents/x-select/src/data/Cidades_Compacted.json",
             "value" : '//*[Estado="{$ID}"]/ID',
             "text" : '//*[Estado="{$ID}"]/Nome',
             "filter" : "ID",
@@ -129,7 +158,7 @@ https://unpkg.com/greenlet@0.1.2/dist/greenlet.umd.js
         "DISTRICT" : {
           "RULE" : {
             "default" : "Escolha um Bairro",
-            "source" : "http://192.168.1.2/componentes_web/webcomponents/x-select/src/data/Bairros_Compacted.json",
+            "source" : URL.Domain(document.URL) +  "/componentes_web/webcomponents/x-select/src/data/Bairros_Compacted.json",
             "value" : '//*[Cidade="{$ID}"]/ID',
             "text" : '//*[Cidade="{$ID}"]/Nome',
             "loader" : "Cidade",
@@ -495,7 +524,14 @@ https://unpkg.com/greenlet@0.1.2/dist/greenlet.umd.js
         var node = _self.getAttribute('x-loader') == null ? '!' : '$' + _self.getAttribute('x-loader'),
             response = [];
 
-        oboe(_self.getAttribute('x-source')).node(node, function(xhr, path, ancestors) {
+        oboe({
+          url: _self.getAttribute('x-source'),
+          method: "GET",
+          headers: { contentType: "application/json" },
+          cache: true,
+          withCredentials: true
+        })
+        .node(node, function(xhr, path, ancestors) {
           if (node === '!') {
             if (xhr !== null) {
               response = xhr;
