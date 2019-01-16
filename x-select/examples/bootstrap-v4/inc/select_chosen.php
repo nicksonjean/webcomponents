@@ -1,3 +1,22 @@
+<?php include_once '../include.php';?>
+
+                <div class="row">
+                  <div class="col-6"><h5>Legenda</h5></div>
+                  <div class="col-6">
+                    <a class="pull-right" data-toggle="collapse" href="#collapse-chosen-embutido" aria-expanded="false" aria-controls="collapse-chosen-embutido">
+                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-chosen-embutido">
+                      <?php includeWithVariables('../inc/table_rule.php', array('chosen' => '<small class="table-typografy-xs">chosen</small>', 'select' => '<small class="table-typografy-xs">chosen</small>', 'select2' => '<small class="table-typografy-xs">chosen</small>')); ?>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="form-group row">
 
                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 has-default">
@@ -26,6 +45,23 @@
 
                 </div>
 
+                <div class="row">
+                  <div class="col-6"><h5>Legenda</h5></div>
+                  <div class="col-6">
+                    <a class="pull-right" data-toggle="collapse" href="#collapse-chosen-externo" aria-expanded="false" aria-controls="collapse-chosen-externo">
+                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-chosen-externo">
+                      <?php includeWithVariables('../inc/table_custom.php', array('chosen' => '<small class="table-typografy-xs">chosen</small>', 'select' => '<small class="table-typografy-xs">chosen</small>', 'select2' => '<small class="table-typografy-xs">chosen</small>')); ?>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="form-group row">
 
                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 has-default">
@@ -52,6 +88,23 @@
 
                   </div>
 
+                </div>
+
+                <div class="row">
+                  <div class="col-6"><h5>Legenda</h5></div>
+                  <div class="col-6">
+                    <a class="pull-right" data-toggle="collapse" href="#collapse-chosen-externo-template" aria-expanded="false" aria-controls="collapse-chosen-externo-template">
+                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-chosen-externo-template">
+                      <?php includeWithVariables('../inc/table_custom_template.php', array('chosen' => '<small class="table-typografy-xs">chosen</small>', 'select' => '<small class="table-typografy-xs">chosen</small>', 'select2' => '<small class="table-typografy-xs">chosen</small>')); ?>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-group row">

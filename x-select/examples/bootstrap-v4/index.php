@@ -1,3 +1,4 @@
+<?php include 'include.php';?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -39,18 +40,22 @@
           <div class="col-12">
 
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs responsive-tabs" role="tablist">
+            <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
               <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#vanilla_select" role="tab">Vanilla</a>
+                <!--<a class="nav-link active" data-toggle="tab" href="#vanilla" role="tab">Vanilla</a>-->
+                  <a class="nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" data-href="inc/select_vanilla.php" role="tab">Vanilla</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#chosen" role="tab">Chosen</a>
+                <!--<a class="nav-link" data-toggle="tab" href="#chosen" role="tab">Chosen</a>-->
+                <a class="nav-link ajax-tabs" data-toggle="tab" href="#chosen" data-href="inc/select_chosen.php" role="tab">Chosen</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#select2" role="tab">Select2</a>
+                <!--<a class="nav-link" data-toggle="tab" href="#select2" role="tab">Select2</a>-->
+                <a class="nav-link ajax-tabs" data-toggle="tab" href="#select2" data-href="inc/select_select2.php" role="tab">Select2</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#bootstrap_select" role="tab">Bootstrap</a>
+                <!--<a class="nav-link" data-toggle="tab" href="#select" role="tab">SelectPicker</a>-->
+                <a class="nav-link ajax-tabs" data-toggle="tab" href="#select" data-href="inc/select_select.php" role="tab">SelectPicker</a>
               </li>
             </ul>
 
@@ -58,38 +63,28 @@
             <div class="tab-content">
               <br />
 
-              <div class="tab-pane active" id="vanilla_select" role="tabpanel">
+              <div class="tab-pane active" id="vanilla" role="tabpanel">
 
-                <div class="row">
-                  <div class="col-6"><h5>Legenda</h5></div>
-                  <div class="col-6">
-                    <a class="pull-right" data-toggle="collapse" href="#collapse-integer" aria-expanded="false" aria-controls="collapse-example">
-                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
+                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'vanilla', 'rule' => 'rule', 'pair' => 'pair', 'template' => 'template', 'plugin' => '')); ?>
 
-                <div class="row">
-                  <div class="col-12">
-                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-integer">
-                      <?php include 'inc/table_integer.php'; ?>
-                    </div>
-                  </div>
-                </div>
-
-                      <?php include 'inc/select_vanilla.php'; ?>
               </div>
 
               <div class="tab-pane" id="chosen" role="tabpanel">
-                      <?php include 'inc/select_chosen.php'; ?>
+
+                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'chosen', 'rule' => 'rule_chosen', 'pair' => 'pair_chosen', 'template' => 'template_chosen', 'plugin' => 'x-plugin="chosen"')); ?>
+
               </div>
 
               <div class="tab-pane" id="select2" role="tabpanel">
-                      <?php include 'inc/select_select2.php'; ?>
+
+                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'select2', 'rule' => 'rule_select2', 'pair' => 'pair_select2', 'template' => 'template_select2', 'plugin' => 'x-plugin="select2"')); ?>
+
               </div>
 
-              <div class="tab-pane" id="bootstrap_select" role="tabpanel">
-                      <?php include 'inc/select_bootstrap.php'; ?>
+              <div class="tab-pane" id="select" role="tabpanel">
+
+                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'select', 'rule' => 'rule_select', 'pair' => 'pair_select', 'template' => 'template_select', 'plugin' => 'x-plugin="select"')); ?>
+
               </div>
 
             </div>
@@ -228,8 +223,33 @@
           }
         });
 
+        // Responsive Tabs
         $('.responsive-tabs').responsiveTabs({
           accordionOn: ['xs', 'sm'] // xs, sm, md, lg
+        });
+
+        // Popover
+        $('[data-toggle="popover"]').popover();
+
+        // Ajax & Normal Tabs
+        $('#tabs .ajax-tabs').click(function (e) {
+          e.preventDefault();
+          var panel = $(this);
+          if (panel.hasClass('ajax-tabs') && panel.attr("data-href")) {
+            var url = panel.attr("data-href");
+            var href = this.hash;
+            $(href).load(url,function(result){
+              panel.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
+            });
+          }
+          else {
+            panel.tab('show');
+          }
+        });
+
+        // Carrega a Primeira
+        $('#vanilla').load($('a.active').attr('data-href'), function(result){
+          $('a.active').tab('show').removeClass('ajax-tabs').removeAttr('data-href');
         });
 
       });

@@ -1,3 +1,22 @@
+<?php include_once '../include.php';?>
+
+                <div class="row">
+                  <div class="col-6"><h5>Legenda</h5></div>
+                  <div class="col-6">
+                    <a class="pull-right" data-toggle="collapse" href="#collapse-vanilla-embutido" aria-expanded="false" aria-controls="collapse-vanilla-embutido">
+                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-vanilla-embutido">
+                      <?php includeWithVariables('../inc/table_rule.php', array('chosen' => '<i class="fa fa-minus" aria-hidden="true"></i>', 'select' => '<i class="fa fa-minus" aria-hidden="true"></i>', 'select2' => '<i class="fa fa-minus" aria-hidden="true"></i>')); ?>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="form-group row">
 
                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 has-default">
@@ -26,12 +45,29 @@
 
                 </div>
 
+                <div class="row">
+                  <div class="col-6"><h5>Legenda</h5></div>
+                  <div class="col-6">
+                    <a class="pull-right" data-toggle="collapse" href="#collapse-vanilla-externo" aria-expanded="false" aria-controls="collapse-vanilla-externo">
+                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-vanilla-externo">
+                      <?php includeWithVariables('../inc/table_custom.php', array('chosen' => '<i class="fa fa-minus" aria-hidden="true"></i>', 'select' => '<i class="fa fa-minus" aria-hidden="true"></i>', 'select2' => '<i class="fa fa-minus" aria-hidden="true"></i>')); ?>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="form-group row">
 
                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 has-default">
 
                     <label class="form-control-label" for="estados_pair">Custom State With Pairs</label>
-                    <select class="custom-select form-control"              is="x-select" x-source="http://localhost/componentes_web/webcomponents/x-select/src/data/Estados_Compacted.json" x-connect=".cidades_pair" x-value="//ID"                   x-text="//Nome"                                               x-default="Escolha um Estado"  x-filter="ID" x-selected="23"                     name="estados_pair" id="estados_pair" aria-describedby="estados_pairHelpBlock"></select>
+                    <select class="custom-select form-control"              is="x-select" x-source="http://localhost/componentes_web/webcomponents/x-select/src/data/Estados_Compacted.json" x-connect=".cidades_pair" x-value="//ID"                   x-text="//Nome"                                               x-default="Escolha um Estado"  x-filter="ID" x-selected="23"                      name="estados_pair" id="estados_pair" aria-describedby="estados_pairHelpBlock"></select>
                     <small id="estados_pairHelpBlock" class="form-control-feedback">JSON Dinâmico, Pré-Seleção, Encadeável</small>
 
                   </div>
@@ -39,7 +75,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 has-default">
 
                     <label class="form-control-label" for="cidades_pair">Custom City With Pairs</label>
-                    <select class="custom-select form-control cidades_pair" is="x-select" x-source="http://localhost/componentes_web/webcomponents/x-select/src/data/Cidades_Compacted.json" x-connect=".bairros_pair" x-value='//*[Estado="{$ID}"]/ID' x-text='//*[Estado="{$ID}"]/Nome' x-reference="#estados_pair" x-default="Escolha uma Cidade" x-filter="ID" x-selected="195" x-loader="Estado" name="cidades_pair" id="cidades_pair" aria-describedby="cidades_pairHelpBlock"></select>
+                    <select class="custom-select form-control cidades_pair" is="x-select" x-source="http://localhost/componentes_web/webcomponents/x-select/src/data/Cidades_Compacted.json" x-connect=".bairros_pair" x-value='//*[Estado="{$ID}"]/ID' x-text='//*[Estado="{$ID}"]/Nome' x-reference="#estados_pair" x-default="Escolha uma Cidade" x-filter="ID" x-selected="195"   x-loader="Estado" name="cidades_pair" id="cidades_pair" aria-describedby="cidades_pairHelpBlock"></select>
                     <small id="cidades_pairHelpBlock" class="form-control-feedback">JSON Dinâmico, Pré-Seleção, Encadeável</small>
 
                   </div>
@@ -52,6 +88,23 @@
 
                   </div>
 
+                </div>
+
+                <div class="row">
+                  <div class="col-6"><h5>Legenda</h5></div>
+                  <div class="col-6">
+                    <a class="pull-right" data-toggle="collapse" href="#collapse-vanilla-externo-template" aria-expanded="false" aria-controls="collapse-vanilla-externo-template">
+                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-vanilla-externo-template">
+                      <?php includeWithVariables('../inc/table_custom_template.php', array('chosen' => '<i class="fa fa-minus" aria-hidden="true"></i>', 'select' => '<i class="fa fa-minus" aria-hidden="true"></i>', 'select2' => '<i class="fa fa-minus" aria-hidden="true"></i>')); ?>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-group row">
