@@ -1,0 +1,89 @@
+<p></p>
+<p> <span style="font-weight:900; margin-left:2em;">vkthread.exec ( param ) </span>--
+Runs function in a thread.
+</p>
+<!--p> Runs function in a thread.</p-->
+<pre><code data-language="javascript">
+	@return -- promise (Promise style)
+	        -- null (Callback style)
+
+	param -- object which has following attributes:
+
+	@fn                      - function to execute
+	@args        (optional)  - array of arguments for @fn
+	@context     (optional)  - object which will be 'this' for @fn
+	@importFiles (optional)  - array of strings; each string is URL
+	                           to a file, which @fn depends on.
+
+	@cb (mandatory/not used) - callback function to process data which is
+	                           returned by a thread. Mandatory for callback
+	                           style coding, ignored in Promise style code.
+
+</code></pre>
+<p></p>
+<p> <span style="font-weight:900; margin-left:2em;">vkThread.execAll ( [param1, param2, ... ] )
+</span> -- Runs multiple functions in multiple threads.
+</p>
+<pre><code data-language="javascript">
+	@return -- promise object when all threads done.
+
+	param -- object (see above )
+</code></pre>
+
+<p></p>
+
+
+<p> <span style="font-weight:900; margin-left:2em;">vkhttp( config )</span>
+-- Runs XMLHttpRequest in a threads.</p>
+
+<p>
+vkhttp() runs XMLHttpRequest synchronously. <br/>
+As it runs in a thread, it's OK to perform it this way.
+</p>
+
+<pre><code data-language="javascript">
+	@return -- string
+
+	@config          - object;
+
+	config attributes:
+
+	@url                    - string; URL
+	@method      (optional) - string; http method; default is 'GET'
+	@body        (optional) - object; message body to send with 'POST'
+	@contentType (optional) - string; "Content-Type" http header;
+                                           by default it is 'application/json'
+
+</code></pre>
+
+<pre><code data-language="javascript">
+function foo(config, arg2, ...) {
+
+    /* request data from a server */
+    var data = vkhttp(config);
+
+    /* process the data */
+    . . .
+    return something;
+}
+
+
+var param = {
+  fn: foo,
+  args:[
+	/* the first element is config object for vkhttp() */
+	{ url:"path/to/your/server/file",
+	  method:'POST',                           // <-- skip for GET
+	  body: {firstname:'John', lastname:'Dow'} // <-- skip for GET
+	},
+
+	123, // <-- arg2
+	. . .
+  ]
+}
+</code></pre>
+
+<p></p>
+
+
+<p></p>

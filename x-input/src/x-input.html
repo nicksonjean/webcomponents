@@ -9,8 +9,8 @@ e com Comportamento e Máscara, Util para Criação de Formulários Ricos
 @author Nickson Jeanmerson
 -->
 
-<script src="../polyfills/es5-shim.min.js"></script>
-<script src="../polyfills/es6-shim.min.js"></script>
+<script type="text/javascript" src="../polyfills/es5-shim.min.js"></script>
+<script type="text/javascript" src="../polyfills/es6-shim.min.js"></script>
 
 <!--
 document-register-element v0 to v1 Polyfill 
@@ -20,7 +20,7 @@ https://github.com/WebReflection/document-register-element
 (C) Andrea Giammarchi - @WebReflection - Mit Style License
 Licensed under the MIT License 
 -->
-<script src="../polyfills/document-register-element.js"></script>
+<script type="text/javascript" src="../polyfills/document-register-element.js"></script>
 
 <!--
 document-currentScript Polyfill
@@ -32,7 +32,7 @@ https://github.com/JamesMGreene/document.currentScript
 Licensed under the MIT License 
 -->
 <!--[if lte IE 11]>
-<script src="../polyfills/document-currentScript.js"></script>
+<script type="text/javascript" src="../polyfills/document-currentScript.js"></script>
 <![endif]-->
 
 <!--
@@ -43,7 +43,7 @@ https://gist.github.com/spiralx/68cf40d7010d829340cb
 (C) James Skinner - @spiralx - Mit Style License
 Licensed under the MIT License 
 -->
-<script src="../polyfills/object-assign.js"></script>
+<script type="text/javascript" src="../polyfills/object-assign.js"></script>
 
 <!--
 String Polyfill
@@ -53,7 +53,7 @@ https://github.com/uxitten/polyfill
 Behnam Mohammadi (بهنام محمدی) uxitten - Mit Style License
 Licensed under the MIT License 
 -->
-<script src="../polyfills/string-polyfill.js"></script>
+<script type="text/javascript" src="../polyfills/string-polyfill.js"></script>
 
 <!--
 bignumber.js v6.0.0
@@ -63,7 +63,7 @@ https://github.com/MikeMcl/bignumber.js
 Copyright (c) 2017 Michael Mclaughlin <M8ch88l@gmail.com>
 MIT Licensed.
 -->
-<script src="../plugins/bignumber.js/bignumber.min.js"></script>
+<script type="text/javascript" src="../plugins/bignumber.js/bignumber.min.js"></script>
 
 <!--
 UAParser.js v0.7.17
@@ -73,7 +73,7 @@ https://github.com/faisalman/ua-parser-js
 Copyright © 2012-2016 Faisal Salman <fyzlman@gmail.com>
 Dual licensed under GPLv2 or MIT
 -->
-<script src="../plugins/ua-parser/dist/ua-parser.pack.js"></script>
+<script type="text/javascript" src="../plugins/ua-parser/dist/ua-parser.pack.js"></script>
 
 <!--
 Inputmask is a javascript library which creates an input mask.
@@ -82,12 +82,12 @@ https://github.com/RobinHerbots/Inputmask
 Copyright (C) 2010 - 2018 Robin Herbots - Mit Style License
 Licensed under the MIT license
 -->
-<script src="../plugins/inputmask/dist/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
-<script src="../plugins/inputmask/dist/inputmask/inputmask.js"></script>
-<script src="../plugins/inputmask/dist/inputmask/inputmask.extensions.js"></script>
-<script src="../plugins/inputmask/dist/inputmask/inputmask.date.extensions.js"></script>
-<script src="../plugins/inputmask/dist/inputmask/inputmask.phone.extensions.js"></script>
-<script src="../plugins/inputmask/dist/inputmask/inputmask.numeric.extensions.js"></script>
+<script type="text/javascript" src="../plugins/inputmask/dist/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+<script type="text/javascript" src="../plugins/inputmask/dist/inputmask/inputmask.js"></script>
+<script type="text/javascript" src="../plugins/inputmask/dist/inputmask/inputmask.extensions.js"></script>
+<script type="text/javascript" src="../plugins/inputmask/dist/inputmask/inputmask.date.extensions.js"></script>
+<script type="text/javascript" src="../plugins/inputmask/dist/inputmask/inputmask.phone.extensions.js"></script>
+<script type="text/javascript" src="../plugins/inputmask/dist/inputmask/inputmask.numeric.extensions.js"></script>
 
 <!--
 Inputmoney is a simple money mask developed with pure JavaScript.
@@ -100,11 +100,11 @@ Licensed under the MIT license
 <style>
   input[is]::-ms-clear {  display: none; width : 0; height: 0; }
   input[is]::-ms-reveal {  display: none; width : 0; height: 0; }
-  input[is]::-webkit-input-placeholder { color: #007bff; }
-  input[is]:-ms-input-placeholder { color: #007bff; }
-  input[is]:-ms-input-placeholder:focus { color: #007bff; }
-  input[is]:-moz-placeholder{ color: #007bff; }
-  input[is]::-moz-placeholder{ color: #007bff; }
+  input[is]::-webkit-input-placeholder { color: #337ab7; }
+  input[is]:-ms-input-placeholder { color: #337ab7; }
+  input[is]:-ms-input-placeholder:focus { color: #337ab7; }
+  input[is]:-moz-placeholder{ color: #337ab7; }
+  input[is]::-moz-placeholder{ color: #337ab7; }
 </style>
 <script>
   var App = App || {}, Pattern = Pattern || [], MaskedInput;
@@ -7118,12 +7118,4 @@ Licensed under the MIT license
     });
 
   })();
-
-  //https://github.com/TakayoshiKochi/deprecate-style-in-html-imports
-  try {
-    document.head.appendChild(document.currentScript.ownerDocument.querySelector('style'));
-  }
-  catch(err) {
-    console.log(err.message);
-  };
 </script>

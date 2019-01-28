@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
   <head>
     <title> X-Input - Bootstrap v4 </title>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="black">
+    <meta name="description" content="X-Select é um Componente para Criação de Campos de Formulário Inteligentes e com Comportamento e Máscara, Util para Criação de Formulários Ricos">
     <!-- Bootstrap v4.2.1 -->
     <link rel="stylesheet" href="plugins/bootstrap-v4/dist/css/bootstrap-4.2.1.min.css" />
+    <link rel="stylesheet" href="plugins/bootstrap-v4/dist/css/bootstrap-4.2.1.fix.css" />
     <!-- Datatables for Bootstrap v4-->
     <link rel="stylesheet" href="plugins/bootstrap-responsive-datatables/dist/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="plugins/bootstrap-responsive-datatables/dist/css/responsive.bootstrap4.min.css" />
@@ -53,7 +56,7 @@
                   <div class="col-6"><h5>Legenda</h5></div>
                   <div class="col-6">
                     <a class="pull-right" data-toggle="collapse" href="#collapse-integer" aria-expanded="false" aria-controls="collapse-example">
-                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                      Ver/Esconder <i class="fa fa-chevron-down" aria-hidden="true"></i>
                     </a>
                   </div>
                 </div>
@@ -152,7 +155,7 @@
                   <div class="col-6"><h5>Legenda</h5></div>
                   <div class="col-6">
                     <a class="pull-right" data-toggle="collapse" href="#collapse-decimal" aria-expanded="false" aria-controls="collapse-example">
-                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                      Ver/Esconder <i class="fa fa-chevron-down" aria-hidden="true"></i>
                     </a>
                   </div>
                 </div>
@@ -219,7 +222,7 @@
 
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
                     <label class="form-control-label" for="bigdec">Big Decimal</label>
-                    <input class="form-control" is="x-input" x-type="decimal"x-min="-9223372036854776000" x-max="9223372036854776000"  type="text" name="decimal_custom_4decimals" id="decimal_custom_4decimals" aria-describedby="bigdecHelpBlock" />
+                    <input class="form-control" is="x-input" x-type="decimal" x-min="-9223372036854776000" x-max="9223372036854776000"  type="text" name="decimal_custom_4decimals" id="decimal_custom_4decimals" aria-describedby="bigdecHelpBlock" />
                     <small id="bigdecHelpBlock" class="form-control-feedback" style="font-size:9.5px">De -9223372036854776000.00 à 9223372036854776000.00</small>
                   </div>
                 </div>
@@ -399,7 +402,7 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Submeter</button>
+            <button type="submit" class="btn btn-primary new-btn-blue-color">Submeter</button>
 
           </div>
         </div>
@@ -410,36 +413,36 @@
 
     <!-- jQuery 3.3.1 -->
     <!--[if gte IE 9]><!-->
-      <script src="plugins/jquery/dist/js/jquery-3.3.1.min.js"></script>
-      <script>window.jQuery || document.write('<script src="plugins/jquery/dist/js/jquery-3.3.1.min.js"><\/script>')</script>
+      <script type="text/javascript" src="plugins/jquery/dist/js/jquery-3.3.1.min.js"></script>
+      <script>window.jQuery || document.write('<script type="text/javascript" src="plugins/jquery/dist/js/jquery-3.3.1.min.js"><\/script>')</script>
     <!--<![endif]-->
     <!--[if lt IE 9]>
-      <script src="plugins/jquery/dist/js/jquery-1.12.4.min.js"></script>
-      <script>window.jQuery || document.write('<script src="plugins/jquery/dist/js/jquery-1.12.4.min.js"><\/script>')</script>
+      <script type="text/javascript" src="plugins/jquery/dist/js/jquery-1.12.4.min.js"></script>
+      <script>window.jQuery || document.write('<script type="text/javascript" src="plugins/jquery/dist/js/jquery-1.12.4.min.js"><\/script>')</script>
     <![endif]-->
     <!-- Popper 1.14.6 -->
-    <script src="plugins/bootstrap-v4/dist/js/popper-1.14.6.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-v4/dist/js/popper-1.14.6.min.js"></script>
     <!-- Bootstrap v4.2.1 -->
-    <script src="plugins/bootstrap-v4/dist/js/bootstrap-4.2.1.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-v4/dist/js/bootstrap-4.2.1.min.js"></script>
     <!-- Datatables for Bootstrap v4-->
-    <script src="plugins/bootstrap-responsive-datatables/dist/js/jquery.dataTables.min.js"></script>
-    <script src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.bootstrap4.min.js"></script>
-    <script src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.responsive.min.js"></script>
-    <script src="plugins/bootstrap-responsive-datatables/dist/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/responsive.bootstrap4.min.js"></script>
     <!-- Bootstrap Responsive Tabs v2.0.1 -->
-    <script src="plugins/bootstrap-responsive-tabs/dist/js/jquery.bootstrap-responsive-tabs.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-responsive-tabs/dist/js/jquery.bootstrap-responsive-tabs.js"></script>
     <!-- Polyfill classList 0.0.20130621 https://github.com/remy/polyfills -->
     <!-- Polyfill html5shiv 3.7.3 https://cdn.jsdelivr.net/g/html5shiv@3.7.3 -->
     <!--[if IE 9]>
       <link href="../../polyfills/bootstrap-ie9.css" rel="stylesheet">
-      <script src="../../polyfills/classList.js">
-      <script src="../../polyfills/html5shiv.js"></script>
+      <script type="text/javascript" src="../../polyfills/classList.js">
+      <script type="text/javascript" src="../../polyfills/html5shiv.js"></script>
     <![endif]-->
     <!--[if IE 8]>
       <link href="../../polyfills/bootstrap-ie8.css" rel="stylesheet">
     <![endif]-->
     <!-- WebComponents Polyfill 0.7.24 -->
-    <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <!-- X-Input WebComponent v0.5a-->
     <!--<link rel="import" href="../../src/x-input.html">-->
     <link rel="import" href="../../dist/standalone/x-input.min.html">

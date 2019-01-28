@@ -26,7 +26,7 @@
                                <td class="text-center"><small class="table-typografy-xs"><i>string</i></small></td>
                                <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                                <td class="text-center"><small class="table-typografy-xs"><i>.cidades_rule</i></small></td>
-                               <td class="text-center"><small class="table-typografy-xs"><i>.bairros_rule</small></td>
+                               <td class="text-center"><small class="table-typografy-xs"><i>.bairros_rule</i></small></td>
                             </tr>
                             <tr>
                                <td class="text-center" scope="row"><small class="table-typografy-xs">x-connect</small></td>

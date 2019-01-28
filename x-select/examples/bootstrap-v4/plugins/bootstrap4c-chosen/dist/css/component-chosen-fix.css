@@ -159,3 +159,6 @@
   background-repeat: no-repeat; 
 }
 /* End RTL Support */
+.chosen-container-single .chosen-single {
+  height: 2.37rem;
+}

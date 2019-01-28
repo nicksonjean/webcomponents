@@ -26,7 +26,7 @@
                                <td class="text-center"><small class="table-typografy-xs"><i>string</i></small></td>
                                <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                                <td class="text-center"><small class="table-typografy-xs"><i>.cidades_pair</i></small></td>
-                               <td class="text-center"><small class="table-typografy-xs"><i>.bairros_pair</small></td>
+                               <td class="text-center"><small class="table-typografy-xs"><i>.bairros_pair</i></small></td>
                             </tr>
                             <tr>
                                <td class="text-center" scope="row"><small class="table-typografy-xs">x-connect</small></td>
@@ -108,9 +108,9 @@
                             <tr>
                                <td class="text-center" scope="row"><small class="table-typografy-xs">x-template</small></td>
                                <td class="text-center"><small class="table-typografy-xs">string</small></td>
-                               <td class="text-center"><small class="table-typografy-xs"><a tabindex="0" class="btn btn-xs btn-primary text-nowrap" role="button" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" title="Template para Estado" data-content="<option value='{{ID}}'>{{Codigo_IBGE}} - {{Nome}}/{{Sigla}}</option>">Clique...</a></small></td>
-                               <td class="text-center"><small class="table-typografy-xs"><a tabindex="0" class="btn btn-xs btn-primary text-nowrap" role="button" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" title="Template para Cidade" data-content="<option value='{{ID}}'>{{Codigo_IBGE}} - {{Nome}}</option>">Clique...</a></small></td>
-                               <td class="text-center"><small class="table-typografy-xs"><a tabindex="0" class="btn btn-xs btn-primary text-nowrap" role="button" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" title="Template para Bairro" data-content="<option value='{{ID}}'>{{Codigo_IBGE}} - {{Nome}}</option>">Clique...</a></small></td>
+                               <td class="text-center"><small class="table-typografy-xs"><a tabindex="0" class="btn btn-xs btn-primary new-btn-blue-color text-nowrap" role="button" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" title="Template para Estado" data-content="<option value='{{ID}}'>{{Codigo_IBGE}} - {{Nome}}/{{Sigla}}</option>">Clique...</a></small></td>
+                               <td class="text-center"><small class="table-typografy-xs"><a tabindex="0" class="btn btn-xs btn-primary new-btn-blue-color text-nowrap" role="button" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" title="Template para Cidade" data-content="<option value='{{ID}}'>{{Codigo_IBGE}} - {{Nome}}</option>">Clique...</a></small></td>
+                               <td class="text-center"><small class="table-typografy-xs"><a tabindex="0" class="btn btn-xs btn-primary new-btn-blue-color text-nowrap" role="button" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" title="Template para Bairro" data-content="<option value='{{ID}}'>{{Codigo_IBGE}} - {{Nome}}</option>">Clique...</a></small></td>
                             </tr>
                          </tbody>
                       </table>

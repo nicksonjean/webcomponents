@@ -1,11 +1,16 @@
 <?php include 'include.php';?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
   <head>
     <title> X-Select - Bootstrap v4 </title>
     <meta charset="utf-8">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="black">
+    <meta name="description" content="X-Select é um Componente Web que ajuda na construção de formulários ricos adicionando suporte à obtenção de dados remotos ou locais no formato JSON através de Streams de alta velocidade, com filtragem de dados via XPath ou JSONPath, diretamente ao elemento select nativo do HTML, e por não trazer consigo uma interface pronta é compatível com qualquer framework CSS, não obstante, ainda é compatível com os seguintes plugins para jQuery: Chosen, Select2 e Bootstrap Select">
     <!-- Bootstrap v4.2.1 -->
     <link rel="stylesheet" href="plugins/bootstrap-v4/dist/css/bootstrap-4.2.1.min.css" />
     <link rel="stylesheet" href="plugins/bootstrap-v4/dist/css/bootstrap-4.2.1.fix.css" />
@@ -33,63 +38,104 @@
 
       <form action="../submit_form.php" method="post">
         <header><h1>Web Component</h1></header>
-        <header><h3>&lt;select is="x-select" /&gt;</h3></header><br />
+        <header>
+          <h3>&lt;select is="x-select" /&gt;</h3>
+          <?php if(isset($_GET['debug']) && $_GET['debug'] == 'true') { ?>
+          <h5>?load_format=<span id="_load_format"></span>&cache=<span id="_cache"></span>&ie_load_mode=<span id="_ie_load_mode"></span></h5>
+          <?php } ?>
+        </header>
+        <br />
         <hr /><br />
 
         <div class="row">
           <div class="col-12">
 
-            <!-- Nav tabs -->
+            <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
+
+            <!-- HTML4 Static Nav Tabs Responsive -->
             <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
               <li class="nav-item">
-                <!--<a class="nav-link active" data-toggle="tab" href="#vanilla" role="tab">Vanilla</a>-->
-                  <a class="nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" data-href="inc/select_vanilla.php" role="tab">Vanilla</a>
+                <a class="nav-link active" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
               </li>
               <li class="nav-item">
-                <!--<a class="nav-link" data-toggle="tab" href="#chosen" role="tab">Chosen</a>-->
-                <a class="nav-link ajax-tabs" data-toggle="tab" href="#chosen" data-href="inc/select_chosen.php" role="tab">Chosen</a>
+                <a class="nav-link"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
               </li>
               <li class="nav-item">
-                <!--<a class="nav-link" data-toggle="tab" href="#select2" role="tab">Select2</a>-->
-                <a class="nav-link ajax-tabs" data-toggle="tab" href="#select2" data-href="inc/select_select2.php" role="tab">Select2</a>
+                <a class="nav-link"        data-toggle="tab" href="#select2" id="nav-select2-tab" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
               </li>
               <li class="nav-item">
-                <!--<a class="nav-link" data-toggle="tab" href="#select" role="tab">SelectPicker</a>-->
-                <a class="nav-link ajax-tabs" data-toggle="tab" href="#select" data-href="inc/select_select.php" role="tab">SelectPicker</a>
+                <a class="nav-link"        data-toggle="tab" href="#select"  id="nav-select-tab"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
               </li>
             </ul>
 
+            <?php } ?>
+
+            <?php if(!isset($_GET['load_format'])) { ?>
+
+            <!-- HTML4 Ajax Nav Tabs Responsive -->
+            <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" data-href="inc/select_vanilla.php" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  data-href="inc/select_chosen.php"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#select2" id="nav-select2-tab" data-href="inc/select_select2.php" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#select"  id="nav-select-tab"  data-href="inc/select_select.php"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
+              </li>
+            </ul>
+
+            <?php } ?>
+
+            <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'modern') { ?>
+
+            <!-- HTML5 Ajax Nav Tabs Non Responsive -->
+            <nav>
+              <div id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
+                <a class="nav-item nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" data-href="inc/select_vanilla.php" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
+                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  data-href="inc/select_chosen.php"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
+                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#select2" id="nav-select2-tab" data-href="inc/select_select2.php" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
+                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#select"  id="nav-select-tab"  data-href="inc/select_select.php"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
+              </div>
+            </nav>
+
+            <?php } ?>
+
             <!-- Tab panes -->
-            <div class="tab-content">
+            <div class="tab-content" id="nav-tabContent">
+
               <br />
 
-              <div class="tab-pane active" id="vanilla" role="tabpanel">
-
-                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'vanilla', 'rule' => 'rule', 'pair' => 'pair', 'template' => 'template', 'plugin' => '')); ?>
-
+              <div class="tab-pane active" id="vanilla" role="tabpanel" aria-labelledby="nav-vanilla-tab">
+                <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
+                  <?php includeWithVariables('inc/select_all.php', array('type' => 'vanilla', 'rule' => 'rule', 'pair' => 'pair', 'template' => 'template', 'plugin' => '')); ?>
+                <?php } ?>
               </div>
 
-              <div class="tab-pane" id="chosen" role="tabpanel">
-
-                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'chosen', 'rule' => 'rule_chosen', 'pair' => 'pair_chosen', 'template' => 'template_chosen', 'plugin' => 'x-plugin="chosen"')); ?>
-
+              <div class="tab-pane" id="chosen" role="tabpanel" aria-labelledby="nav-chosen-tab">
+                <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
+                  <?php includeWithVariables('inc/select_all.php', array('type' => 'chosen', 'rule' => 'rule_chosen', 'pair' => 'pair_chosen', 'template' => 'template_chosen', 'plugin' => 'x-plugin="chosen"')); ?>
+                <?php } ?>
               </div>
 
-              <div class="tab-pane" id="select2" role="tabpanel">
-
-                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'select2', 'rule' => 'rule_select2', 'pair' => 'pair_select2', 'template' => 'template_select2', 'plugin' => 'x-plugin="select2"')); ?>
-
+              <div class="tab-pane" id="select2" role="tabpanel" aria-labelledby="nav-select2-tab">
+                <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
+                  <?php includeWithVariables('inc/select_all.php', array('type' => 'select2', 'rule' => 'rule_select2', 'pair' => 'pair_select2', 'template' => 'template_select2', 'plugin' => 'x-plugin="select2"')); ?>
+                <?php } ?>
               </div>
 
-              <div class="tab-pane" id="select" role="tabpanel">
-
-                      <?php #includeWithVariables('inc/select_all.php', array('type' => 'select', 'rule' => 'rule_select', 'pair' => 'pair_select', 'template' => 'template_select', 'plugin' => 'x-plugin="select"')); ?>
-
+              <div class="tab-pane" id="select" role="tabpanel" aria-labelledby="nav-select-tab">
+                <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
+                  <?php includeWithVariables('inc/select_all.php', array('type' => 'select', 'rule' => 'rule_select', 'pair' => 'pair_select', 'template' => 'template_select', 'plugin' => 'x-plugin="select"')); ?>
+                <?php } ?>
               </div>
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Submeter</button>
+            <button type="submit" class="btn btn-primary new-btn-blue-color">Submeter</button>
 
           </div>
         </div>
@@ -247,10 +293,14 @@
           }
         });
 
+        <?php if( (!isset($_GET['load_format'])) || (isset($_GET['load_format']) && $_GET['load_format'] == 'modern') ) { ?>
+
         // Carrega a Primeira
         $('#vanilla').load($('a.active').attr('data-href'), function(result){
           $('a.active').tab('show').removeClass('ajax-tabs').removeAttr('data-href');
         });
+
+        <?php } ?>
 
       });
     </script>

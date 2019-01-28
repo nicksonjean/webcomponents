@@ -2,7 +2,7 @@
 
 Copyright (c) 2017 - 2019 Nickson Jeanmerson Licensed under the MIT license ([http://opensource.org/licenses/mit-license.php](http://opensource.org/licenses/mit-license.php))
 
-X-Select é um Componente Web que ajuda na construção de formulários ricos adicionando suporte à obtenção de dados remotos ou locais no formato JSON através de Streams de alta velocidade, com filtragem de dados via XPath ou JSONPath, diretamente ao elemento select nativo do HTML, e por não trazer consigo uma interface pronta é compatível com qualquer framework CSS, não obstante, ainda é compatível com os seguintes plugins para jQuery: Chosen, Select2 e Bootstrap Select.
+X-Select é um Componente Web que ajuda na construção de formulários ricos adicionando suporte à obtenção de dados remotos no formato JSON através de Streams de alta velocidade ou , com filtragem de dados via XPath ou JSONPath ou SAX, diretamente ao elemento select nativo do HTML, e por não trazer consigo uma interface pronta é compatível com qualquer framework CSS, não obstante, ainda é compatível com os seguintes plugins para jQuery: Chosen, Select2 e Bootstrap Select.
 
 ### Tecnologias usadas:
 
@@ -15,13 +15,14 @@ X-Select é um Componente Web que ajuda na construção de formulários ricos ad
 Adicionalmente, foi feito uso dos seguintes scripts:
 
 - **Element Data Storage** - http://james.padolsey.com/javascript/element-datastorage/ para armazenamento das regras do input.
-- **InputMask** - https://github.com/RobinHerbots/Inputmask base para a construção do Componente Web.
-- **UAParser** - https://github.com/faisalman/ua-parser-js para tratar diferentes nuâncias dos eventos e comportamentos entre os principais navegadores do mercado.
-- **BigNumbers** - https://github.com/MikeMcl/bignumber.js para dar suporte à inteiros e decimais maiores que 2^53-1, conseguindo chegar à 2^64.
+- **Oboe** - http://oboejs.com/ Streaming JSON loading for Node and browsers
+- **Defiant** - http://defiantjs.com Search JSON structures plus smart templating with XSLT and XPath.
+- **Greenlet** - https://github.com/developit/greenlet Move an async function into its own thread.
+- **SelectTransform** - https://selecttransform.github.io/site/ JSON Template and Transforming over JSON.
 
 ### Navegadores/Plataformas Suportadas
 
-| IE10+ | Edge12 | Chrome* | Firefox* | Safari 7+ | Opera* | Mobile Android ¹² | Mobile iOS ³⁴ |
+| IE11+ | Edge12 | Chrome* | Firefox* | Safari 7+ | Opera* | Mobile Android ¹² | Mobile iOS ³⁴ |
 |:-----:|:------:|:-------:|:--------:|:----------:|:------:|:------------------:|:--------------:|
 |  ✓    |    ✓   |    ✓    |     ✓    |      ✓     |    ✓   |         ✓          |        ✓       |
 
@@ -65,6 +66,32 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents-lite.min.js"></script>
 <link rel="import" href="dist/standalone/x-select.min.html">
 ```
+
+Também é possível configurar opcionalmente em Runtime via QueryString a forma de obtenção dos dados JSON passando parâmetros de fora para dentro do componente, para tal finalidade utilize da seguinte forma:
+
+```html
+<link rel="import" href="dist/standalone/x-select.min.html?load_format=cache_worker">
+```
+
+Ideal para Mobile pois agrupa todas as requisições idênticas e as executa sequencialmente uma única vez via Fetch API, utiliza as seguintes tecnologias: Inline Worker + Fetch + Blob URLs, Promise/A+, Defian, SelectTransform.
+
+```html
+<link rel="import" href="dist/standalone/x-select.min.html?load_format=worker">
+```
+
+Realiza as requisições obtendo as URLs diretamente do atributo x-source na ordem de renderização do HTML via Fetch API, utiliza as seguintes tecnologias: Inline Worker + Fetch + Blob URLs, Promise/A+, Defian, SelectTransform.
+
+```html
+<link rel="import" href="dist/standalone/x-select.min.html?load_format=stream">
+```
+
+Realiza as requisições obtendo as URLs diretamente do atributo x-source na ordem de renderização do HTML via Stream API, utiliza as seguintes tecnologias: Oboe, Promise/A+, Defian, SelectTransform.
+
+
+load_format =  ([stream|worker|undefined])
+cache =        ([true|false|undefined])
+ie_load_mode = ([xhr|fetch|undefined])
+
 
 ### Lista de Atributos
 

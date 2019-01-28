@@ -1,0 +1,41 @@
+<table style="text-align:justify;">
+<tr><td>
+<div class="h6">Multi-Threading</div>
+<div style="color:red; font-size:80%; font-style:italic;text-align:center;">( Not supported by Internet Explorer )</div>
+<p>
+Function <b>vkthread.execAll() </b>opens a door for implementation a concept of "parallel computing". <br/>
+This function let you to start simultaneous
+		execution of multiple functions in parallel threads.
+		On multi-core CPU it can significantly increase application performance.
+</p>
+
+
+<pre><code data-language="javascript">function normalize(arr){
+	return arr.map(function(elm){
+		return elm.trim().toLowerCase();
+	});
+} </code></pre>
+
+<input type="button" value="Run in Thread" onclick="execAll_normalize()" />
+	<span class="span_demo_result" id="demo_result"></span>
+	<input value="clear" type="button" onclick="document.getElementById('demo_result').innerHTML =''"/>
+<br/><br/>
+<pre><code data-language="javascript">
+var arr = ['ONE ', ' TWo ', 'ThReE', 'FouR ', ' Five ', 'sIX', '      SEVEn'],
+    param1 = {
+	    fn: normalize,
+	    args: [arr.slice(0,3)]
+    },
+    param2 = {
+	    fn: normalize,
+	    args: [arr.slice(3, arr.length)]
+    };
+
+vkthread.execAll([param1,param2]).then(
+    function (data) {
+        console.log(data[0].concat(data[1]);
+    }
+);
+</code></pre>
+
+</td></tr></table>
