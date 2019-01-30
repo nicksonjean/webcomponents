@@ -136,13 +136,3 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 - Enquanto que, a versão dist do componente deverá ficar com ⅓ ou menos desse tamanho físico;
 
 ⁰¹²³⁴⁵⁶⁷⁸⁹
-
-☆┌─┐　─┐☆ 
-　│▒│ /▒/
-　│▒│/▒/
-　│▒ /▒/─┬─┐
-　│▒│▒|▒│▒│
-┌┴─┴─┐-┘─┘
-│▒┌──┘▒▒▒│
-└┐▒▒▒▒▒▒┌┘
-　└┐▒▒▒▒┌
