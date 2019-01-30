@@ -23,14 +23,11 @@
     <link rel="stylesheet" href="plugins/font-awesome/dist/css/font-awesome.min.css" />
     <!-- Bootstrap Bootstrap 4C — Chosen -->
     <link rel="stylesheet" href="plugins/bootstrap4c-chosen/dist/css/component-chosen.min.css" />
-    <link rel="stylesheet" href="plugins/bootstrap4c-chosen/dist/css/component-chosen-fix.css" />
     <!-- Bootstrap Bootstrap 4 — Select2 -->
     <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/dist/css/select2.min.css" />
     <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/dist/css/select2-bootstrap.css" />
-    <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/dist/css/select2-bootstrap.fix.css" />
     <!-- Bootstrap Bootstrap 4 — Bootstrap.Select -->
     <link rel="stylesheet" href="plugins/bootstrap-select-1.13.2/dist/css/bootstrap-select.min.css" />
-    <link rel="stylesheet" href="plugins/bootstrap-select-1.13.2/dist/css/bootstrap-select.fix.css" />
   </head>
   <body>
 
@@ -38,14 +35,51 @@
 
       <form action="../submit_form.php" method="post">
         <header><h1>Web Component</h1></header>
-        <header>
-          <h3>&lt;select is="x-select" /&gt;</h3>
-          <?php if(isset($_GET['debug']) && $_GET['debug'] == 'true') { ?>
-          <h5>?load_format=<span id="_load_format"></span>&cache=<span id="_cache"></span>&ie_load_mode=<span id="_ie_load_mode"></span></h5>
-          <?php } ?>
-        </header>
-        <br />
-        <hr /><br />
+        <header><h3>&lt;select is="x-select" /&gt;</h3></header>
+        <hr />
+
+        <?php if(isset($_GET['debug']) && $_GET['debug'] == 'true') { ?>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="3" class="text-center">QueryStrings</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Pamâmetro</th>
+                    <th scope="col">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>load_format</td>
+                    <td><code id="_load_format"></code></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>cache</td>
+                    <td><code id="_cache"></code></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>debug</td>
+                    <td><code id="_debug"></code></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>ie_load_mode</td>
+                    <td><code id="_ie_load_mode"></code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <?php } ?>
 
         <div class="row">
           <div class="col-12">
@@ -185,8 +219,8 @@
     <!-- WebComponents Polyfill 0.7.24 -->
     <script type="text/javascript" src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <!-- X-Select WebComponent v0.5a-->
-    <link rel="import" href="../../src/x-select.html">
-    <!--<link rel="import" href="../../dist/standalone/x-select.min.html">-->
+    <!--<link rel="import" href="../../src/x-select.html">-->
+    <link rel="import" href="../../dist/standalone/x-select.min.html?debug=true">
     <script>
       $(function(){
 

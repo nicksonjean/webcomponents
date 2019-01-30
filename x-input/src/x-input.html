@@ -8,52 +8,8 @@ e com Comportamento e Máscara, Util para Criação de Formulários Ricos
 @demo https://github.com/nicksonjean/webcomponents/tree/master/x-input
 @author Nickson Jeanmerson
 -->
-
 <script type="text/javascript" src="../polyfills/es5-shim.min.js"></script>
 <script type="text/javascript" src="../polyfills/es6-shim.min.js"></script>
-
-<!--
-document-register-element v0 to v1 Polyfill 
-A stand-alone working lightweight version of the W3C Custom Elements specification
-https://github.com/WebReflection/document-register-element
-
-(C) Andrea Giammarchi - @WebReflection - Mit Style License
-Licensed under the MIT License 
--->
-<script type="text/javascript" src="../polyfills/document-register-element.js"></script>
-
-<!--
-document-currentScript Polyfill
-A polyfill of HTML5's document.currentScript for IE 6-10 ONLY.
-https://gist.github.com/cphoover/6228063
-https://github.com/JamesMGreene/document.currentScript
-
-(C) James M. Greene - @JamesMGreene - Mit Style License
-Licensed under the MIT License 
--->
-<!--[if lte IE 11]>
-<script type="text/javascript" src="../polyfills/document-currentScript.js"></script>
-<![endif]-->
-
-<!--
-Object.assign Polyfill
-A browser polyfill for Object.assign
-https://gist.github.com/spiralx/68cf40d7010d829340cb
-
-(C) James Skinner - @spiralx - Mit Style License
-Licensed under the MIT License 
--->
-<script type="text/javascript" src="../polyfills/object-assign.js"></script>
-
-<!--
-String Polyfill
-A browser polyfill for String
-https://github.com/uxitten/polyfill
-
-Behnam Mohammadi (بهنام محمدی) uxitten - Mit Style License
-Licensed under the MIT License 
--->
-<script type="text/javascript" src="../polyfills/string-polyfill.js"></script>
 
 <!--
 bignumber.js v6.0.0
@@ -7064,7 +7020,7 @@ Licensed under the MIT license
               this.setAttribute('type', 'tel');
 
             this.addEventListener("blur", function(event) {
-              if (rule.placeholder.length > event.target.value.length) {
+              if (Rule.placeholder.length > event.target.value.length) {
                 // Reseta a Máscara
                 App.EXT.Reset.Mask(event);
               }

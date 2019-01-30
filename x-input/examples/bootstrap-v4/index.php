@@ -24,8 +24,8 @@
 
       <form action="../submit_form.php" method="post">
         <header><h1>Web Component</h1></header>
-        <header><h3>&lt;input is="x-input" /&gt;</h3></header><br />
-        <hr /><br />
+        <header><h3>&lt;input is="x-input" /&gt;</h3></header>
+        <hr />
 
         <div class="row">
           <div class="col-12">

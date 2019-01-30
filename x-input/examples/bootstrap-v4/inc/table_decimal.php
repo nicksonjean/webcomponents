@@ -1,7 +1,7 @@
                       <table class="table table-bordered table-sm">
                         <thead class="text-primary">
                           <tr>
-                            <td class="text-center">Tipo</td>
+                            <td class="text-center">Prop.&nbsp;</td>
                             <td class="text-center">Valor Min/Máx</td>
                             <td class="text-center" colspan="3">Decimais Permitidos</td>
                           </tr>
@@ -18,28 +18,28 @@
                             <td class="text-center" scope="row"><small class="table-typografy-xs">positivedec</small></td>
                             <td class="text-center"><small class="table-typografy-xs">0 à 18446744073709552000.00</small></td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
-                            <td class="text-center">&nbsp;</td>
-                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                           </tr>
                           <tr>
                             <td class="text-center" scope="row"><small class="table-typografy-xs">negativedec</small></td>
                             <td class="text-center"><small class="table-typografy-xs">-9223372036854776000.00 à 0</small></td>
-                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
-                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                           </tr>
                           <tr>
                             <td class="text-center" scope="row"><small class="table-typografy-xs">percentdec</small></td>
                             <td class="text-center"><small class="table-typografy-xs">-100.00 à 100.00</small></td>
-                            <td class="text-center">&nbsp;</td>
-                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
                           </tr>
                           <tr>
                             <td class="text-center" scope="row"><small class="table-typografy-xs">zerofilldec</small></td>
                             <td class="text-center"><small class="table-typografy-xs">-9223372036854776000.00 à 9223372036854776000.00</small></td>
-                            <td class="text-center">&nbsp;</td>
-                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                            <td class="text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
                           </tr>
                         </tbody>

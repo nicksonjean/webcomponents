@@ -1,0 +1,164 @@
+[
+  {
+    "ID": 1,
+    "Sigla": "AC",
+    "Nome": "Acre",
+    "Codigo_IBGE": "12"
+  },
+  {
+    "ID": 2,
+    "Sigla": "AL",
+    "Nome": "Alagoas",
+    "Codigo_IBGE": "27"
+  },
+  {
+    "ID": 3,
+    "Sigla": "AM",
+    "Nome": "Amazonas",
+    "Codigo_IBGE": "13"
+  },
+  {
+    "ID": 4,
+    "Sigla": "AP",
+    "Nome": "Amapá",
+    "Codigo_IBGE": "16"
+  },
+  {
+    "ID": 5,
+    "Sigla": "BA",
+    "Nome": "Bahia",
+    "Codigo_IBGE": "29"
+  },
+  {
+    "ID": 6,
+    "Sigla": "CE",
+    "Nome": "Ceará",
+    "Codigo_IBGE": "23"
+  },
+  {
+    "ID": 7,
+    "Sigla": "DF",
+    "Nome": "Distrito Federal",
+    "Codigo_IBGE": "53"
+  },
+  {
+    "ID": 8,
+    "Sigla": "ES",
+    "Nome": "Espírito Santo",
+    "Codigo_IBGE": "32"
+  },
+  {
+    "ID": 9,
+    "Sigla": "GO",
+    "Nome": "Goiás",
+    "Codigo_IBGE": "52"
+  },
+  {
+    "ID": 10,
+    "Sigla": "MA",
+    "Nome": "Maranhão",
+    "Codigo_IBGE": "21"
+  },
+  {
+    "ID": 11,
+    "Sigla": "MG",
+    "Nome": "Minas Gerais",
+    "Codigo_IBGE": "31"
+  },
+  {
+    "ID": 12,
+    "Sigla": "MS",
+    "Nome": "Mato Grosso do Sul",
+    "Codigo_IBGE": "50"
+  },
+  {
+    "ID": 13,
+    "Sigla": "MT",
+    "Nome": "Mato Grosso",
+    "Codigo_IBGE": "51"
+  },
+  {
+    "ID": 14,
+    "Sigla": "PA",
+    "Nome": "Pará",
+    "Codigo_IBGE": "15"
+  },
+  {
+    "ID": 15,
+    "Sigla": "PB",
+    "Nome": "Paraiba",
+    "Codigo_IBGE": "25"
+  },
+  {
+    "ID": 16,
+    "Sigla": "PE",
+    "Nome": "Pernambuco",
+    "Codigo_IBGE": "26"
+  },
+  {
+    "ID": 17,
+    "Sigla": "PI",
+    "Nome": "Piauí",
+    "Codigo_IBGE": "22"
+  },
+  {
+    "ID": 18,
+    "Sigla": "PR",
+    "Nome": "Paraná",
+    "Codigo_IBGE": "41"
+  },
+  {
+    "ID": 19,
+    "Sigla": "RJ",
+    "Nome": "Rio de Janeiro",
+    "Codigo_IBGE": "33"
+  },
+  {
+    "ID": 20,
+    "Sigla": "RN",
+    "Nome": "Rio Grande do Norte",
+    "Codigo_IBGE": "24"
+  },
+  {
+    "ID": 21,
+    "Sigla": "RO",
+    "Nome": "Rondônia",
+    "Codigo_IBGE": "11"
+  },
+  {
+    "ID": 22,
+    "Sigla": "RR",
+    "Nome": "Roraima",
+    "Codigo_IBGE": "14"
+  },
+  {
+    "ID": 23,
+    "Sigla": "RS",
+    "Nome": "Rio Grande do Sul",
+    "Codigo_IBGE": "43"
+  },
+  {
+    "ID": 24,
+    "Sigla": "SC",
+    "Nome": "Santa Catarina",
+    "Codigo_IBGE": "42"
+  },
+  {
+    "ID": 25,
+    "Sigla": "SE",
+    "Nome": "Sergipe",
+    "Codigo_IBGE": "28"
+  },
+  {
+    "ID": 26,
+    "Sigla": "SP",
+    "Nome": "São Paulo",
+    "Codigo_IBGE": "35"
+  },
+  {
+    "ID": 27,
+    "Sigla": "TO",
+    "Nome": "Tocantins",
+    "Codigo_IBGE": "17"
+  }
+]

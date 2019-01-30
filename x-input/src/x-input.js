@@ -6955,7 +6955,7 @@
               this.setAttribute('type', 'tel');
 
             this.addEventListener("blur", function(event) {
-              if (rule.placeholder.length > event.target.value.length) {
+              if (Rule.placeholder.length > event.target.value.length) {
                 // Reseta a Máscara
                 App.EXT.Reset.Mask(event);
               }
@@ -7009,11 +7009,3 @@
     });
 
   })();
-
-  //https://github.com/TakayoshiKochi/deprecate-style-in-html-imports
-  try {
-    document.head.appendChild(document.currentScript.ownerDocument.querySelector('style'));
-  }
-  catch(err) {
-    console.log(err.message);
-  };

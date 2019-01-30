@@ -1,23 +1,313 @@
 <!--
 X Select - Componente Web
 É um Componente para Criação de Campos de Formulário Inteligentes
-permtindo alimentar os Opções destes, diretamente de Objetos JSON
+permtindo alimentar as Opções destes, diretamente de Objetos JSON
 carregados diretamente ou por meio de stream de alta resposta.
 
 Compatível com:
  * Vanilla Select agnóstico à Framework;
- * jQuery Chosen https://harvesthq.github.io/chosen/
- * jQuery Select2 https://github.com/select2/select2/
- * jQuery Bootstrap-Select https://developer.snapappointments.com/bootstrap-select/
+ * Chosen https://harvesthq.github.io/chosen/
+ * Select2 https://github.com/select2/select2/
+ * Bootstrap-Select https://developer.snapappointments.com/bootstrap-select/
 
 @element select
 @property is="x-select"
 @demo https://github.com/nicksonjean/webcomponents/tree/master/x-select
 @author Nickson Jeanmerson
 -->
+
+<style>
+/* Chosen Fix */
+.chosen-container.chosen-with-drop .chosen-drop {
+  left: 0;
+}
+.chosen-container-single .chosen-drop {
+  margin-top: -1px;
+  background-clip: padding-box;
+}
+.chosen-container .chosen-drop {
+  position: absolute;
+  top: 100%;
+  left: -9999px;
+  z-index: 1041;
+  width: 100%;
+  border-top: 0;
+  background: #fff;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.chosen-container-single .chosen-search {
+  position: relative;
+  z-index: 1010;
+  margin: 0;
+  padding: 3px 4px;
+  white-space: nowrap;
+}
+.chosen-container .chosen-results {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0 4px 4px 0;
+  padding: 0 0 0 4px;
+  max-height: 240px;
+  -webkit-overflow-scrolling: touch;
+}
+.chosen-container-single .chosen-search input[type=text] {
+  background-color: #ffffff;
+}
+.chosen-container-single .chosen-search:after {
+  top: .275rem;
+}
+.chosen-rtl {
+  text-align: right;
+}
+.chosen-rtl .chosen-single {
+  padding: 0 8px 0 0;
+  overflow: visible;
+}
+.chosen-rtl .chosen-single span {
+  margin-left: 26px;
+  margin-right: 4px;
+  direction: rtl;
+}
+.chosen-rtl .chosen-single div {
+  left: 7px;
+  right: auto;
+}
+.chosen-rtl .chosen-single abbr {
+  left: 40px;
+  right: auto;
+}
+.chosen-rtl .chosen-choices .search-field input[type="text"] {
+  direction: rtl;
+}
+.chosen-rtl .chosen-choices li {
+  float: right;
+}
+.chosen-rtl .chosen-choices .search-choice {
+  margin: 6px 5px 3px 0;
+  padding: 3px 5px 3px 19px;
+}
+.chosen-rtl .chosen-choices .search-choice .search-choice-close {
+  background-position: right top;
+  left: 4px;
+  right: auto;
+}
+.chosen-rtl.chosen-container-single .chosen-results {
+  direction: rtl;
+  position: relative;
+  width: 100%;
+  padding: 0 25px 0 0;
+  display: inline-block;
+  overflow: overlay;
+  overflow-x: hidden;
+  margin: -17px 4px -2px 4px;
+}
+.chosen-rtl.chosen-container .chosen-results li {
+  padding: .25rem .5rem .25rem 1.5rem;
+}
+.chosen-rtl.chosen-container .chosen-results li:after,
+.chosen-rtl.chosen-container .chosen-results li:before {
+  content: "\200E‎";
+}
+.chosen-rtl.chosen-container .chosen-results li.result-selected:before {
+  top: .2rem;
+  left: 22px;
+}
+.chosen-rtl.chosen-container .chosen-results li.highlighted {
+  padding-right: 25px;
+  position: relative;
+  left: 17px;
+  width: 110%;
+}
+.chosen-rtl .chosen-results .group-option {
+  padding-left: 0;
+  padding-right: 15px;
+}
+.chosen-rtl.chosen-container-active.chosen-with-drop .chosen-single div {
+  border-right: none;
+}
+.chosen-container-single.chosen-rtl .chosen-search input[type=text] {
+  direction:rtl;
+}
+.chosen-container-single.chosen-rtl .chosen-search:after {
+  display: inline-block;
+  float: left;
+  position: relative;
+  top: -1.6rem;
+  direction: rtl;
+  left: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  content: "";
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23adb5bd' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+  background-size: 1.25rem 1.25rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.chosen-container.chosen-container-single.chosen-rtl .chosen-single div:after {
+  display: inline-block;
+  position: relative;
+  top: .125rem;
+  left: -.5rem;
+  width: 2rem;
+  height: 2rem;
+  content: "";
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23adb5bd' d='M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-size: 2rem 2rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.chosen-container.chosen-container-single.chosen-rtl.chosen-container-active.chosen-with-drop .chosen-single div:after {
+  display: inline-block;
+  position: relative;
+  top: .125rem;
+  left: -.5rem;
+  width: 2rem;
+  height: 2rem;
+  content: "";
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23adb5bd' d='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z'/%3E%3C/svg%3E");
+  background-size: 2rem 2rem;
+  background-position: center center;
+  background-repeat: no-repeat; 
+}
+.chosen-container-single .chosen-single {
+  height: 2.37rem;
+}
+/* End Chosen Fix */
+
+/* Select2 Fix */
+.select2-container--bootstrap .select2-selection__clear {
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 0.95em;
+  padding-left: 0.285em;
+  margin-top: 0.2em;
+  border-radius: 100%;
+  background-color: #6c757d;
+  color: #f8f9fa;
+  float: right;
+  margin-right: 0.3em;
+}
+.select2-container--bootstrap .select2-selection__clear:hover {
+  background-color: #343a40;
+}
+.select2-container--bootstrap[dir="rtl"] .select2-selection--single .select2-selection__clear {
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 0.95em;
+  padding-right: 0.25em;
+  margin-top: 0.2em;
+  border-radius: 100%;
+  background-color: #6c757d;
+  color: #f8f9fa;
+  margin-left: 0.4em;
+}
+.select2-container--bootstrap[dir="rtl"] .select2-selection--single .select2-selection__clear:hover {
+  background-color: #343a40;
+}
+.select2-dropdown[dir="rtl"] .select2-results ul li:after {
+  content: "\200E‎";
+}
+.select2-dropdown[dir="rtl"] .select2-results ul li:before {
+  content: "\200E‎";
+}
+.select2-container--bootstrap .select2-results > .select2-results__options {
+  margin: 0 4px 4px;
+}
+/* End Select2 Fix */
+
+/* BootstrapSelect Fix */
+.bootstrap-select > .dropdown-toggle.rtl .filter-option {
+  text-align: right;
+  direction: rtl;
+}
+.bootstrap-select > .dropdown-toggle.rtl {
+  text-align: left;
+}
+.bootstrap-select > .dropdown-toggle.rtl .filter-option-inner {
+  padding-left: 0;
+  padding-right: 0;
+}
+.bootstrap-select > .dropdown-toggle.rtl::after {
+  margin-left: 0em;
+}
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .popover-header,
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .bs-searchbox input {
+  text-align: right;
+  direction: rtl;
+}
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .close {
+  float: left;
+  margin-top: -3px;
+  margin-left: -4px;
+}
+.bootstrap-select > .dropdown-toggle.rtl + .dropdown-menu .inner {
+  direction:rtl;
+  text-align: right;
+  overflow-x: hidden;
+}
+.bootstrap-select .rtl + .dropdown-menu li a span.text {
+  margin-right: 0px;
+}
+.bootstrap-select .rtl + .dropdown-menu .inner.show > ul > li.selected.active > a > span.bs-ok-default.check-mark {
+  margin-right: 90%;
+}
+.bootstrap-select .rtl + .dropdown-menu li a span.text:after,
+.bootstrap-select .rtl + .dropdown-menu li a span.text:before {
+  content: "\200E‎";
+}
+.bs-searchbox {
+  padding: 4px 0px;
+}
+.bootstrap-select .popover-header {
+  margin: 0 -4px;
+  display:none;
+}
+.bootstrap-select > .dropdown-toggle + .dropdown-menu .close {
+  margin-top: -3px;
+  margin-right: -4px;
+}
+.bootstrap-select .no-results {
+  margin: 0;
+}
+.bootstrap-select .dropdown-menu {
+  min-width: 0px !important;
+  width: 100%; 
+}
+.bootstrap-select .btn{
+  width: 100%;
+}
+.bootstrap-select .dropdown-menu {
+  margin-bottom: 0;
+  font-size: 14.5px;
+  padding: 4px;
+  min-width: 100%;
+}
+.bootstrap-select .dropdown-item {
+  white-space: initial;
+}
+.dropdown-toggle:after,
+.dropup .dropdown-toggle:after {
+  transition:all ease 0s;
+}
+.bootstrap-select-caret-animate{
+}
+.bootstrap-select-caret-animate:after{
+  transition:all ease 0s;
+  transform:rotate(180deg);
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+}
+/* End BootstrapSelect Fix */
+</style>
+
 <script type="text/javascript">
-  var isIE = !!window.navigator.msPointerEnabled || false;
-  var LoadScript = function(url) {
+  var isIE = document.body.style.msTouchAction !== undefined;
+  var LoadScript = function(url){
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
@@ -29,8 +319,9 @@ Compatível com:
 <script type="text/javascript" src="../polyfills/es5-shim.min.js"></script>
 <script type="text/javascript" src="../polyfills/es5-sham.min.js"></script>
 <script type="text/javascript" src="../polyfills/es6-shim.min.js"></script>
+
 <!--
-WebReflection/document-register-element v0 to v1 Polyfill 
+WebReflection/document-register-element v0 to v1 Polyfill
 A stand-alone working lightweight version of the W3C Custom Elements specification
 https://github.com/WebReflection/document-register-element
 
@@ -38,34 +329,16 @@ https://github.com/WebReflection/document-register-element
 Licensed under the MIT License 
 -->
 <script type="text/javascript" src="../polyfills/document-register-element.js"></script>
+
 <script type="text/javascript">
   if (isIE) {
-    //Micro Polyfill para IEca
-    //https://stackoverflow.com/questions/20428877/javascript-remove-doesnt-work-in-ie/37477096
-    if (!('remove' in Element.prototype)) {
-        Element.prototype.remove = function() {
-            if (this.parentNode) {
-                this.parentNode.removeChild(this);
-            }
-        };
-    }
-    LoadScript("../../polyfills/document-currentScript.js"); // ie10
-    LoadScript("../../polyfills/defineGetterSetter.js"); // ie10
-    LoadScript("../../polyfills/fetch.polyfill.min.js"); // ie10 & ie11
-    LoadScript("../../polyfills/promise.polyfill.min.js"); // ie10 & ie11
-    LoadScript('../../plugins/vkthread/vkthread/vkthread.js'); //ie10 & ie11
+    LoadScript("../../polyfills/dom4.polyfill.min.js"); // ie9+
+    LoadScript("../../polyfills/document-currentScript.js"); // ie10-
+    LoadScript("../../polyfills/fetch.polyfill.min.js"); // ie10+
+    LoadScript("../../polyfills/promise.polyfill.min.js"); // ie10+
+    LoadScript('../../plugins/vkthread/vkthread/vkthread.js'); //ie10+
   }
 </script>
-
-<!--
-James Skinner/Object.assign
-A browser polyfill for Object.assign
-https://gist.github.com/spiralx/68cf40d7010d829340cb
-
-(C) James Skinner - @spiralx - Mit Style License
-Licensed under the MIT License 
--->
-<script type="text/javascript" src="../polyfills/object-assign.js"></script>
 
 <!--
 Defiant.js v1.3.4 
@@ -107,6 +380,7 @@ Copyright (c) 2018, Jim Higson <Jim.higson@gmail.com>
 Licensed under the MIT License 
 -->
 <script type="text/javascript" src="../plugins/oboe.js/oboe-browser.js"></script>
+
 <script>
   var _URL = _URL || {};
   _URL =
@@ -136,12 +410,10 @@ Licensed under the MIT License
       return url.replace(/\\/g, '/').replace(/\/[^/]*\/?$/, '')
     },
     "Domain": function(url) {
-      if (isIE){
+      if (isIE)
         var IEcaFix = {'host' : function(url) { return _URL.Parse(url).hostname + '/'; } }
-      }
-      else {
+      else
         var IEcaFix = {'host' : function(url) { return _URL.Parse(url).host ; } }
-      }
       return _URL.Parse(url).protocol + '//' + IEcaFix.host(url) + _URL.ParentDirectory(_URL.ParentDirectory(_URL.Parse(url).pathname));
     }
   };
@@ -162,10 +434,9 @@ Licensed under the MIT License
   })();
 
   //Função Anônima para Criação da Constante __FILE__
-  //https://gist.github.com/plepe/3891980
   (function(){
-    this.__defineGetter__("__FILE__", function() {
-      if (isIE){
+    Object.defineProperty(window, '__FILE__', {
+      get: function(){
         var scripts = document.getElementsByTagName('link');
         for (var i=0; i<scripts.length; i++) {
           var start = scripts[i].href.indexOf('x-select.');
@@ -173,20 +444,6 @@ Licensed under the MIT License
             return scripts[i].href;
             break; 
           }
-        }
-      }
-      else {
-        var stack = ((new Error).stack).split("\n");
-        if(stack[0]=="Error") { // Chromium
-          var m;
-          if(m=stack[2].match(/\((.*):[0-9]+:[0-9]+\)/))
-          return m[1];
-        }
-        else { // Firefox, Opera
-          if (!!window.sidebar) // Firefox
-            return stack[1].split("@")[1].split(":").slice(0,-2).join(":").slice(0,-3);
-          else // Opera
-            return stack[1].split("@")[1].split(":").slice(0,-1).join(":");
         }
       }
     });
@@ -859,6 +1116,7 @@ Licensed under the MIT License
         try {
           document.getElementById('_load_format').innerHTML = __LOAD__;
           document.getElementById('_cache').innerHTML = __CACHE__;
+          document.getElementById('_debug').innerHTML = __DEBUG__;
           document.getElementById('_ie_load_mode').innerHTML = __IEMODE__ || 'fetch';
         }
         catch (e) {}
@@ -1188,7 +1446,7 @@ Licensed under the MIT License
         }, false);
       }
       else {
-        $(this).on('change', function(event) {
+        jQuery(this).on('change', function(event) {
           // Desabilita a Propagação do Evento e o Borbulhamento
           new Promise(function(resolve, reject) {
             setTimeout(resolve, 100);

@@ -105,6 +105,7 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 ### ToDo
 
 - [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
+- [x] Otimizar do componente, removendo polyfills e scripts que estavam redundantes e que potencialmente causariam exceções, uma redução de 17kb;
 - [ ] Recriar as regras em arquivos externos dividindo-as individualmente;
 - [ ] Ao recriar as regras, será preciso capacitar o componente à carregar as regras de uma forma não-estática;
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-load-rule="";

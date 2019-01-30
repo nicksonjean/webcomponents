@@ -67,33 +67,32 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 <link rel="import" href="dist/standalone/x-select.min.html">
 ```
 
-Também é possível configurar opcionalmente em Runtime via QueryString a forma de obtenção dos dados JSON passando parâmetros de fora para dentro do componente, para tal finalidade utilize da seguinte forma:
+3. Também é possível configurar opcionalmente via QueryString a forma de obtenção dos dados JSON passando parâmetros de fora para dentro do componente, de acordo com a tabela abaixo:
 
-```html
-<link rel="import" href="dist/standalone/x-select.min.html?load_format=cache_worker">
-```
+### Tabela de Configuração via QueryString
 
-Ideal para Mobile pois agrupa todas as requisições idênticas e as executa sequencialmente uma única vez via Fetch API, utiliza as seguintes tecnologias: Inline Worker + Fetch + Blob URLs, Promise/A+, Defian, SelectTransform.
+| QueryString  | Valor Padrão |        Opts         |
+|:------------:|:------------:|:-------------------:|
+| load_format  |    stream    |   [worker|stream]   |
+| cache        |    false     |     [true|false]    |
+| debug        |    false     |     [true|false]    |
+| ie_load_mode |    fetch     |      [xhr|fetch]    |
 
-```html
-<link rel="import" href="dist/standalone/x-select.min.html?load_format=worker">
-```
+### Fluxo de Funcionamento
 
-Realiza as requisições obtendo as URLs diretamente do atributo x-source na ordem de renderização do HTML via Fetch API, utiliza as seguintes tecnologias: Inline Worker + Fetch + Blob URLs, Promise/A+, Defian, SelectTransform.
+1)   Caso [cache=true] agrupa todas as URLs idênticas oriundas do atributo x-source e as executa sequencialmente uma única vez via XHR ou Fetch, em seguinda:
+1.1) Caso [load_format=stream] converte as URLs em BLOB URLs e o JSON para BSON, que por sua vez é passado para Oboe que as processa filtra quando aplicável e alimenta o componente com os objetos esperados, ou:
+1.1) Caso [load_format=worker] passa os objetos resultantes do agrupamento das URLs requisitadas do atributo x-source diretamente para uma Thread que as filtra via Defiant quando aplicável e alimenta o componente com os objetos esperados;
 
-```html
-<link rel="import" href="dist/standalone/x-select.min.html?load_format=stream">
-```
+2) Caso [cache=false] realiza as requisições obtendo as URLs diretamente do atributo x-source na ordem de renderização do HTML, em seguida;
+2.1) Caso [load_format=stream] repassa as URLs requisitadas do atributo x-source diretamente para uma Stream que as filtra via Oboe quando aplicável e alimenta o componente com os objetos esperados, ou:
+2.1) Caso [load_format=worker] repassa as URLs requisitadas do atributo x-source diretamente para uma Thread que as filtra via Defiant quando aplicável e alimenta o componente com os objetos esperados;
 
-Realiza as requisições obtendo as URLs diretamente do atributo x-source na ordem de renderização do HTML via Stream API, utiliza as seguintes tecnologias: Oboe, Promise/A+, Defian, SelectTransform.
+### Observações
 
+O [cache=true] pode ser ideal para mobile, pois agrupa todas as requisições idênticas e as executa sequencialmente uma única vez via XHR ou Fetch, fazendo com que possa ser reduzido as requesições HTTP visando diminuir o tráfego e o consumo da largura de banda, porém deve-se atentar para o tamanho do objeto resultante da requisição, pois pode haver muito consumo de memória para processar grandes volumes de dados JSON.
 
-load_format =  ([stream|worker|undefined])
-cache =        ([true|false|undefined])
-ie_load_mode = ([xhr|fetch|undefined])
-
-
-### Lista de Atributos
+### Tabela de Atributos
 
 ### Exemplo de Uso
 
@@ -132,7 +131,6 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 ### ToDo
 
 - [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
-- [ ] Recriar as regras em arquivos externos dividindo-as individualmente;
 - [ ] Ao recriar as regras, será preciso capacitar o componente à carregar as regras de uma forma não-estática;
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-load-rule="";
 - [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-load-rule="";
