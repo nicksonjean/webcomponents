@@ -220,7 +220,7 @@
     <script type="text/javascript" src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <!-- X-Select WebComponent v0.5a-->
     <!--<link rel="import" href="../../src/x-select.html">-->
-    <link rel="import" href="../../dist/standalone/x-select.min.html?debug=true">
+    <link rel="import" href="../../dist/standalone/x-select.min.html">
     <script>
       $(function(){
 

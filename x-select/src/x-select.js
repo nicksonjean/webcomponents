@@ -726,7 +726,7 @@
         var __FILE__ = window.data(_self).file,
             __LOAD__ = _URL.Parse(__FILE__).queryString.load_format || 'stream',
             __CACHE__ = _URL.Parse(__FILE__).queryString.cache || false,
-            __DEBUG__ = _URL.Parse(__FILE__).queryString.debug,
+            __DEBUG__ = _URL.Parse(__FILE__).queryString.debug || false,
             __IEMODE__ = _URL.Parse(__FILE__).queryString.ie_load_mode;
 
         try {

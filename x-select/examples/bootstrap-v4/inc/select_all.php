@@ -21,7 +21,7 @@
 
                     <label class="form-control-label" for="estados_<?php echo $rule;?>">Rule State</label>
                     <select class="custom-select form-control"              is="x-select" <?php echo $plugin;?> x-type="state"    x-connect=".cidades_<?php echo $rule;?>"                             x-selected="23"    name="estados_<?php echo $rule;?>" id="estados_<?php echo $rule;?>" x-dir="rtl" aria-describedby="estados_<?php echo $rule;?>HelpBlock"></select>
-                    <small id="estados_<?php echo $rule;?>HelpBlock" class="form-control-feedback">Regra Encadeável dos Estados com Filtragem das Cidades</small>
+                    <small id="estados_<?php echo $rule;?>HelpBlock" class="form-control-feedback">Regra Encadeável dos Estados com Filtro de Cidades</small>
 
                   </div>
 
@@ -29,7 +29,7 @@
 
                     <label class="form-control-label" for="cidades_<?php echo $rule;?>">Rule City</label>
                     <select class="custom-select form-control cidades_<?php echo $rule;?>" is="x-select" <?php echo $plugin;?> x-type="city"     x-connect=".bairros_<?php echo $rule;?>" x-reference="#estados_<?php echo $rule;?>" x-selected="195"   name="cidades_<?php echo $rule;?>" id="cidades_<?php echo $rule;?>" x-dir="rtl" aria-describedby="cidades_<?php echo $rule;?>HelpBlock"></select>
-                    <small id="cidades_<?php echo $rule;?>HelpBlock" class="form-control-feedback">Regra Encadeável das Cidades com Filtragem dos Bairros</small>
+                    <small id="cidades_<?php echo $rule;?>HelpBlock" class="form-control-feedback">Regra Encadeável das Cidades com Filtro de Bairros</small>
 
                   </div>
 

@@ -23,7 +23,7 @@
 
                     <label class="form-control-label" for="estados_rule">Rule State</label>
                     <select class="custom-select form-control"              is="x-select" x-type="state"    x-connect=".cidades_rule"                             x-selected="23"    name="estados_rule" id="estados_rule" x-dir="rtl" aria-describedby="estados_ruleHelpBlock"></select>
-                    <small id="estados_ruleHelpBlock" class="form-control-feedback">Regra Encadeável dos Estados com Filtragem das Cidades</small>
+                    <small id="estados_ruleHelpBlock" class="form-control-feedback">Regra Encadeável dos Estados com Filtro de Cidades</small>
 
                   </div>
 
@@ -31,7 +31,7 @@
 
                     <label class="form-control-label" for="cidades_rule">Rule City</label>
                     <select class="custom-select form-control cidades_rule" is="x-select" x-type="city"     x-connect=".bairros_rule" x-reference="#estados_rule" x-selected="195"   name="cidades_rule" id="cidades_rule" x-dir="rtl" aria-describedby="cidades_ruleHelpBlock"></select>
-                    <small id="cidades_ruleHelpBlock" class="form-control-feedback">Regra Encadeável das Cidades com Filtragem dos Bairros</small>
+                    <small id="cidades_ruleHelpBlock" class="form-control-feedback">Regra Encadeável das Cidades com Filtro de Bairros</small>
 
                   </div>
 
