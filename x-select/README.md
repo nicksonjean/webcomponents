@@ -2,7 +2,7 @@
 
 Copyright (c) 2017 - 2019 Nickson Jeanmerson Licensed under the MIT license ([http://opensource.org/licenses/mit-license.php](http://opensource.org/licenses/mit-license.php))
 
-X-Select é um Componente Web que ajuda na construção de formulários ricos adicionando suporte à obtenção de dados remotos no formato JSON através de Streams de alta velocidade ou , com filtragem de dados via XPath ou JSONPath ou SAX, diretamente ao elemento select nativo do HTML, e por não trazer consigo uma interface pronta é compatível com qualquer framework CSS, não obstante, ainda é compatível com os seguintes plugins para jQuery: Chosen, Select2 e Bootstrap Select.
+X-Select é um Componente Web que ajuda na construção de formulários ricos adicionando suporte à obtenção de dados remotos no formato JSON através de Streams de alta velocidade ou , com filtragem de dados via XPath ou JSONPath ou SAX, diretamente ao elemento select nativo do HTML, e por não trazer consigo uma interface pronta é compatível com qualquer framework CSS, não obstante, ainda é compatível com os seguintes plugins para jQuery: Chosen, Select2 e SelectPicker/Bootstrap Select.
 
 ### Tecnologias usadas:
 
@@ -22,7 +22,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 ### Navegadores/Plataformas Suportadas
 
-| IE11+ | Edge12 | Chrome* | Firefox* | Safari 7+ | Opera* | Mobile Android ¹² | Mobile iOS ³⁴ |
+| IE10+ | Edge12 | Chrome* | Firefox* | Safari 7+ | Opera* | Mobile Android ¹² | Mobile iOS ³⁴ |
 |:-----:|:------:|:-------:|:--------:|:----------:|:------:|:------------------:|:--------------:|
 |  ✓    |    ✓   |    ✓    |     ✓    |      ✓     |    ✓   |         ✓          |        ✓       |
 
@@ -35,27 +35,22 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 ### Características
 - Suporte e Recursos Adicionais:
-  - Adiciona máscara e comportamentos (eventos customizados) ao input padrão do HTML5;
+  - Adiciona a possibilidade de carregar objetos remotamento e convertê-los em options do elemento select padrão do HTML5;
   - Não obstrui o submit form em qualquer linguagem de servidor ou até mesmo Javascript ou NodeJS;
   - Funciona também com ajax e outras formas de obtenção de dados, como JSON e Javascript com atribuição direta ou indireta com ou sem linguagem de servidor;
   - É completamente agnóstico à estilização/tematização, dando suporte desde jQuery UI, Semantic UI, Foudation, Bootstrap 2, 3 ou 4 até Material Design (MDL) entre outros;
-  - Carrega na versão Standalone o perfil de 172 formatos de escrita monetária, todas presentes no Wikipedia, baseadas na ISO 4217;
-  - Carrega na versão Standalone o perfil de várias máscaras de data e hora, bem como, várias máscaras comuns como Telefone, CEP, ISBN, CPF/CNPJ com validação embutida, quando cabível;
-- Tipos de Entrada
-  - Carrega automáticamente vários perfis numéricos semelhantes aos tipos de dados do SQL-92, como por exemplo:
-    - Inteiro: Possui os padrões [tinyint, smallint, mediumint, integer, bigint], e ainda os tipos pré-definididos [positiveint, negativeint, percentint, zerofillint]
-    - Decimal: Possui os padrões [decimal, currency], e ainda os tipos pré-definididos [positivedec, negativedec, percentdec, zerofilldec]
+  - Carrega na versão Standalone uma intância pré-definida dos Plugins jQuery, Chosen, Select2 e SelectPicker/Bootstrap Select, não sendo necessário instanciá-los diretamento no código-fonte;
+    - Observações:
+      - É necessário no entanto carregar convencionalmente o plugin escolhido da mesma forma que se carregaria para se utilizar dele, assim como suas dependencias;
+      - Utilize o atributo x-plugin com um dos três possíveis valores: ('chosen','select2','select'), diretamente no element select para instanciá-lo;
 - Múltiplas Formas de Configuração:
-  - É possível limitar valores de entrada com um valor mínimo ou máximo inferior à Math.pow(2,64), de acordo com tipo, veja as tabelas para numeros inteiros e decimais;
-  - É possível customizar o tipo decimal com a quantidade de dígitos, o separador de milhares e o separador de decimais;
-  - Suporta o uso de prefixos e sufixos sem limite de cumprimento ou de caracteres;
-  - Possui afinidade numérica para inteiro e decimal, dando preferencia positiva ou negativa de acordo com a afinidade;
+  - As regras podem ser encadeáveis (chainable) e seu resultado engatilha (trigger) a filtragem de objetos em cascata, derivados da seleção do objeto ancestral;
+  - Definindo o atributo x-type é possível escolher qual regra se deseja utilizar, veja a lista de atributos mais abaixo;
+  - O componente já está pré-configurado com três regras muito comuns em formulários de sistemas comerciais, que são: estados/state, cidades/city e bairros/district: [veja](README_rules.md);
+  - Dispensando a utilização do atributo x-type é possível criar regras customizadas através de atributos, veja a lista de atributos mais abaixo;
+  - Utilizando o atributo x-template é possível criar um template JSON personalizado para definir como será criado os elementos options do select;
 - Direção de Escrita:
-  - Suporte total tanto à LTR quanto à RTL;
-- Múltiplas Formas de Retorno:
-  - Opcionalmente ao realizar o submit form os dados presentes no componente são tratados para serem enviados no formato SQL-92;
-    - Exemplo #1: Datas DD/MM/YYYY ou MM/DD/YYYY são convertidas automáticamente para YYYY-MM-DD;
-    - Exemplo #2: Inteiros e Decimais são desmascarados automáticamente para o seu respectivo Formato do SQL-92;
+  - Suporte total tanto à LTR quanto à RTL, inclusive aos plugins jQuery;
 
 ### Como Usar
 
@@ -131,10 +126,23 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 ### ToDo
 
 - [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
-- [ ] Ao recriar as regras, será preciso capacitar o componente à carregar as regras de uma forma não-estática;
-- [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-load-rule="";
-- [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-load-rule="";
+- [x] Otimizar do componente, explorando a possibilidade de várias formas de carregamento de objetos remotos;
+- [ ] Recriar o componente compatível com a Biblioteca WebComponents v1;
+- [ ] Converter o CSS carregado na tag <style></style> em objeto JSON para ser Carregado via Javascript;
+- [ ] Recriar as regras em arquivos externos e capacitar o componente de carregá-las: [veja](README_rules.md);
+- [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-source="";
+- [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-source="";
 - Fazendo isso, a versão src do componente vai reduzir seu tamanaho físico em mais de 50%, fazendo com que ele carrega pelo menos 50% mais rápido;
 - Enquanto que, a versão dist do componente deverá ficar com ⅓ ou menos desse tamanho físico;
 
 ⁰¹²³⁴⁵⁶⁷⁸⁹
+
+☆┌─┐　─┐☆ 
+　│▒│ /▒/
+　│▒│/▒/
+　│▒ /▒/─┬─┐
+　│▒│▒|▒│▒│
+┌┴─┴─┐-┘─┘
+│▒┌──┘▒▒▒│
+└┐▒▒▒▒▒▒┌┘
+　└┐▒▒▒▒┌

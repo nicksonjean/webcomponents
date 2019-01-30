@@ -34,12 +34,12 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 ### Características
 - Suporte e Recursos Adicionais:
-  - Adiciona máscara e comportamentos (eventos customizados) ao input padrão do HTML5;
+  - Adiciona a possibilidade do uso de máscaras e validação automática de dados ao elemento input padrão do HTML5;
   - Não obstrui o submit form em qualquer linguagem de servidor ou até mesmo Javascript ou NodeJS;
   - Funciona também com ajax e outras formas de obtenção de dados, como JSON e Javascript com atribuição direta ou indireta com ou sem linguagem de servidor;
   - É completamente agnóstico à estilização/tematização, dando suporte desde jQuery UI, Semantic UI, Foudation, Bootstrap 2, 3 ou 4 até Material Design (MDL) entre outros;
   - Carrega na versão Standalone o perfil de 172 formatos de escrita monetária, todas presentes no Wikipedia, baseadas na ISO 4217;
-  - Carrega na versão Standalone o perfil de várias máscaras de data e hora, bem como, várias máscaras comuns como Telefone, CEP, ISBN, CPF/CNPJ com validação embutida, quando cabível;
+  - Carrega na versão Standalone o perfil de várias máscaras de data e hora, bem como, várias máscaras comuns como Telefone, CEP, ISBN, CPF/CNPJ com validação embutida;
 - Tipos de Entrada
   - Carrega automáticamente vários perfis numéricos semelhantes aos tipos de dados do SQL-92, como por exemplo:
     - Inteiro: Possui os padrões [tinyint, smallint, mediumint, integer, bigint], e ainda os tipos pré-definididos [positiveint, negativeint, percentint, zerofillint]
@@ -66,7 +66,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 <link rel="import" href="dist/x-input.html">
 ```
 
-### Lista de Atributos
+### Tabela de Atributos
 
 ### Exemplo de Uso
 
@@ -106,11 +106,24 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 - [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
 - [x] Otimizar do componente, removendo polyfills e scripts que estavam redundantes e que potencialmente causariam exceções, uma redução de 17kb;
-- [ ] Recriar as regras em arquivos externos dividindo-as individualmente;
-- [ ] Ao recriar as regras, será preciso capacitar o componente à carregar as regras de uma forma não-estática;
+- [ ] Recriar o componente compatível com a Biblioteca WebComponents v1;
+- [ ] Converter o CSS carregado na tag <style></style> em objeto JSON para ser Carregado via Javascript;
+- [ ] Recriar as regras em arquivos externos e capacitar o componente de carregá-las: [veja](README_rules.md);
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-load-rule="";
 - [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-load-rule="";
+- [ ] Possibilitar a implementação do modo de carregamento de objetos via JSON semelhante ao componente x-select diretamente ao elemento datalist associado ao input;
+- [ ] Possibilitar a integração entre os componentes x-select e x-input;
 - Fazendo isso, a versão src do componente vai reduzir seu tamanaho físico em mais de 50%, fazendo com que ele carrega pelo menos 50% mais rápido;
 - Enquanto que, a versão dist do componente deverá ficar com ⅓ ou menos desse tamanho físico;
 
 ⁰¹²³⁴⁵⁶⁷⁸⁹
+
+☆┌─┐　─┐☆ 
+　│▒│ /▒/
+　│▒│/▒/
+　│▒ /▒/─┬─┐
+　│▒│▒|▒│▒│
+┌┴─┴─┐-┘─┘
+│▒┌──┘▒▒▒│
+└┐▒▒▒▒▒▒┌┘
+　└┐▒▒▒▒┌
