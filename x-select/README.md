@@ -18,6 +18,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 - **Oboe** - http://oboejs.com/ Streaming JSON loading for Node and browsers
 - **Defiant** - http://defiantjs.com Search JSON structures plus smart templating with XSLT and XPath.
 - **Greenlet** - https://github.com/developit/greenlet Move an async function into its own thread.
+- **VKThread** - https://github.com/vkiryukhin/vkthread Javascript plugin allows to execute any function of javascript code in a thread.
 - **SelectTransform** - https://selecttransform.github.io/site/ JSON Template and Transforming over JSON.
 
 ### Navegadores/Plataformas Suportadas
@@ -46,7 +47,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 - Múltiplas Formas de Configuração:
   - As regras podem ser encadeáveis (chainable) e seu resultado engatilha (trigger) a filtragem de objetos em cascata, derivados da seleção do objeto ancestral;
   - Definindo o atributo x-type é possível escolher qual regra se deseja utilizar, veja a lista de atributos mais abaixo;
-  - O componente já está pré-configurado com três regras muito comuns em formulários de sistemas comerciais, que são: estados/state, cidades/city e bairros/district: [veja](README_rules.md);
+  - O componente já está pré-configurado com três regras muito comuns em formulários de sistemas comerciais, que são: estados/state, cidades/city e bairros/district: [veja o README_rules.md](README_rules.md);
   - Dispensando a utilização do atributo x-type é possível criar regras customizadas através de atributos, veja a lista de atributos mais abaixo;
   - Utilizando o atributo x-template é possível criar um template JSON personalizado para definir como será criado os elementos options do select;
 - Direção de Escrita:
@@ -73,6 +74,12 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 | debug        |    false     |     (true|false)    |
 | ie_load_mode |    fetch     |      (xhr|fetch)    |
 
+### Tabela de Atributos
+
+### Exemplo de Uso
+
+- examples/bootstrap-v4/index.php
+
 ### Fluxo de Funcionamento
 
 1)   Caso [cache=true] agrupa todas as URLs idênticas oriundas do atributo x-source e as executa sequencialmente uma única vez via XHR ou Fetch, em seguinda:
@@ -87,49 +94,13 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 O [cache=true] pode ser ideal para mobile, pois agrupa todas as requisições idênticas e as executa sequencialmente uma única vez via XHR ou Fetch, fazendo com que possa ser reduzido as requesições HTTP visando diminuir o tráfego e o consumo da largura de banda, porém deve-se atentar para o tamanho do objeto resultante da requisição, pois pode haver muito consumo de memória para processar grandes volumes de dados JSON.
 
-### Tabela de Atributos
-
-### Exemplo de Uso
-
-- examples/bootstrap-v4/index.php
-
-### Observações
-
-O valor seguro para calculo em inteiros é de 9007199254740991 isso é uma limitação do Javascript;
-Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 18446744073709552000, isso devido justamente à Number.MAX_SAFE_INTEGER ou Math.pow(2,53)-1;
-
-### Tabela para Números Inteiros
-
-|    Tipo     |                  Valor Min/Máx                   |          | Inteiros |        |
-|:-----------:|:------------------------------------------------:|:--------:|:--------:|:------:|
-|   x-type    |                     Padrão                       | Unsigned | Negative | Signed |
-| positiveint | 0 à 18446744073709552000                         |    ✓     |          |        |
-| negativeint | -9223372036854776000 à 0                         |          |    ✓     |        |
-| percentint  | -100 à 100                                       |          |          |   ✓    |
-| zerofillint | -9223372036854776000 à 9223372036854776000       |          |          |   ✓    |
-| tinyint     | -127 à 127                                       |          |          |   ✓    |
-| smallint    | -32767 à 32767                                   |          |          |   ✓    |
-| mediumint   | -8388607 à 8388607                               |          |          |   ✓    |
-| integer     | -2147483647 à 2147483647                         |          |          |   ✓    |
-| bigint      | -9223372036854776000 à 9223372036854776000       |          |          |   ✓    |
-
-### Tabela para Números Decimais
-
-|    Tipo     |                  Valor Min/Máx                   |          | Decimais |        |
-|:-----------:|:------------------------------------------------:|:--------:|:--------:|:------:|
-|   x-type    |                     Padrão                       | Unsigned | Negative | Signed |
-| positivedec | 0 à 18446744073709552000.00                      |    ✓     |          |        |
-| negativedec | -9223372036854776000.00 à 0                      |          |    ✓     |        |
-| percentdec  | -100.00 à 100.00                                 |          |          |   ✓    |
-| zerofilldec | -9223372036854776000.00 à 9223372036854776000.00 |          |          |   ✓    |
-
 ### ToDo
 
 - [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
 - [x] Otimizar do componente, explorando a possibilidade de várias formas de carregamento de objetos remotos;
 - [ ] Recriar o componente compatível com a Biblioteca WebComponents v1;
 - [ ] Converter o CSS carregado na tag <style></style> em objeto JSON para ser Carregado via Javascript;
-- [ ] Recriar as regras em arquivos externos e capacitar o componente de carregá-las: [veja](README_rules.md);
+- [ ] Recriar as regras em arquivos externos e capacitar o componente de carregá-las: [veja o README_rules.md](README_rules.md);
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-source="";
 - [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-source="";
 - Fazendo isso, a versão src do componente vai reduzir seu tamanaho físico em mais de 50%, fazendo com que ele carrega pelo menos 50% mais rápido;
