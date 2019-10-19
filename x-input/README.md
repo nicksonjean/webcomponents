@@ -134,8 +134,8 @@ Também é possível configurar opcionalmente via QueryString a forma de obtenç
 
 | QueryString  | Valor Padrão |        Opts         |
 |:------------:|:------------:|:-------------------:|
-| style        |    true      |     (true|false)    |
-| debug        |    false     |     (true|false)    |
+| style        |    true      |     (true&#124;false)    |
+| debug        |    false     |     (true&#124;false)    |
 
 ### Tabela de Atributos
 
