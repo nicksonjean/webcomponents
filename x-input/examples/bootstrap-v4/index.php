@@ -31,6 +31,39 @@
         <header><h3>&lt;input is="x-input" /&gt;</h3></header>
         <hr />
 
+        <?php if(isset($_GET['debug']) && $_GET['debug'] == 'true') { ?>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-sm table-hover table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="3" class="text-center">QueryStrings</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Pamâmetro</th>
+                    <th scope="col">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>debug</td>
+                    <td><code id="_debug"></code></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>style</td>
+                    <td><code id="_style"></code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <?php } ?>
+
         <div class="row">
           <div class="col-12">
 
@@ -443,26 +476,23 @@
     <!--[if IE 9]>
     <script src="plugins/bootstrap-ie8/js/bootstrap-ie9.min.js"></script>
     <![endif]-->
-    <!-- Custom Elements Polyfill 2.3.0 -->
+    <!-- Web Components + MutationObserver & Custom Elements + HTML Imports para IE/Edge & Firefox -->
     <script type="text/javascript">
       var isIE10Less = /*@cc_on!@*/false,
           isIE9More = document.all && document.addEventListener && !window.atob || window.navigator.msPointerEnabled,
-          isEdge = /(edge)\/((\d+)?[\w\.]+)/i.exec(navigator.userAgent);
-      var LoadScript = function(url){
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
-        script.defer = true;
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-      }
+          isEdge = /(edge)\/((\d+)?[\w\.]+)/i.exec(navigator.userAgent),
+          isFF = !!navigator.userAgent.match(/firefox/i),
+          isIEVersion = (function() { if (new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})").exec(navigator.userAgent) != null) { return parseFloat( RegExp.$1 ); } else { return false; } })();
+
       if (isIE9More) {
-        LoadScript("../../../bower_components/webcomponentsjs/v0/webcomponents-lite.min.js"); // ie9+
-        if (isIE10Less) LoadScript("../../../bower_components/webcomponentsjs/v0/MutationObserver.min.js"); // ie10-
+        document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v0/webcomponents-lite.min.js"><\/script>'); // ie9+
+        if (isIE10Less) document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v0/MutationObserver.min.js"><\/script>'); // ie10-
+      }
+      if (isIEVersion >= 8 || isEdge || isFF) {
+        document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/build/document-register-element.js"><\/script>'); // ie8+ || edge || ff
+        document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/html-imports.min.js"><\/script>'); // ie8+ || edge || ff
       }
     </script>
-    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/build/document-register-element.js"></script> <!-- edge -->
-    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/html-imports.min.js"></script> <!-- edge -->
 
     <!-- Distribution Version -->
     <!--<link rel="import" href="../../dist/standalone/x-input.min.html" />-->

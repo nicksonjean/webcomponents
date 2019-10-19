@@ -5294,7 +5294,14 @@ App =
 
 var __ROOT__ = App.EXT.URL.Domain(document.URL),
     __STYLE__ = App.EXT.URL.Parse(__FILE__).queryString.style || 'true',
-    __DEBUG__ = App.EXT.URL.Parse(__FILE__).queryString.debug;
+    __DEBUG__ = App.EXT.URL.Parse(__FILE__).queryString.debug || 'false';
+
+try {
+  var isIE9 = document.all && document.addEventListener && !window.atob;
+  document.getElementById('_debug').innerHTML = __DEBUG__;
+  document.getElementById('_style').innerHTML = isIE9 ? "Não Suportado" : __STYLE__;
+}
+catch (e) {}
 
 /*!
 * Element data/storage
