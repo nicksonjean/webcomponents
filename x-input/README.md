@@ -60,7 +60,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 ### Como Usar
 
-#### Para o Edge
+#### Para o Edge & Firefox
 
 ##### Como JS Module
 
@@ -110,7 +110,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 <link rel="import" href="dist/x-input.html">
 ```
 
-#### Para Navegadores Modernos (Chrome, Firefox, Opera etc...)
+#### Para Navegadores Modernos (Chrome, Opera etc...)
 
 ##### Como JS Module
 
