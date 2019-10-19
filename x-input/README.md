@@ -8,8 +8,6 @@ X-Input é um Componente Web que ajuda na construção de formulários ricos adi
 
 É utilizado o seguinte conjunto de tecnologias para criação desse componente web:
 
-### Para o
-
 - **Document Register Element** - https://github.com/WebReflection/document-register-element Uma versão leve e independente que suporta tanto a versão v0 quanto a V1 da especificação W3C Custom Elements. (Para compatibilidade com o Edge).
 - **WebComponents** - https://github.com/webcomponents/webcomponentsjs Um conjunto de polyfills que suporta as especificações V0 do HTML Web Components. (Para compatibilidade com o IE9-11).
   - **Custom Elements** - https://github.com/webcomponents/polyfills/tree/master/packages/custom-elements Um polyfill simplificada e independente da Espcificação V1 do W3c Custom Elements. (Para compatibilidade com o IE9-11/Edge).
