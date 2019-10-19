@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="plugins/bootstrap-responsive-datatables/dist/css/responsive.bootstrap4.min.css" />
     <!-- Bootstrap Responsive Tabs v2.0.1 -->
     <link rel="stylesheet" href="plugins/bootstrap-responsive-tabs/dist/css/bootstrap-responsive-tabs.css" />
+    <!--[if IE 9]>
+    <link href="plugins/bootstrap-ie8/css/bootstrap-ie9.min.css" rel="stylesheet">
+    <link href="plugins/bootstrap-ie8/css/bootstrap-ie9.fix.css" rel="stylesheet">
+    <![endif]-->
     <!-- Font Awesome 4.6.1 -->
     <link rel="stylesheet" href="plugins/font-awesome/dist/css/font-awesome.min.css" />
   </head>
@@ -83,13 +87,13 @@
                   </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
-                    <label class="form-control-label" for="percentint" style="font-size:15px;">Signed Percent (Negativo & Positivo)</label>
+                    <label class="form-control-label" for="percentint"><small style="font-size:15px">Signed Percent (Negativo & Positivo)</small></label>
                     <input class="form-control" is="x-input" x-type="percentint" type="text" name="percentint" id="percentint" aria-describedby="percentintHelpBlock" />
                     <small id="percentintHelpBlock" class="form-control-feedback">De -100 à 100</small>
                   </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
-                    <label class="form-control-label" for="zerofillint" style="font-size:15px;">Signed ZeroFill (Negativo & Positivo)</label>
+                    <label class="form-control-label" for="zerofillint"><small style="font-size:15px">Signed ZeroFill (Negativo & Positivo)</small></label>
                     <input class="form-control" is="x-input" x-type="zerofillint" type="text" name="zerofillint" id="zerofillint" aria-describedby="zerofillintHelpBlock" />
                     <small id="zerofillintHelpBlock" class="form-control-feedback" style="font-size:10.5px">De -9223372036854776000 à 9223372036854776000</small>
                   </div>
@@ -190,12 +194,12 @@
                     <small id="negativedecHelpBlock" class="form-control-feedback">De –9223372036854776000.00 à 0.00</small>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
-                    <label class="form-control-label" for="percentdec" style="font-size:15px;">Signed Percent (Negativo & Positivo)</label>
+                    <label class="form-control-label" for="percentdec"><small style="font-size:15px">Signed Percent (Negativo & Positivo)</small></label>
                     <input class="form-control" is="x-input" x-type="percentdec" type="text" name="percentdec" id="percentdec" aria-describedby="percentdecHelpBlock" />
                     <small id="percentdecHelpBlock" class="form-control-feedback">De -100.00 à 100.00</small>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
-                    <label class="form-control-label" for="zerofilldec" style="font-size:15px;">Signed ZeroFill (Negativo & Positivo)</label>
+                    <label class="form-control-label" for="zerofilldec"><small style="font-size:15px">Signed ZeroFill (Negativo & Positivo)</small></label>
                     <input class="form-control" is="x-input" x-type="zerofilldec" type="text" name="zerofilldec" id="zerofilldec" aria-describedby="zerofilldecHelpBlock" />
                     <small id="zerofilldecHelpBlock" class="form-control-feedback" style="font-size:9.5px">De -9223372036854776000.00 à 9223372036854776000.00</small>
                   </div>
@@ -241,7 +245,7 @@
                   </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
-                    <label class="form-control-label" for="custom_decimal_sufixo"><small style="font-size:14.5px">Custom Unsigned Decimal (Com Sufixo)</small></label>
+                    <label class="form-control-label" for="custom_decimal_sufixo"><small style="font-size:13.5px">Custom Unsigned Decimal (Com Sufixo)</small></label>
                     <input class="form-control" is="x-input" x-type="decimal" x-case="unsigned" x-negative="false" x-dir="ltr" x-sufix=" °C" x-min="0" x-thousands-char="." x-decimal-char="," x-decimal-digits="6" x-max="10000000000" type="text" name="custom_decimal_sufixo" id="custom_decimal_sufixo" aria-describedby="custom_decimal_sufixoHelpBlock" />
                     <small id="custom_decimal_sufixoHelpBlock" class="form-control-feedback">De 0 à 10000000000.00</small>
                   </div>
@@ -402,7 +406,12 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary new-btn-blue-color">Submeter</button>
+            <div class="row">
+              <div class="col-12">
+                <br />
+                <button type="submit" class="btn btn-primary new-btn-blue-color">Submeter</button>
+              </div>
+            </div>
 
           </div>
         </div>
@@ -431,21 +440,38 @@
     <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/responsive.bootstrap4.min.js"></script>
     <!-- Bootstrap Responsive Tabs v2.0.1 -->
     <script type="text/javascript" src="plugins/bootstrap-responsive-tabs/dist/js/jquery.bootstrap-responsive-tabs.js"></script>
-    <!-- Polyfill classList 0.0.20130621 https://github.com/remy/polyfills -->
-    <!-- Polyfill html5shiv 3.7.3 https://cdn.jsdelivr.net/g/html5shiv@3.7.3 -->
     <!--[if IE 9]>
-      <link href="../../polyfills/bootstrap-ie9.css" rel="stylesheet">
-      <script type="text/javascript" src="../../polyfills/classList.js">
-      <script type="text/javascript" src="../../polyfills/html5shiv.js"></script>
+    <script src="plugins/bootstrap-ie8/js/bootstrap-ie9.min.js"></script>
     <![endif]-->
-    <!--[if IE 8]>
-      <link href="../../polyfills/bootstrap-ie8.css" rel="stylesheet">
-    <![endif]-->
-    <!-- WebComponents Polyfill 0.7.24 -->
-    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <!-- X-Input WebComponent v0.5a-->
-    <!--<link rel="import" href="../../src/x-input.html">-->
-    <link rel="import" href="../../dist/standalone/x-input.min.html">
+    <!-- Custom Elements Polyfill 2.3.0 -->
+    <script type="text/javascript">
+      var isIE10Less = /*@cc_on!@*/false,
+          isIE9More = document.all && document.addEventListener && !window.atob || window.navigator.msPointerEnabled,
+          isEdge = /(edge)\/((\d+)?[\w\.]+)/i.exec(navigator.userAgent);
+      var LoadScript = function(url){
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.defer = true;
+        script.src = url;
+        document.getElementsByTagName("head")[0].appendChild(script);
+      }
+      if (isIE9More) {
+        LoadScript("../../../bower_components/webcomponentsjs/v0/webcomponents-lite.min.js"); // ie9+
+        if (isIE10Less) LoadScript("../../../bower_components/webcomponentsjs/v0/MutationObserver.min.js"); // ie10-
+      }
+    </script>
+    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/build/document-register-element.js"></script> <!-- edge -->
+    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/html-imports.min.js"></script> <!-- edge -->
+
+    <!-- Distribution Version -->
+    <!--<link rel="import" href="../../dist/standalone/x-input.min.html" />-->
+    <script type="text/javascript" src="../../dist/standalone/x-input.min.js"></script>
+
+    <!-- Source Version -->
+    <!--<link rel="import" href="../../src/x-input.html" />-->
+    <!--<script type="text/javascript" src="../../src/x-input-standalone.js"></script>-->
+
     <script>
       $(function(){
 
@@ -531,7 +557,6 @@
         $('.responsive-tabs').responsiveTabs({
           accordionOn: ['xs', 'sm'] // xs, sm, md, lg
         });
-
       });
     </script>
   </body>

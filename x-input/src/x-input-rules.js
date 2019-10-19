@@ -1,6 +1,64 @@
 var Rules = Rules || {};
 Rules = 
 {
+  "DEFAULT": {
+    "SYMBOL": {
+      "NEGATIVE": "-",
+      "POSITIVE": ""
+    },
+    "NUMBER": {
+      "PATTERN": {
+        "RULE": {
+          "alias": "decimal",
+          "digitsOptional": function(){ return "digitsOptional" },
+          "prefix": function(){ return "prefix" },
+          "sufix": function(){ return "sufix" },
+          "radixPoint": function(){ return "radixPoint" },
+          "groupSeparator": function(){ return "groupSeparator" },
+          "groupSize": function(){ return "groupSize" },
+          "autoGroup": function(){ return "autoGroup" },
+          "digits": function(){ return "digits" },
+          "rightAlign": function(){ return "rightAlign" },
+          "allowMinus": function(){ return "allowMinus" },
+          "removeMaskOnSubmit": function(){ return "removeMaskOnSubmit" },
+          "clearMaskOnLostFocus": function(){ return "clearMaskOnLostFocus" },
+          "showMaskOnFocus": function(){ return "showMaskOnFocus" },
+          "showMaskOnHover": function(){ return "showMaskOnHover" },
+          "min": function(){ return "min" },
+          "max": function() { return "max" },
+          "affinity":function() { return "affinity" },
+          "placeholder": function() { return "placeholder" },
+          "numericInput": function() { return "numericInput" }
+        }
+      }
+    },
+    "DECIMAL": {
+      "PATTERN": {
+        "RULE": {
+          "alias": "decimal",
+          "digitsOptional": function(){ return "digitsOptional" },
+          "prefix": function(){ return "prefix" },
+          "sufix": function(){ return "sufix" },
+          "radixPoint": function(){ return "radixPoint" },
+          "groupSeparator": function(){ return "groupSeparator" },
+          "groupSize": function(){ return "groupSize" },
+          "autoGroup": function(){ return "autoGroup" },
+          "digits": function(){ return "digits" },
+          "rightAlign": function(){ return "rightAlign" },
+          "allowMinus": function(){ return "allowMinus" },
+          "removeMaskOnSubmit": function(){ return "removeMaskOnSubmit" },
+          "clearMaskOnLostFocus": function(){ return "clearMaskOnLostFocus" },
+          "showMaskOnFocus": function(){ return "showMaskOnFocus" },
+          "showMaskOnHover": function(){ return "showMaskOnHover" },
+          "min": function(){ return "min" },
+          "max": function() { return "max" },
+          "affinity":function() { return "affinity" },
+          "placeholder": function() { return "placeholder" },
+          "numericInput": function() { return "numericInput" }
+        }
+      }
+    }
+  },
   "PATTERN": {
     "NUMBER": {
       "ZEROFILLINT": {
@@ -4471,238 +4529,238 @@ Rules =
       }
     },
     "MASK": {
-        "FONE": {
-          "mask": "(&{2}) @{0,1}§{4}-§{4}", 
-          "clearIncomplete": true,
-          "definitions": {
-            "&": {
-              "validator": "[1-9]"
-            },
-            "§": {
-              "validator": "[0-9]"
-            },
-            "@": {
-              "validator": "[9]"
-            }
-          } 
-        },
-        "FONE_FIXO": {
-          "mask": "#{4}-§{3}-§{4}",
-          "clearIncomplete": true,
-          "definitions": {
-            "§": {
-              "validator": "[0-9]"
-            },
-            "#": {
-              "validator": "[0300|0500|0800|0900]"
-            }
-          }
-        },
-        "FONES": {
-          "mask": ["#{4}-§{3}-§{4}","(&{2}) @{0,1}§{4}-§{4}"],
-          "clearIncomplete": true,
-          "definitions": {
-            "&": {
-              "validator": "[1-9]"
-            },
-            "§": {
-              "validator": "[0-9]"
-            },
-            "@": {
-              "validator": "[9]"
-            },
-            "#": {
-              "validator": "[0300|0500|0800|0900]"
-            }
-          }
-        },
-        "FONES_REGEX": {
-          "regex": "^(\\+55 \\([0-9]{2}\\) (([7][0|7|8|9])|([2|3|4|5][0-9])|([7|8|9][0-9]{2}))[0-9]{2}-[0-9]{4})$",
-          "clearIncomplete": true
-        },
-        "PLACA_VEICULAR": {
-          "mask": "#{3}-§{4}",
-          "clearIncomplete": true,
-          "definitions": {
-            "#": {
-              "validator": "[a-z]|[A-Z]",
-              "casing": "upper"
-            },
-            "§": {
-              "validator": "[0-9]"
-            }
-          }
-        },
-        "CHASSI_VEICULAR": {
-          "mask": "#{2}.#{2}.#{5}.#{1}.#{1}.#{5}",
-          "clearIncomplete": true,
-          "definitions": {
-            "#": {
-              "validator": "[a-z]|[A-Z]",
-              "casing": "upper"
-            }
-          }
-        },
-        "ISBN": {
-          "mask": "#{3}-#{2}-#{3}-#{4}-#{1}",
-          "clearIncomplete": true,
-          "definitions": {
-            "#": {
-              "validator": "[0-9]"
-            }
-          }
-        },
-        "CEP": {
-          "mask": "§{2}.§{3}-§{3}",
-          "clearIncomplete": true,
-          "definitions": {
-            "§": {
-              "validator": "[0-9]"
-            }
-          }
-        },
-        "CPF": {
-          "mask": "§{3}.§{3}.§{3}-§{2}",
-          "clearIncomplete": true,
-          "definitions": {
-            "§": {
-                "validator": "[0-9]"
-            }
+      "FONE": {
+        "mask": "(&{2}) @{0,1}§{4}-§{4}", 
+        "clearIncomplete": true,
+        "definitions": {
+          "&": {
+            "validator": "[1-9]"
           },
-          "oncomplete": function(event) {
-            if (event.target.hasAttribute("x-valid") && event.target.getAttribute("x-valid") == "true") {
-              // Validação Embutida
-              if(!App.EXT.Validate.CPF(event.target.value)) {
-                // Reseta a Máscara
-                App.EXT.Reset.Mask(event);
-              }
-            }
+          "§": {
+            "validator": "[0-9]"
+          },
+          "@": {
+            "validator": "[9]"
           }
-        },
-        "CNPJ": {
-          "mask": "§{2}.§{3}.§{3}/§{4}-§{2}",
-          "clearIncomplete": true,
-          "definitions": {
-            "§": {
-                "validator": "[0-9]"
-            }
+        } 
+      },
+      "FONE_FIXO": {
+        "mask": "#{4}-§{3}-§{4}",
+        "clearIncomplete": true,
+        "definitions": {
+          "§": {
+            "validator": "[0-9]"
           },
-          "oncomplete": function(event) {
-            if (event.target.hasAttribute("x-valid") && event.target.getAttribute("x-valid") == "true") {
-              // Validação Embutida
-              if(!App.EXT.Validate.CNPJ(event.target.value)) {
-                // Reseta a Máscara
-                App.EXT.Reset.Mask(event);
-              }
-            }
+          "#": {
+            "validator": "[0300|0500|0800|0900]"
           }
-        },
-        "CPF_CNPJ": {
-          "mask": ["§{3}.§{3}.§{3}-§{2}","§{2}.§{3}.§{3}/§{4}-§{2}"],
-          "clearIncomplete": true,
-          "definitions": {
-            "§": {
-              "validator": "[0-9]"
-            }
-          }
-        },
-        "DATA_BR": {
-          "alias": "datetime",
-          "clearIncomplete": true,
-          "inputFormat": "dd/mm/yyyy", 
-          "placeholder": "DD/MM/AAAA",
-          "jitMasking": true
-        },
-        "DATA_BR_REGEX": {
-          "regex": "^(((0[1-9]|[12][0-9]|3[01])/(0[13578]|1[02])/(([0-9][0-9]|[2-9][0-9])[0-9]{2}))|((0[1-9]|[12][0-9]|30)/(0[13456789]|1[012])/((19|[2-9][0-9])[0-9]{2}))|((0[1-9]|1[0-9]|2[0-8])/[0-9][0-9]/(([0-9][0-9]|[2-9][0-9])[0-9]{2}))|([0-9][0-9]/[0-9][0-9]/((1[6-9]|[2-9][0-9])(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$",
-          "clearIncomplete": true,
-          "placeholder": "DD/MM/AAAA",
-          "jitMasking": true
-        },
-        "DATA_ISO": {
-          "alias": "datetime",
-          "clearIncomplete": true,
-          "inputFormat": "isoDate",
-          "placeholder": "YYYY-MM-DD",
-          "jitMasking": true
-        },
-        "DATA_ISO_REGEX": {
-          "regex": "^[0-9]{4}-(0[1-9]|1[012])-([0][1-9]|[12][0-9]|3[01])$",
-          "clearIncomplete": true,
-          "placeholder": "YYYY-MM-DD",
-          "jitMasking": true
-        },
-        "HORA": {
-          "alias": "datetime",
-          "clearIncomplete": true,
-          "inputFormat": "isoTime", 
-          "placeholder": "HH:MM:SS",
-          "jitMasking": true
-        },
-        "HORA_12H": {
-          "mask": "12:59:59",
-          "clearIncomplete": true,
-          "placeholder": "HH:MM:SS",
-          "definitions": {
-            "1" : {
-              "validator": "[0-1]"
-            },
-            "2" : {
-              "validator": "[0-2]"
-            },
-            "5": {
-              "validator": "[0-5]"
-            }
-          },
-          "jitMasking": true
-        },
-        "HORA_24H": {
-          "mask": "23:59:59",
-          "clearIncomplete": true,
-          "placeholder": "HH:MM:SS",
-          "definitions": {
-            "2" : {
-              "validator": "[0-2]"
-            },
-            "3" : {
-              "validator": "[0-3]"
-            },
-            "5": {
-              "validator": "[0-5]"
-            }
-          },
-          "jitMasking": true
-        },
-        "HORA_12H_REGEX": {
-          "regex": "^(0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9]$", 
-          "clearIncomplete": true,
-          "placeholder": "HH:MM:SS",
-          "jitMasking": true
-        },
-        "HORA_24H_REGEX": {
-          "regex": "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$", 
-          "clearIncomplete": true,
-          "placeholder": "HH:MM:SS",
-          "jitMasking": true
-        },
-        "DATA_HORA_BR": {
-          "mask": {
-            "alias": "datetime",
-            "clearIncomplete": true,
-            "inputFormat": "dd/mm/yyyy HH:MM:ss",
-            "jitMasking": true
-          },
-          "placeholder": "DD/MM/AAAA HH:MM:SS"
-        },
-        "DATA_HORA_ISO": {
-          "mask": {
-            "alias": "datetime",
-            "clearIncomplete": true,
-            "inputFormat": "yyyy-mm-dd HH:MM:ss",
-            "jitMasking": true
-          },
-          "placeholder": "YYYY-MM-DD HH:MM:SS"
         }
+      },
+      "FONES": {
+        "mask": ["#{4}-§{3}-§{4}","(&{2}) @{0,1}§{4}-§{4}"],
+        "clearIncomplete": true,
+        "definitions": {
+          "&": {
+            "validator": "[1-9]"
+          },
+          "§": {
+            "validator": "[0-9]"
+          },
+          "@": {
+            "validator": "[9]"
+          },
+          "#": {
+            "validator": "[0300|0500|0800|0900]"
+          }
+        }
+      },
+      "FONES_REGEX": {
+        "regex": "^(\\+55 \\([0-9]{2}\\) (([7][0|7|8|9])|([2|3|4|5][0-9])|([7|8|9][0-9]{2}))[0-9]{2}-[0-9]{4})$",
+        "clearIncomplete": true
+      },
+      "PLACA_VEICULAR": {
+        "mask": "#{3}-§{4}",
+        "clearIncomplete": true,
+        "definitions": {
+          "#": {
+            "validator": "[a-z]|[A-Z]",
+            "casing": "upper"
+          },
+          "§": {
+            "validator": "[0-9]"
+          }
+        }
+      },
+      "CHASSI_VEICULAR": {
+        "mask": "#{2}.#{2}.#{5}.#{1}.#{1}.#{5}",
+        "clearIncomplete": true,
+        "definitions": {
+          "#": {
+            "validator": "[a-z]|[A-Z]",
+            "casing": "upper"
+          }
+        }
+      },
+      "ISBN": {
+        "mask": "#{3}-#{2}-#{3}-#{4}-#{1}",
+        "clearIncomplete": true,
+        "definitions": {
+          "#": {
+            "validator": "[0-9]"
+          }
+        }
+      },
+      "CEP": {
+        "mask": "§{2}.§{3}-§{3}",
+        "clearIncomplete": true,
+        "definitions": {
+          "§": {
+            "validator": "[0-9]"
+          }
+        }
+      },
+      "CPF": {
+        "mask": "§{3}.§{3}.§{3}-§{2}",
+        "clearIncomplete": true,
+        "definitions": {
+          "§": {
+              "validator": "[0-9]"
+          }
+        },
+        "oncomplete": function(event) {
+          if (event.target.hasAttribute("x-valid") && event.target.getAttribute("x-valid") == "true") {
+            // Validação Embutida
+            if(!App.EXT.Validate.CPF(event.target.value)) {
+              // Reseta a Máscara
+              App.EXT.Reset.Mask(event);
+            }
+          }
+        }
+      },
+      "CNPJ": {
+        "mask": "§{2}.§{3}.§{3}/§{4}-§{2}",
+        "clearIncomplete": true,
+        "definitions": {
+          "§": {
+              "validator": "[0-9]"
+          }
+        },
+        "oncomplete": function(event) {
+          if (event.target.hasAttribute("x-valid") && event.target.getAttribute("x-valid") == "true") {
+            // Validação Embutida
+            if(!App.EXT.Validate.CNPJ(event.target.value)) {
+              // Reseta a Máscara
+              App.EXT.Reset.Mask(event);
+            }
+          }
+        }
+      },
+      "CPF_CNPJ": {
+        "mask": ["§{3}.§{3}.§{3}-§{2}","§{2}.§{3}.§{3}/§{4}-§{2}"],
+        "clearIncomplete": true,
+        "definitions": {
+          "§": {
+            "validator": "[0-9]"
+          }
+        }
+      },
+      "DATA_BR": {
+        "alias": "datetime",
+        "clearIncomplete": true,
+        "inputFormat": "dd/mm/yyyy", 
+        "placeholder": "DD/MM/AAAA",
+        "jitMasking": true
+      },
+      "DATA_BR_REGEX": {
+        "regex": "^(((0[1-9]|[12][0-9]|3[01])/(0[13578]|1[02])/(([0-9][0-9]|[2-9][0-9])[0-9]{2}))|((0[1-9]|[12][0-9]|30)/(0[13456789]|1[012])/((19|[2-9][0-9])[0-9]{2}))|((0[1-9]|1[0-9]|2[0-8])/[0-9][0-9]/(([0-9][0-9]|[2-9][0-9])[0-9]{2}))|([0-9][0-9]/[0-9][0-9]/((1[6-9]|[2-9][0-9])(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$",
+        "clearIncomplete": true,
+        "placeholder": "DD/MM/AAAA",
+        "jitMasking": true
+      },
+      "DATA_ISO": {
+        "alias": "datetime",
+        "clearIncomplete": true,
+        "inputFormat": "isoDate",
+        "placeholder": "YYYY-MM-DD",
+        "jitMasking": true
+      },
+      "DATA_ISO_REGEX": {
+        "regex": "^[0-9]{4}-(0[1-9]|1[012])-([0][1-9]|[12][0-9]|3[01])$",
+        "clearIncomplete": true,
+        "placeholder": "YYYY-MM-DD",
+        "jitMasking": true
+      },
+      "HORA": {
+        "alias": "datetime",
+        "clearIncomplete": true,
+        "inputFormat": "isoTime", 
+        "placeholder": "HH:MM:SS",
+        "jitMasking": true
+      },
+      "HORA_12H": {
+        "mask": "12:59:59",
+        "clearIncomplete": true,
+        "placeholder": "HH:MM:SS",
+        "definitions": {
+          "1" : {
+            "validator": "[0-1]"
+          },
+          "2" : {
+            "validator": "[0-2]"
+          },
+          "5": {
+            "validator": "[0-5]"
+          }
+        },
+        "jitMasking": true
+      },
+      "HORA_24H": {
+        "mask": "23:59:59",
+        "clearIncomplete": true,
+        "placeholder": "HH:MM:SS",
+        "definitions": {
+          "2" : {
+            "validator": "[0-2]"
+          },
+          "3" : {
+            "validator": "[0-3]"
+          },
+          "5": {
+            "validator": "[0-5]"
+          }
+        },
+        "jitMasking": true
+      },
+      "HORA_12H_REGEX": {
+        "regex": "^(0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9]$", 
+        "clearIncomplete": true,
+        "placeholder": "HH:MM:SS",
+        "jitMasking": true
+      },
+      "HORA_24H_REGEX": {
+        "regex": "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$", 
+        "clearIncomplete": true,
+        "placeholder": "HH:MM:SS",
+        "jitMasking": true
+      },
+      "DATA_HORA_BR": {
+        "mask": {
+          "alias": "datetime",
+          "clearIncomplete": true,
+          "inputFormat": "dd/mm/yyyy HH:MM:ss",
+          "jitMasking": true
+        },
+        "placeholder": "DD/MM/AAAA HH:MM:SS"
+      },
+      "DATA_HORA_ISO": {
+        "mask": {
+          "alias": "datetime",
+          "clearIncomplete": true,
+          "inputFormat": "yyyy-mm-dd HH:MM:ss",
+          "jitMasking": true
+        },
+        "placeholder": "YYYY-MM-DD HH:MM:SS"
+      }
     }
   }
 };

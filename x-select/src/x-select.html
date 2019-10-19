@@ -458,20 +458,20 @@ Licensed under the MIT License
   if (isIE){
     switch (__IEMODE__) {
       case 'worker_fetch': // Experimental e ainda em Desenvolvimento, Funciona com Fetch porém é Async e deveria Ser Sync (Não Recomendo Usar este Modo)
-        if(__DEBUG__ !== undefined || __DEBUG__ === 'true') 
+        if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
           console.log('ie_load_mode: ' + __IEMODE__);
         eval("loadJSON = function(url){return new Promise(function(resolve, reject){worker.postMessage({'cmd':'fetch','data':[url]});worker.addEventListener('message',function(result){new Promise(function(resolve, reject){setTimeout(resolve, 500);}).then(function(){resolve(result.data);});});});};var worker = new Worker('../../polyfills/ie.fix/worker.js')");
       break;
       // Alternativa
       case 'xhr': // Funciona com XHR ao invés de Fetch
-        if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+        if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
           console.log('ie_load_mode: ' + __IEMODE__);
         eval("loadJSON = function(url){var data = vkthread.exec({fn:function(config){return vkhttp(config);},args:[{url:url}]}).then(function(r){return JSON.parse(r);});return data;};");
       break;
       // Padrão
       case 'fetch':
       case undefined: // Funciona sem Worker
-        if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+        if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
           console.log('ie_load_mode: ' + __IEMODE__);
         //eval("loadJSON = function(url){var data = fetch(url).then(function(r){return r.json();});return data;};");
         //eval("loadJSON = function(url){var data = vkthread.exec({fn:function(config){return vkfetch(config);},args:[{url:url}]}).then(function(r){return r;});return data;};"); //Real Fetch Funciona Apenas Worker Separado
@@ -997,7 +997,7 @@ Licensed under the MIT License
             elem.setAttribute('data-id', uid);
             document.body.appendChild(elem);
             loadJSON(_self.getAttribute('x-source')).then(function(response) {
-              if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+              if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
                 elem.innerHTML = JSON.stringify(response);
               [].forEach.call(document.querySelectorAll('select[is="x-select"][x-uid="'+uid+'"]'), function(_select) {
                 window.data(_select).response = (type === 'worker') ? response : App.EXT.JSON.Save(response);
@@ -1124,12 +1124,12 @@ Licensed under the MIT License
         switch (__LOAD__) {
           case 'worker':
 
-            if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+            if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
               console.log('load_format: ' + __LOAD__);
 
             if(__CACHE__ !== false || __CACHE__ === 'true') {
 
-              if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+              if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
                 console.log('cache: ' + __CACHE__);
 
               var uid = 'UID_' + App.EXT.CRC32(_self.getAttribute('x-source'));
@@ -1149,7 +1149,7 @@ Licensed under the MIT License
             }
             else {
 
-              if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+              if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
                 console.log('cache: ' + __CACHE__);
               loadJSON(_self.getAttribute('x-source')).then(function(response) {
                 if (response !== undefined) {
@@ -1165,12 +1165,12 @@ Licensed under the MIT License
           case 'stream':
           case undefined:
 
-            if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+            if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
               console.log('load_format: ' + __LOAD__);
 
             if(__CACHE__ !== false || __CACHE__ === 'true') {
 
-              if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+              if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
                 console.log('cache: ' + __CACHE__);
 
               var uid = 'UID_' + App.EXT.CRC32(_self.getAttribute('x-source'));
@@ -1188,7 +1188,7 @@ Licensed under the MIT License
             }
             else {
 
-              if(__DEBUG__ !== undefined || __DEBUG__ === 'true')
+              if(__DEBUG__ !== undefined && __DEBUG__ == 'true')
                 console.log('cache: ' + __CACHE__);
 
               var node = _self.getAttribute('x-loader') == null ? '!' : '$' + _self.getAttribute('x-loader'),

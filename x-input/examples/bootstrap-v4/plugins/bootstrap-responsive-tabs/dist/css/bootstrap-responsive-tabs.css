@@ -15,6 +15,16 @@
   border: 1px solid #ddd;
   color: #333;
 }
+/*
+@media screen and (min-width:0\0) and (min-resolution: .001dpcm) { 
+  :root .responsive-tabs-container.accordion-xs .nav-tabs {
+    display: block\9;
+  }
+  :root .responsive-tabs-container.accordion-xs .accordion-link {
+    display: none\9;
+  }
+}
+*/
 @media (max-width: 767px) {
   .responsive-tabs-container.accordion-xs .nav-tabs {
     display: none;

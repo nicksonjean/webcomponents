@@ -1,6 +1,6 @@
 ## X-Input (Custom Web Element For Input)
 
-Copyright (c) 2017 - 2018 Nickson Jeanmerson Licensed under the MIT license ([http://opensource.org/licenses/mit-license.php](http://opensource.org/licenses/mit-license.php))
+Copyright (c) 2017 - 2019 Nickson Jeanmerson Licensed under the MIT license ([http://opensource.org/licenses/mit-license.php](http://opensource.org/licenses/mit-license.php))
 
 X-Input é um Componente Web que ajuda na construção de formulários ricos adicionando máscaras, validações e tratamentos autônomos dos mais variados tipos ao elemento input nativo do HTML, e por não trazer consigo uma interface pronta é compatível com qualquer framework CSS.
 
@@ -8,9 +8,13 @@ X-Input é um Componente Web que ajuda na construção de formulários ricos adi
 
 É utilizado o seguinte conjunto de tecnologias para criação desse componente web:
 
-- **WebComponents** - https://github.com/webcomponents/webcomponentsjs
-  - **Custom Elements** - http://www.w3.org/TR/custom-elements/
-  - **HTML Imports** - http://www.w3.org/TR/2013/WD-html-imports-20130514/
+### Para o
+
+- **Document Register Element** - https://github.com/WebReflection/document-register-element Uma versão leve e independente que suporta tanto a versão v0 quanto a V1 da especificação W3C Custom Elements. (Para compatibilidade com o Edge).
+- **WebComponents** - https://github.com/webcomponents/webcomponentsjs Um conjunto de polyfills que suporta as especificações V0 do HTML Web Components. (Para compatibilidade com o IE9-11).
+  - **Custom Elements** - https://github.com/webcomponents/polyfills/tree/master/packages/custom-elements Um polyfill simplificada e independente da Espcificação V1 do W3c Custom Elements. (Para compatibilidade com o IE9-11/Edge).
+  - **HTML Imports** - https://github.com/webcomponents/html-imports Uma versão leve e descentralizada utilizada apenas suportar a tecnologia caso queira utiliza-la. (Para compatibilidade com o Edge).
+  - **Mutation Observers** - https://github.com/webmodules/mutation-observer Expõe a API MutationObserver nativa fornecida pelo navegador ou um polyfill com base em eventos de mutação. (Para compatibilidade com o IE9-10).
 
 Adicionalmente, foi feito uso dos seguintes scripts:
 
@@ -58,13 +62,82 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 ### Como Usar
 
-1. Adicionar o Script Web Component Lite à página, Testado com a Versão 0.7.24;
-2. Importar o Web Component à página;
+#### Para o Edge
+
+##### Como JS Module
+
+1. Adicionar o Script Document Register Element na página, Testado com a Versão 1.14.3;
+2. Adicionar o Script do Web Component na página;
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.14.3/document-register-element.js"></script>
+<script type="text/javascript" src="dist/x-input.js"></script>
+```
+
+##### Como HTML Import
+
+1. Adicionar o Script Document Register Element na página, Testado com a Versão 1.14.3;
+2. Adicionar o Script HTML Imports na página, Testado com a Versão 1.2.2;
+3. Importar o Web Component na página;
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.14.3/document-register-element.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@webcomponents/html-imports@1.2.2/html-imports.min.js"></script>
+<link rel="import" href="dist/x-input.html">
+```
+
+#### Para o IE
+
+##### Como JS Module
+
+1. Adicionar o Script Web Component Lite na página, Testado com a Versão 0.7.24;
+2. Adicionar o Script HTML Imports na página, Testado com a Versão 1.0.3;
+3. Adicionar o Script do Web Component na página;
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mutation-observer@1.0.3/index.js"></script>
+<script type="text/javascript" src="dist/x-input.js"></script>
+```
+
+##### Como HTML Import
+
+1. Adicionar o Script Web Component Lite na página, Testado com a Versão 0.7.24;
+2. Adicionar o Script HTML Imports na página, Testado com a Versão 1.0.3;
+3. Importar o Web Component na página;
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mutation-observer@1.0.3/index.js"></script>
 <link rel="import" href="dist/x-input.html">
 ```
+
+#### Para Navegadores Modernos (Chrome, Firefox, Opera etc...)
+
+##### Como JS Module
+
+1. Adicionar o Script do Web Component na página;
+
+```html
+<script type="text/javascript" src="dist/x-input.js"></script>
+```
+
+##### Como HTML Import
+
+1. Importar o Web Component na página;
+
+```html
+<link rel="import" href="dist/x-input.html">
+```
+
+### Tabela de Configuração via QueryString
+
+Também é possível configurar opcionalmente via QueryString a forma de obtenção dos dados JSON passando parâmetros de fora para dentro do componente, de acordo com a tabela abaixo:
+
+| QueryString  | Valor Padrão |        Opts         |
+|:------------:|:------------:|:-------------------:|
+| style        |    true      |     (true|false)    |
+| debug        |    false     |     (true|false)    |
 
 ### Tabela de Atributos
 
@@ -106,8 +179,8 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 
 - [x] Separar versão Standalone do componente trazendo consigo mesmo todas as regras pré-definidas;
 - [x] Otimizar do componente, removendo polyfills e scripts que estavam redundantes e que potencialmente causariam exceções, uma redução de 17kb;
-- [ ] Recriar o componente compatível com a Biblioteca WebComponents v1;
-- [ ] Converter o CSS carregado na tag <style></style> em objeto JSON para ser Carregado via Javascript;
+- [x] Recriar o componente compatível com a Biblioteca WebComponents v1;
+- [x] Converter o CSS carregado na tag <style></style> em objeto JSON para ser Carregado via Javascript;
 - [ ] Recriar as regras em arquivos externos e capacitar o componente de carregá-las: [veja](README_rules.md);
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-load-rule="";
 - [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-load-rule="";

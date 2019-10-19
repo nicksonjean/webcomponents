@@ -2240,9 +2240,11 @@ window.CustomElements.addModule(function(scope) {
     if (isReservedTag(name)) {
       throw new Error("Failed to execute 'registerElement' on 'Document': Registration failed for type '" + String(name) + "'. The type name is invalid.");
     }
+    /*
     if (getRegisteredDefinition(name)) {
       throw new Error("DuplicateDefinitionError: a type with name '" + String(name) + "' is already registered");
     }
+    */
     if (!definition.prototype) {
       definition.prototype = Object.create(HTMLElement.prototype);
     }

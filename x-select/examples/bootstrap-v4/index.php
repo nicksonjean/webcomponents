@@ -217,7 +217,7 @@
       <link href="../../polyfills/bootstrap-ie8.css" rel="stylesheet">
     <![endif]-->
     <!-- WebComponents Polyfill 0.7.24 -->
-    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/v0/webcomponents-lite.js"></script>
     <!-- X-Select WebComponent v0.5a-->
     <!--<link rel="import" href="../../src/x-select.html">-->
     <link rel="import" href="../../dist/standalone/x-select.min.html">
