@@ -1,0 +1,8 @@
+.nav-tabs > li {
+  float:none;
+  display: table-cell;
+  width: 0%;
+}
+.nav-tabs .nav-item > .nav-link.active{
+  margin-bottom: -1px !important;
+}

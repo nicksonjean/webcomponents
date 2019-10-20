@@ -1,0 +1,20 @@
+{
+  "name": "coliff/bootstrap-ie8",
+  "description": "Bootstrap 4 for IE8 and IE9",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christian Oliff",
+      "email": "christianoliff@yahoo.com",
+      "homepage": "https://christianoliff.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/coliff/bootstrap-ie8/issues",
+    "docs": "https://github.com/coliff/bootstrap-ie8#readme"
+  },
+  "require": {
+    "twbs/bootstrap": "4.2.1"
+  }
+}

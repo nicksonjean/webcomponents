@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="plugins/bootstrap-responsive-datatables/dist/css/responsive.bootstrap4.min.css" />
     <!-- Bootstrap Responsive Tabs v2.0.1 -->
     <link rel="stylesheet" href="plugins/bootstrap-responsive-tabs/dist/css/bootstrap-responsive-tabs.css" />
+    <!--[if IE 9]>
+    <link href="plugins/bootstrap-ie8/css/bootstrap-ie9.min.css" rel="stylesheet">
+    <link href="plugins/bootstrap-ie8/css/bootstrap-ie9.fix.css" rel="stylesheet">
+    <![endif]-->
     <!-- Font Awesome 4.6.1 -->
     <link rel="stylesheet" href="plugins/font-awesome/dist/css/font-awesome.min.css" />
     <!-- Bootstrap Bootstrap 4C — Chosen -->
@@ -128,7 +132,7 @@
 
             <!-- HTML5 Ajax Nav Tabs Non Responsive -->
             <nav>
-              <div id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
+              <div id="tabs" class="nav nav-tabs" role="tablist">
                 <a class="nav-item nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" data-href="inc/select_vanilla.php" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
                 <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  data-href="inc/select_chosen.php"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
                 <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#select2" id="nav-select2-tab" data-href="inc/select_select2.php" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
@@ -169,7 +173,12 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary new-btn-blue-color">Submeter</button>
+            <div class="row">
+              <div class="col-12">
+                <br />
+                <button type="submit" class="btn btn-primary new-btn-blue-color">Submeter</button>
+              </div>
+            </div>
 
           </div>
         </div>
