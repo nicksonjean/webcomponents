@@ -69,10 +69,10 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 | QueryString  | Valor Padrão |        Opts         |
 |:------------:|:------------:|:-------------------:|
-| load_format  |    stream    |   (worker|stream)   |
-| cache        |    false     |     (true|false)    |
-| debug        |    false     |     (true|false)    |
-| ie_load_mode |    fetch     |      (xhr|fetch)    |
+| load_format  |    stream    |   (worker\|stream)   |
+| cache        |    false     |     (true\|false)    |
+| debug        |    false     |     (true\|false)    |
+| ie_load_mode |    fetch     |      (xhr\|fetch)    |
 
 ### Tabela de Atributos
 
