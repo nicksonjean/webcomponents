@@ -183,6 +183,8 @@
     <script type="text/javascript" src="plugins/bootstrap-v4/dist/js/popper-1.14.6.min.js"></script>
     <!-- Bootstrap v4.2.1 -->
     <script type="text/javascript" src="plugins/bootstrap-v4/dist/js/bootstrap-4.2.1.min.js"></script>
+    <!-- Scripts -->
+    <script type="text/javascript" src="plugins/scripts/scripts.js"></script>
     <!-- Datatables for Bootstrap v4-->
     <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="plugins/bootstrap-responsive-datatables/dist/js/dataTables.bootstrap4.min.js"></script>
@@ -213,11 +215,11 @@
 
     <!-- Distribution Version -->
     <!--<link rel="import" href="../../dist/standalone/x-input.min.html" />-->
-    <script type="text/javascript" src="../../dist/standalone/x-input.min.js"></script>
+    <!--<script type="text/javascript" src="../../dist/standalone/x-input.min.js"></script>-->
 
     <!-- Source Version -->
     <!--<link rel="import" href="../../src/x-input.html" />-->
-    <!--<script type="text/javascript" src="../../src/x-input-standalone.js"></script>-->
+    <script type="text/javascript" src="../../src/x-input-standalone.js?debug=true"></script>
 
     <script>
       $(function(){
@@ -301,6 +303,7 @@
           }
         });
 
+        // Responsive Tabs
         $('.responsive-tabs').responsiveTabs({
           accordionOn: ['xs', 'sm'] // xs, sm, md, lg
         });
@@ -332,6 +335,7 @@
         });
 
         <?php } ?>
+
       });
     </script>
   </body>

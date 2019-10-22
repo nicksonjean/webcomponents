@@ -60,23 +60,28 @@
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>load_format</td>
-                    <td><code id="_load_format"></code></td>
+                    <td>format</td>
+                    <td><code id="_format"></code></td>
                   </tr>
                   <tr>
                     <th scope="row">2</th>
+                    <td>mode</td>
+                    <td><code id="_mode"></code></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
                     <td>cache</td>
                     <td><code id="_cache"></code></td>
                   </tr>
                   <tr>
-                    <th scope="row">3</th>
-                    <td>debug</td>
-                    <td><code id="_debug"></code></td>
+                    <th scope="row">4</th>
+                    <td>style</td>
+                    <td><code id="_style"></code></td>
                   </tr>
                   <tr>
-                    <th scope="row">4</th>
-                    <td>ie_load_mode</td>
-                    <td><code id="_ie_load_mode"></code></td>
+                    <th scope="row">5</th>
+                    <td>debug</td>
+                    <td><code id="_debug"></code></td>
                   </tr>
                 </tbody>
               </table>
@@ -214,22 +219,36 @@
     <!-- Bootstrap Bootstrap 4 — Select2 -->
     <script type="text/javascript" src="plugins/select2-bootstrap4-theme/dist/js/select2.min.js"></script>
     <!-- Bootstrap Bootstrap 4 — Bootstrap.Select -->
+    <script></script>
     <script type="text/javascript" src="plugins/bootstrap-select-1.13.2/dist/js/bootstrap-select.js"></script>
-    <!-- Polyfill classList 0.0.20130621 https://github.com/remy/polyfills -->
-    <!-- Polyfill html5shiv 3.7.3 https://cdn.jsdelivr.net/g/html5shiv@3.7.3 -->
     <!--[if IE 9]>
-      <link href="../../polyfills/bootstrap-ie9.css" rel="stylesheet">
-      <script type="text/javascript" src="../../polyfills/classList.js">
-      <script type="text/javascript" src="../../polyfills/html5shiv.js"></script>
+    <script src="plugins/bootstrap-ie8/js/bootstrap-ie9.min.js"></script>
     <![endif]-->
-    <!--[if IE 8]>
-      <link href="../../polyfills/bootstrap-ie8.css" rel="stylesheet">
-    <![endif]-->
-    <!-- WebComponents Polyfill 0.7.24 -->
-    <script type="text/javascript" src="../../../bower_components/webcomponentsjs/v0/webcomponents-lite.js"></script>
-    <!-- X-Select WebComponent v0.5a-->
-    <!--<link rel="import" href="../../src/x-select.html">-->
-    <link rel="import" href="../../dist/standalone/x-select.min.html">
+    <!-- Web Components + MutationObserver & Custom Elements + HTML Imports para IE/Edge & Firefox -->
+    <script type="text/javascript">
+      var isIE10Less = /*@cc_on!@*/false,
+          isIE9More = document.all && document.addEventListener && !window.atob || window.navigator.msPointerEnabled,
+          isEdge = /(edge)\/((\d+)?[\w\.]+)/i.exec(navigator.userAgent),
+          isFF = !!navigator.userAgent.match(/firefox/i),
+          isIEVersion = (function() { if (new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})").exec(navigator.userAgent) != null) { return parseFloat( RegExp.$1 ); } else { return false; } })();
+
+      if (isIE9More) {
+        document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v0/webcomponents-lite.min.js"><\/script>'); // ie9+
+        if (isIE10Less) document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v0/MutationObserver.min.js"><\/script>'); // ie10-
+      }
+      if (isIEVersion >= 8 || isEdge || isFF) {
+        document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/build/document-register-element.js"><\/script>'); // ie8+ || edge || ff
+        document.write('<script type="text/javascript" src="../../../bower_components/webcomponentsjs/v1/html-imports.min.js"><\/script>'); // ie8+ || edge || ff
+      }
+    </script>
+
+    <!-- Distribution Version -->
+    <!--<link rel="import" href="../../dist/standalone/x-select.min.html" />-->
+    <!--<script type="text/javascript" src="../../dist/standalone/x-select.min.js"></script>-->
+
+    <!-- Source Version -->
+    <!--<link rel="import" href="../../src/x-select.html" />-->
+    <script type="text/javascript" src="../../src/x-select-standalone.js?debug=true"></script>
     <script>
       $(function(){
 
