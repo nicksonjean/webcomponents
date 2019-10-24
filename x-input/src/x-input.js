@@ -1,11 +1,11 @@
 /*!
-* 
-* A jQuery $.getScript() Replacement With Vanilla KavaScript
-* https://stackoverflow.com/a/28002292
-* https://gist.github.com/kmonsoor/ed54d600d6bfb0fc6b6870115d4f29d5
-* https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
-* Copyright (c) 2009 Khaled Monsoor
-*/
+ * 
+ * A jQuery $.getScript() Replacement With Vanilla KavaScript
+ * https://stackoverflow.com/a/28002292
+ * https://gist.github.com/kmonsoor/ed54d600d6bfb0fc6b6870115d4f29d5
+ * https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+ * Copyright (c) 2009 Khaled Monsoor
+ */
 function LoadScript(source, callback) {
   var script = document.createElement('script');
   var prior = document.getElementsByTagName('script')[0];
@@ -29,11 +29,11 @@ LoadScript('../../src/x-input-rules.js', function() {
   LoadScript('../../src/x-input-app.js', function() {
 
     /*!
-    * Element data/storage
-    * Anonymous Function for Data Store Creation (Temporary Data Storage)
-    * https://j11y.io/javascript/element-datastorage/
-    * Copyright (c) 2009 JAMES PADOLSEY
-    */
+     * Element data/storage
+     * Anonymous Function for Data Store Creation (Temporary Data Storage)
+     * https://j11y.io/javascript/element-datastorage/
+     * Copyright (c) 2009 JAMES PADOLSEY
+     */
     (function(){
       var cache = [0], expando = 'data' + +new Date();
       function data(elem) {
@@ -49,24 +49,23 @@ LoadScript('../../src/x-input-rules.js', function() {
 
     /*!
      * __FILE__ and __DIR__ in JavaScript
-     * JavaScript version of PHP __FILE__ or __DIR__
-     * https://www.nutt.net/javascript-version-of-php-__file__-or-__dir__/
+     * https://gist.github.com/adamasantares/04cf84e3a99326a4d73f (Inconsistent)
      * https://stackoverflow.com/questions/8523200/javascript-get-current-filescript-path
-     * https://stackoverflow.com/questions/1203933/is-there-any-analogue-in-javascript-to-the-file-variable-in-php
-     * Copyright (c) 2009 Ryan Nutt
+     * Copyright (c) 2019 by Nickson Jeanmerson (Inspired in John Resig Blog)
      */
     (function(){
-      var _script = document.getElementsByTagName('script')
-          _element = _script[_script.length - 1];
+      var _tmp_script = document.getElementsByTagName('script')
+          _script = _tmp_script[_tmp_script.length - 1],
+          _link = document.querySelector('link[rel="import"]'),
+          _path = (_script.src == '' ? _link.href : _script.src);
       Object.defineProperties(window, {
         '__FILE__': {
           get: function(){
-            return _element.src;
+            return _path;
           }
         },
         '__DIR__': {
           get: function(){
-            var _path = _element.src;
             return _path.substr(0, _path.lastIndexOf( '/' )+1);
           }
         }
@@ -112,11 +111,11 @@ LoadScript('../../src/x-input-rules.js', function() {
     App = Object.assign(App, Rules);
 
     /*!
-    * Load Style/Script Inline for IE
-    * Dynamic SCRIPT and STYLE elements in IE
-    * https://www.phpied.com/dynamic-script-and-style-elements-in-ie/
-    * Copyright (c) 2007 Stoyan Stefanov
-    */
+     * Load Style/Script Inline for IE
+     * Dynamic SCRIPT and STYLE elements in IE
+     * https://www.phpied.com/dynamic-script-and-style-elements-in-ie/
+     * Copyright (c) 2007 Stoyan Stefanov
+     */
     (function(){
       if(__STYLE__ === undefined || __STYLE__ == 'true') {
         if ( ( ua.browser.name === 'IE' ) && ( ua.browser.version < 10) ) {

@@ -69,7 +69,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.14.3/document-register-element.js"></script>
-<script type="text/javascript" src="dist/x-input.js"></script>
+<script type="text/javascript" src="dist/x-input.min.js"></script>
 ```
 
 ##### Como HTML Import
@@ -81,7 +81,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.14.3/document-register-element.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@webcomponents/html-imports@1.2.2/html-imports.min.js"></script>
-<link rel="import" href="dist/x-input.html">
+<link rel="import" href="dist/x-input.min.html">
 ```
 
 #### Para o IE
@@ -95,7 +95,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mutation-observer@1.0.3/index.js"></script>
-<script type="text/javascript" src="dist/x-input.js"></script>
+<script type="text/javascript" src="dist/x-input.min.js"></script>
 ```
 
 ##### Como HTML Import
@@ -107,7 +107,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mutation-observer@1.0.3/index.js"></script>
-<link rel="import" href="dist/x-input.html">
+<link rel="import" href="dist/x-input.min.html">
 ```
 
 #### Para Navegadores Modernos (Chrome, Opera etc...)
@@ -117,7 +117,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 1. Adicionar o Script do Web Component na página;
 
 ```html
-<script type="text/javascript" src="dist/x-input.js"></script>
+<script type="text/javascript" src="dist/x-input.min.js"></script>
 ```
 
 ##### Como HTML Import
@@ -125,7 +125,7 @@ Adicionalmente, foi feito uso dos seguintes scripts:
 1. Importar o Web Component na página;
 
 ```html
-<link rel="import" href="dist/x-input.html">
+<link rel="import" href="dist/x-input.min.html">
 ```
 
 ### Tabela de Configuração via QueryString
@@ -134,8 +134,8 @@ Também é possível configurar opcionalmente via QueryString a forma de obtenç
 
 | QueryString  | Valor Padrão |        Opts         |
 |:------------:|:------------:|:-------------------:|
-| style        |    true      |     (true\|false)    |
-| debug        |    false     |     (true\|false)    |
+| style        |    true      |     (true\|false)   |
+| debug        |    false     |     (true\|false)   |
 
 ### Tabela de Atributos
 
@@ -184,7 +184,5 @@ Exemplo: 2^64-1 é 18446744073709551615 mas em JavaScript calcula para 184467440
 - [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-load-rule="";
 - [ ] Possibilitar a implementação do modo de carregamento de objetos via JSON semelhante ao componente x-select diretamente ao elemento datalist associado ao input;
 - [ ] Possibilitar a integração entre os componentes x-select e x-input;
-- Fazendo isso, a versão src do componente vai reduzir seu tamanaho físico em mais de 50%, fazendo com que ele carrega pelo menos 50% mais rápido;
-- Enquanto que, a versão dist do componente deverá ficar com ⅓ ou menos desse tamanho físico;
 
 ⁰¹²³⁴⁵⁶⁷⁸⁹

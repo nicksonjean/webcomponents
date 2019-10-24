@@ -62,14 +62,15 @@ App =
         return url.replace(/\\/g, '/').replace(/\/[^/]*\/?$/, '')
       },
       "Domain": function(url) {
-        if(ua.browser.name === 'IE')
+        var isIE = document.body.style.msTouchAction !== undefined;
+        if(isIE)
           var IEcaFix = {'host' : function(url) { return App.EXT.URL.Parse(url).hostname + '/'; } }
         else
           var IEcaFix = {'host' : function(url) { return App.EXT.URL.Parse(url).host ; } }
         return App.EXT.URL.Parse(url).protocol + '//' + IEcaFix.host(url) + App.EXT.URL.ParentDirectory(App.EXT.URL.ParentDirectory(App.EXT.URL.Parse(url).pathname));
       }
     },
-    /*
+    /*!
      * Pure JavaScript AddClass and RemoveClass functions
      * by Jared Reich and Vladimir
      * https://codepen.io/Vovastradamus/pen/emGNgd
@@ -91,7 +92,7 @@ App =
         str = str.toString();
         return str.length < max ? App.EXT.Format.LPad("0" + str, max) : str;
       },
-      /*
+      /*!
        * Rafa Academy/formatMoney Function
        * A browser function to format string to currency
        * Based on the function of Rafael Paulino

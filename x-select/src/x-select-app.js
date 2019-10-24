@@ -53,7 +53,7 @@ App =
         return App.EXT.URL.Parse(url).protocol + '//' + IEcaFix.host(url) + App.EXT.URL.ParentDirectory(App.EXT.URL.ParentDirectory(App.EXT.URL.Parse(url).pathname));
       }
     },
-    /*
+    /*!
      * Pure JavaScript AddClass and RemoveClass functions
      * by Jared Reich and Vladimir
      * https://codepen.io/Vovastradamus/pen/emGNgd
@@ -211,7 +211,7 @@ App =
       }
     },
     "JSON": {
-      /*
+      /*!
        * Javascript using Blob to save json file
        * by JsBlobSaveJson
        * https://gist.github.com/yiwenl/8f2b735a2263bc93ee33
