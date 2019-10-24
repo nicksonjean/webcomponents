@@ -219,7 +219,7 @@
 
     <!-- Source Version -->
     <!--<link rel="import" href="../../src/x-input.html" />-->
-    <script type="text/javascript" src="../../src/x-input-standalone.js?debug=true"></script>
+    <script type="text/javascript" src="../../src/x-input-standalone.js"></script>
 
     <script>
       $(function(){
