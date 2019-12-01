@@ -75,53 +75,39 @@
 
             <!-- HTML4 Static Nav Tabs Responsive -->
             <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#numeric"  id="nav-numeric-tab"  role="tab" aria-controls="numeric"  aria-selected="true" tabindex="0">Numérico</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link"        data-toggle="tab" href="#decimal"  id="nav-decimal-tab"  role="tab" aria-controls="decimal"  aria-selected="false" tabindex="0">Decimal</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link"        data-toggle="tab" href="#masks"    id="nav-masks-tab"    role="tab" aria-controls="masks"    aria-selected="false" tabindex="0">Máscaras</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link"        data-toggle="tab" href="#datetime" id="nav-datetime-tab" role="tab" aria-controls="datetime" aria-selected="false" tabindex="0">Data/Hora</a>
               </li>
             </ul>
 
             <?php } ?>
 
-            <?php if(!isset($_GET['load_format'])) { ?>
+            <?php if( (!isset($_GET['load_format'])) || (isset($_GET['load_format']) && $_GET['load_format'] == 'modern') ) { ?>
 
             <!-- HTML4 Ajax Nav Tabs Responsive -->
             <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link active ajax-tabs" data-toggle="tab" href="#numeric"  id="nav-numeric-tab"  data-href="inc/input_numeric.php"  role="tab" aria-controls="numeric"  aria-selected="true"  tabindex="0">Numérico</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link ajax-tabs"        data-toggle="tab" href="#decimal"  id="nav-decimal-tab"  data-href="inc/input_decimal.php"  role="tab" aria-controls="decimal"  aria-selected="false" tabindex="0">Decimal</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link ajax-tabs"        data-toggle="tab" href="#masks"    id="nav-masks-tab"    data-href="inc/input_masks.php"    role="tab" aria-controls="masks"    aria-selected="false" tabindex="0">Máscaras</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link ajax-tabs"        data-toggle="tab" href="#datetime" id="nav-datetime-tab" data-href="inc/input_datetime.php" role="tab" aria-controls="datetime" aria-selected="false" tabindex="0">Data/Hora</a>
               </li>
             </ul>
-
-            <?php } ?>
-
-            <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'modern') { ?>
-
-            <!-- HTML5 Ajax Nav Tabs Non Responsive -->
-            <nav>
-              <div id="tabs" class="nav nav-tabs" role="tablist">
-                <a class="nav-item nav-link active ajax-tabs" data-toggle="tab" href="#numeric"  id="nav-numeric-tab"  data-href="inc/input_numeric.php"  role="tab" aria-controls="numeric"  aria-selected="true"  tabindex="0">Numérico</a>
-                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#decimal"  id="nav-decimal-tab"  data-href="inc/input_decimal.php"  role="tab" aria-controls="decimal"  aria-selected="false" tabindex="0">Decimal</a>
-                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#masks"    id="nav-masks-tab"    data-href="inc/input_masks.php"    role="tab" aria-controls="masks"    aria-selected="false" tabindex="0">Máscaras</a>
-                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#datetime" id="nav-datetime-tab" data-href="inc/input_datetime.php" role="tab" aria-controls="datetime" aria-selected="false" tabindex="0">Data/Hora</a>
-              </div>
-            </nav>
 
             <?php } ?>
 
@@ -130,27 +116,27 @@
 
               <br />
 
-              <div class="tab-pane active" id="numeric" role="tabpanel" aria-labelledby="nav-numeric-tab">
+              <div class="tab-pane active fade in" id="numeric" role="tabpanel" aria-labelledby="nav-numeric-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/input_numeric.php'); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/input_numeric.php'); ?>
                 <?php } ?>
               </div>
 
-              <div class="tab-pane" id="decimal" role="tabpanel" aria-labelledby="nav-decimal-tab">
+              <div class="tab-pane fade" id="decimal" role="tabpanel" aria-labelledby="nav-decimal-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/input_decimal.php'); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/input_decimal.php'); ?>
                 <?php } ?>
               </div>
 
-              <div class="tab-pane" id="masks" role="tabpanel" aria-labelledby="nav-masks-tab">
+              <div class="tab-pane fade" id="masks" role="tabpanel" aria-labelledby="nav-masks-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/input_masks.php'); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/input_masks.php'); ?>
                 <?php } ?>
               </div>
 
-              <div class="tab-pane" id="datetime" role="tabpanel" aria-labelledby="nav-datetime-tab">
+              <div class="tab-pane fade" id="datetime" role="tabpanel" aria-labelledby="nav-datetime-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/input_datetime.php'); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/input_datetime.php'); ?>
                 <?php } ?>
               </div>
 
@@ -311,30 +297,8 @@
         // Popover
         $('[data-toggle="popover"]').popover();
 
-        // Ajax & Normal Tabs
-        $('#tabs .ajax-tabs').click(function (e) {
-          e.preventDefault();
-          var panel = $(this);
-          if (panel.hasClass('ajax-tabs') && panel.attr("data-href")) {
-            var url = panel.attr("data-href");
-            var href = this.hash;
-            $(href).load(url,function(result){
-              panel.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
-            });
-          }
-          else {
-            panel.tab('show');
-          }
-        });
-
-        <?php if( (!isset($_GET['load_format'])) || (isset($_GET['load_format']) && $_GET['load_format'] == 'modern') ) { ?>
-
         // Carrega a Primeira
-        $('#numeric').load($('a.active').attr('data-href'), function(result){
-          $('a.active').tab('show').removeClass('ajax-tabs').removeAttr('data-href');
-        });
-
-        <?php } ?>
+        $('.nav-link.active:first').trigger('click');
 
       });
     </script>

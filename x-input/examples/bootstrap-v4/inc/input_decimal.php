@@ -1,4 +1,4 @@
-<?php include_once '../include.php';?>
+<?php include_once(__DIR__ . '/../include.php');?>
 
                 <div class="row">
                   <div class="col-6"><h5>Legenda</h5></div>
@@ -15,10 +15,10 @@
                     <div class="collapse" id="collapse-decimal">
 
                       <div class="table table-responsive table-striped table-condensed table-hover">
-                        <?php includeWithVariables('../inc/table_decimal.php'); ?>
-                        <?php includeWithVariables('../inc/table_currency.php'); ?>
+                        <?php includeWithVariables(PATH_ROOT . 'inc/table_decimal.php'); ?>
+                        <?php includeWithVariables(PATH_ROOT . 'inc/table_currency.php'); ?>
                       </div>
-                      <?php includeWithVariables('../inc/input_iso_4217.php'); ?>
+                      <?php includeWithVariables(PATH_ROOT . 'inc/input_iso_4217.php'); ?>
 
                       <br />
                     </div>

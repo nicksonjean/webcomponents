@@ -142,10 +142,9 @@ void 0===console.table&&(console.table=function(o,e){if(o.constructor===Object){
  * Copyright (c) 2019 by Nickson Jeanmerson (Inspired in John Resig Blog)
  */
 (function(){
-  var _tmp_script = document.getElementsByTagName('script')
-      _script = _tmp_script[_tmp_script.length - 1],
-      _link = document.querySelector('link[rel="import"]'),
-      _path = (_script.src == '' ? _link.href : _script.src);
+  var _script = document.querySelector('script[type="text/javascript"][src*="x-input"]'),
+      _link = document.querySelector('link[rel="import"][href*="x-input"]'),
+      _path = (_script == null ? _link.href : _script.src);
   Object.defineProperties(window, {
     '__FILE__': {
       get: function(){

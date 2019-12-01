@@ -1,4 +1,4 @@
-<?php include_once '../include.php';?>
+<?php include_once(__DIR__ . '/../include.php');?>
 
                 <div class="row">
                   <div class="col-6"><h5>Legenda</h5></div>
@@ -12,7 +12,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="table table-responsive table-striped table-condensed table-hover collapse" id="collapse-integer">
-                      <?php includeWithVariables('../inc/table_integer.php'); ?>
+                      <?php includeWithVariables(PATH_ROOT . 'inc/table_integer.php'); ?>
                     </div>
                   </div>
                 </div>

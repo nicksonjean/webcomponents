@@ -76,6 +76,8 @@
         $(event.target).parents('ul').find('li > a').removeClass("active");
         $(event.target).addClass('active');
 
+        callParentTransition($(id), 0.75);
+
         if (!$li.hasClass('active')) {
           $li.addClass('active');
           $siblings.removeClass('active');
@@ -85,7 +87,21 @@
 
           $accordionLinks.removeClass('active');
           $accordionLink.addClass('active');
+
+          $(id).fadeIn('fast');
+
         }
+
+        if ($this.hasClass('ajax-tabs') && $this.attr("data-href")) {
+
+          var url = $this.attr("data-href");
+          var href = this.hash;
+          $(href).load(url,function(result){
+            $this.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
+          }).hide().fadeIn('fast');
+
+        }
+
       });
 
       // Accordion Click Event
@@ -96,6 +112,8 @@
             id = $this.attr('href'),
             $tabLink = $self.find('li > a[href="' + id + '"]').parent('li');
 
+        callParentTransition($(id), 0.75);
+
         if (!$this.hasClass('active')) {
           $accordionLinks.removeClass('active');
           $this.addClass('active');
@@ -105,7 +123,21 @@
 
           $navTabs.parent('li').removeClass('active');
           $tabLink.addClass('active');
+
+          $(id).fadeIn('fast');
+
         }
+
+        if ($this.hasClass('ajax-tabs') && $this.attr("data-href")) {
+
+          var url = $this.attr("data-href");
+          var href = this.hash;
+          $(href).load(url,function(result){
+            $this.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
+          }).hide().fadeIn('fast');
+
+        }
+
       });
 
     });

@@ -1,5 +1,3 @@
-<?php include_once '../include.php';?>
-
                 <div class="form-group row">
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 has-default">
                     <label class="form-control-label" for="fones_regex has-default"><small style="font-size:10.5px;">Telefone/Celular (DDI + DDD + Telefone/Celular)</small></label>

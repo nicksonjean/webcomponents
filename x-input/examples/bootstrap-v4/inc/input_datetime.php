@@ -1,5 +1,3 @@
-<?php include_once '../include.php';?>
-
                 <div class="form-group row">
                   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 has-default">
                     <label class="form-control-label" for="data_br">Data [BR] (Valida ao Digitar)</label>
