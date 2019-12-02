@@ -166,5 +166,5 @@ O [cache=true] pode ser ideal para mobile, pois agrupa todas as requisições id
 - [ ] Recriar as regras em arquivos externos e capacitar o componente de carregá-las: [veja o README_rules.md](README_rules.md);
 - [ ] Possibilitar o componente de carregar as regras no formato de String/JSON no parâmetro x-source="";
 - [ ] Possibilitar o componente de carregar as regras remotamento no formato de URL no parâmetro x-source="";
-
+ 
 ⁰¹²³⁴⁵⁶⁷⁸⁹
