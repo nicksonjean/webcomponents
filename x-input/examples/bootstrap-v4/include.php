@@ -50,5 +50,6 @@ if(isset($_GET['load_format']) && isset($_GET['load_format']) == 'static') {
 else {
   define("WEB_ROOT", dirname(dirname(fetchUrl())));
 }
+define("SOURCE_ROOT", dirname(dirname(dirname(dirname(fetchUrl())))));
 define("PATH_ROOT", __DIR__ . DIRECTORY_SEPARATOR);
 ?>

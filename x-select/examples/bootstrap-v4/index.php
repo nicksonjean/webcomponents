@@ -97,53 +97,39 @@
 
             <!-- HTML4 Static Nav Tabs Responsive -->
             <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link"        data-toggle="tab" href="#select2" id="nav-select2-tab" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
               </li>
-              <li class="nav-item">
+              <li role="presentation" class="nav-item">
                 <a class="nav-link"        data-toggle="tab" href="#select"  id="nav-select-tab"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
               </li>
             </ul>
 
             <?php } ?>
 
-            <?php if(!isset($_GET['load_format'])) { ?>
+            <?php if( (!isset($_GET['load_format'])) || (isset($_GET['load_format']) && $_GET['load_format'] == 'modern') ) { ?>
 
             <!-- HTML4 Ajax Nav Tabs Responsive -->
             <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" data-href="inc/select_vanilla.php" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
+              <li role="presentation" class="nav-item">
+                <a class="nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/select_vanilla.php" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  data-href="inc/select_chosen.php"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
+              <li role="presentation" class="nav-item">
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/select_chosen.php"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#select2" id="nav-select2-tab" data-href="inc/select_select2.php" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
+              <li role="presentation" class="nav-item">
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#select2" id="nav-select2-tab" data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/select_select2.php" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#select"  id="nav-select-tab"  data-href="inc/select_select.php"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
+              <li role="presentation" class="nav-item">
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#select"  id="nav-select-tab"  data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/select_select.php"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
               </li>
             </ul>
-
-            <?php } ?>
-
-            <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'modern') { ?>
-
-            <!-- HTML5 Ajax Nav Tabs Non Responsive -->
-            <nav>
-              <div id="tabs" class="nav nav-tabs" role="tablist">
-                <a class="nav-item nav-link active ajax-tabs" data-toggle="tab" href="#vanilla" id="nav-vanilla-tab" data-href="inc/select_vanilla.php" role="tab" aria-controls="vanilla" aria-selected="true"  tabindex="0">Vanilla</a>
-                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#chosen"  id="nav-chosen-tab"  data-href="inc/select_chosen.php"  role="tab" aria-controls="chosen"  aria-selected="false" tabindex="0">Chosen</a>
-                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#select2" id="nav-select2-tab" data-href="inc/select_select2.php" role="tab" aria-controls="select2" aria-selected="false" tabindex="0">Select2</a>
-                <a class="nav-item nav-link ajax-tabs"        data-toggle="tab" href="#select"  id="nav-select-tab"  data-href="inc/select_select.php"  role="tab" aria-controls="select"  aria-selected="false" tabindex="0">SelectPicker</a>
-              </div>
-            </nav>
 
             <?php } ?>
 
@@ -152,27 +138,27 @@
 
               <br />
 
-              <div class="tab-pane active" id="vanilla" role="tabpanel" aria-labelledby="nav-vanilla-tab">
+              <div class="tab-pane active fade in" id="vanilla" role="tabpanel" aria-labelledby="nav-vanilla-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/select_all.php', array('type' => 'vanilla', 'rule' => 'rule', 'pair' => 'pair', 'template' => 'template', 'plugin' => '')); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/select_all.php', array('type' => 'vanilla', 'rule' => 'rule', 'pair' => 'pair', 'template' => 'template', 'plugin' => '')); ?>
                 <?php } ?>
               </div>
 
-              <div class="tab-pane" id="chosen" role="tabpanel" aria-labelledby="nav-chosen-tab">
+              <div class="tab-pane fade" id="chosen" role="tabpanel" aria-labelledby="nav-chosen-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/select_all.php', array('type' => 'chosen', 'rule' => 'rule_chosen', 'pair' => 'pair_chosen', 'template' => 'template_chosen', 'plugin' => 'x-plugin="chosen"')); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/select_all.php', array('type' => 'chosen', 'rule' => 'rule_chosen', 'pair' => 'pair_chosen', 'template' => 'template_chosen', 'plugin' => 'x-plugin="chosen"')); ?>
                 <?php } ?>
               </div>
 
-              <div class="tab-pane" id="select2" role="tabpanel" aria-labelledby="nav-select2-tab">
+              <div class="tab-pane fade" id="select2" role="tabpanel" aria-labelledby="nav-select2-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/select_all.php', array('type' => 'select2', 'rule' => 'rule_select2', 'pair' => 'pair_select2', 'template' => 'template_select2', 'plugin' => 'x-plugin="select2"')); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/select_all.php', array('type' => 'select2', 'rule' => 'rule_select2', 'pair' => 'pair_select2', 'template' => 'template_select2', 'plugin' => 'x-plugin="select2"')); ?>
                 <?php } ?>
               </div>
 
-              <div class="tab-pane" id="select" role="tabpanel" aria-labelledby="nav-select-tab">
+              <div class="tab-pane fade" id="select" role="tabpanel" aria-labelledby="nav-select-tab">
                 <?php if(isset($_GET['load_format']) && $_GET['load_format'] == 'static') { ?>
-                  <?php includeWithVariables('inc/select_all.php', array('type' => 'select', 'rule' => 'rule_select', 'pair' => 'pair_select', 'template' => 'template_select', 'plugin' => 'x-plugin="select"')); ?>
+                  <?php includeWithVariables(PATH_ROOT .'inc/select_all.php', array('type' => 'select', 'rule' => 'rule_select', 'pair' => 'pair_select', 'template' => 'template_select', 'plugin' => 'x-plugin="select"')); ?>
                 <?php } ?>
               </div>
 
@@ -339,30 +325,8 @@
         // Popover
         $('[data-toggle="popover"]').popover();
 
-        // Ajax & Normal Tabs
-        $('#tabs .ajax-tabs').click(function (e) {
-          e.preventDefault();
-          var panel = $(this);
-          if (panel.hasClass('ajax-tabs') && panel.attr("data-href")) {
-            var url = panel.attr("data-href");
-            var href = this.hash;
-            $(href).load(url,function(result){
-              panel.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
-            });
-          }
-          else {
-            panel.tab('show');
-          }
-        });
-
-        <?php if( (!isset($_GET['load_format'])) || (isset($_GET['load_format']) && $_GET['load_format'] == 'modern') ) { ?>
-
         // Carrega a Primeira
-        $('#vanilla').load($('a.active').attr('data-href'), function(result){
-          $('a.active').tab('show').removeClass('ajax-tabs').removeAttr('data-href');
-        });
-
-        <?php } ?>
+        $('.nav-link.active:first').trigger('click');
 
       });
     </script>

@@ -12,6 +12,25 @@
 		accordionOn: ['xs'] // xs, sm, md, lg
 	};
 
+  function setParentTransition(obj, prop, delay, style, callback) {
+    obj.css({'-webkit-transition' : prop + ' ' + delay + ' ' + style});
+    obj.css({'-moz-transition' : prop + ' ' + delay + ' ' + style});
+    obj.css({'-o-transition' : prop + ' ' + delay + ' ' + style});
+    obj.css({'transition' : prop + ' ' + delay + ' ' + style});
+    callback();
+  }
+
+  function callParentTransition(obj) {
+    setParentTransition(obj, 'opacity', '0s', 'ease', function() {
+      obj.addClass('fade in');
+    });
+    setTimeout(function() {
+      setParentTransition(obj, 'opacity', '0.75s', 'ease', function() {
+        obj.removeClass('fade in');
+      });
+    });
+  }
+
 	$.fn.responsiveTabs = function (options) {
 
 		var config = $.extend({}, defaults, options),
@@ -76,7 +95,7 @@
         $(event.target).parents('ul').find('li > a').removeClass("active");
         $(event.target).addClass('active');
 
-        callParentTransition($(id), 0.75);
+        callParentTransition($(id));
 
         if (!$li.hasClass('active')) {
           $li.addClass('active');
@@ -112,7 +131,7 @@
             id = $this.attr('href'),
             $tabLink = $self.find('li > a[href="' + id + '"]').parent('li');
 
-        callParentTransition($(id), 0.75);
+        callParentTransition($(id));
 
         if (!$this.hasClass('active')) {
           $accordionLinks.removeClass('active');

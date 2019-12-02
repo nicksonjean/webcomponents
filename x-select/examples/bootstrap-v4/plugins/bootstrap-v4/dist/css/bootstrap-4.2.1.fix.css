@@ -23,8 +23,8 @@ a, .text-primary, .new-blue-color {
   background-color:#337ab7;
   border-color: #337ab7;
 }
-
-.tab-pane.active {
+/* Remove the underscore for apply this style */
+._tab-pane.active {
   animation: opac 1.5s;
   -webkit-animation: opac 1.5s;
   -moz-animation: opac 1.5s;

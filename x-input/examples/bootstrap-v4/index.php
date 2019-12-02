@@ -96,16 +96,16 @@
             <!-- HTML4 Ajax Nav Tabs Responsive -->
             <ul id="tabs" class="nav nav-tabs responsive-tabs" role="tablist">
               <li role="presentation" class="nav-item">
-                <a class="nav-link active ajax-tabs" data-toggle="tab" href="#numeric"  id="nav-numeric-tab"  data-href="inc/input_numeric.php"  role="tab" aria-controls="numeric"  aria-selected="true"  tabindex="0">Numérico</a>
+                <a class="nav-link active ajax-tabs" data-toggle="tab" href="#numeric"  id="nav-numeric-tab"  data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/input_numeric.php"  role="tab" aria-controls="numeric"  aria-selected="true"  tabindex="0">Numérico</a>
               </li>
               <li role="presentation" class="nav-item">
-                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#decimal"  id="nav-decimal-tab"  data-href="inc/input_decimal.php"  role="tab" aria-controls="decimal"  aria-selected="false" tabindex="0">Decimal</a>
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#decimal"  id="nav-decimal-tab"  data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/input_decimal.php"  role="tab" aria-controls="decimal"  aria-selected="false" tabindex="0">Decimal</a>
               </li>
               <li role="presentation" class="nav-item">
-                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#masks"    id="nav-masks-tab"    data-href="inc/input_masks.php"    role="tab" aria-controls="masks"    aria-selected="false" tabindex="0">Máscaras</a>
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#masks"    id="nav-masks-tab"    data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/input_masks.php"    role="tab" aria-controls="masks"    aria-selected="false" tabindex="0">Máscaras</a>
               </li>
               <li role="presentation" class="nav-item">
-                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#datetime" id="nav-datetime-tab" data-href="inc/input_datetime.php" role="tab" aria-controls="datetime" aria-selected="false" tabindex="0">Data/Hora</a>
+                <a class="nav-link ajax-tabs"        data-toggle="tab" href="#datetime" id="nav-datetime-tab" data-href="<?php echo WEB_ROOT;?>/examples/bootstrap-v4/inc/input_datetime.php" role="tab" aria-controls="datetime" aria-selected="false" tabindex="0">Data/Hora</a>
               </li>
             </ul>
 

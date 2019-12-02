@@ -12,6 +12,25 @@
 		accordionOn: ['xs'] // xs, sm, md, lg
 	};
 
+  function setParentTransition(obj, prop, delay, style, callback) {
+    obj.css({'-webkit-transition' : prop + ' ' + delay + ' ' + style});
+    obj.css({'-moz-transition' : prop + ' ' + delay + ' ' + style});
+    obj.css({'-o-transition' : prop + ' ' + delay + ' ' + style});
+    obj.css({'transition' : prop + ' ' + delay + ' ' + style});
+    callback();
+  }
+
+  function callParentTransition(obj) {
+    setParentTransition(obj, 'opacity', '0s', 'ease', function() {
+      obj.addClass('fade in');
+    });
+    setTimeout(function() {
+      setParentTransition(obj, 'opacity', '0.75s', 'ease', function() {
+        obj.removeClass('fade in');
+      });
+    });
+  }
+
 	$.fn.responsiveTabs = function (options) {
 
 		var config = $.extend({}, defaults, options),
@@ -76,6 +95,8 @@
         $(event.target).parents('ul').find('li > a').removeClass("active");
         $(event.target).addClass('active');
 
+        callParentTransition($(id));
+
         if (!$li.hasClass('active')) {
           $li.addClass('active');
           $siblings.removeClass('active');
@@ -85,7 +106,21 @@
 
           $accordionLinks.removeClass('active');
           $accordionLink.addClass('active');
+
+          $(id).fadeIn('fast');
+
         }
+
+        if ($this.hasClass('ajax-tabs') && $this.attr("data-href")) {
+
+          var url = $this.attr("data-href");
+          var href = this.hash;
+          $(href).load(url,function(result){
+            $this.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
+          }).hide().fadeIn('fast');
+
+        }
+
       });
 
       // Accordion Click Event
@@ -96,6 +131,8 @@
             id = $this.attr('href'),
             $tabLink = $self.find('li > a[href="' + id + '"]').parent('li');
 
+        callParentTransition($(id));
+
         if (!$this.hasClass('active')) {
           $accordionLinks.removeClass('active');
           $this.addClass('active');
@@ -105,7 +142,21 @@
 
           $navTabs.parent('li').removeClass('active');
           $tabLink.addClass('active');
+
+          $(id).fadeIn('fast');
+
         }
+
+        if ($this.hasClass('ajax-tabs') && $this.attr("data-href")) {
+
+          var url = $this.attr("data-href");
+          var href = this.hash;
+          $(href).load(url,function(result){
+            $this.tab('show').removeClass('ajax-tabs').removeAttr('data-href');
+          }).hide().fadeIn('fast');
+
+        }
+
       });
 
     });
