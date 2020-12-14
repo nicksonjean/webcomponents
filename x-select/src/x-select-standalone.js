@@ -694,7 +694,7 @@ var isIE = document.body.style.msTouchAction !== undefined;
 var isEdge = /(edge)\/((\d+)?[\w\.]+)/i.exec(navigator.userAgent);
 var isFF = !!navigator.userAgent.match(/firefox/i);
 var __ROOT__ = App.EXT.URL.Domain(document.URL),
-    __QUERY__ = App.EXT.URL.Parse(__FILE__).queryString,
+    __QUERY__ = App.EXT.URL.Parse(document.URL || __FILE__).queryString,
     __TMP_FORMAT__ = __QUERY__.format || 'stream',
     __TMP_CACHE__ = __QUERY__.cache || 'false',
     __TMP_MODE__ = __QUERY__.mode || 'fetch',

@@ -229,12 +229,12 @@
     </script>
 
     <!-- Distribution Version -->
-    <!--<link rel="import" href="../../dist/standalone/x-select.min.html?debug=true" />-->
-    <script type="text/javascript" src="../../dist/standalone/x-select.min.js?debug=true"></script>
+    <!--<link rel="import" href="../../dist/standalone/x-select.min.html" />-->
+    <!--<script type="text/javascript" src="../../dist/standalone/x-select.min.js"></script>-->
 
     <!-- Source Version -->
-    <!--<link rel="import" href="../../src/x-select.html?debug=true" />-->
-    <!--<script type="text/javascript" src="../../src/x-select-standalone.js?debug=true"></script>-->
+    <!--<link rel="import" href="../../src/x-select.html" />-->
+    <script type="text/javascript" src="../../src/x-select-standalone.js"></script>
     <script>
       $(function(){
 

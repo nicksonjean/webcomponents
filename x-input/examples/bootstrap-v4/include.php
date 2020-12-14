@@ -43,13 +43,29 @@ function fetchUrl($use_forwarded_host = false) {
   return urlOrigin($use_forwarded_host) . $_SERVER['REQUEST_URI'];
 }
 
-// Constants
-if(isset($_GET['load_format']) && isset($_GET['load_format']) == 'static') {
-  define("WEB_ROOT", dirname(dirname(dirname(fetchUrl()))));
+function getCurrentFileUrl() {
+  $file = str_replace('\\', '/', __FILE__);
+  $script = $_SERVER['SCRIPT_FILENAME'];
+  $phpself = $_SERVER['PHP_SELF'];
+  $context_prefix = $_SERVER['CONTEXT_PREFIX'];
+  $context_doc_root = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
+  
+  $i = 0;
+  while($file[$i] == $script[$i]) {
+      $i++;
+  }
+
+  $phpself = substr($phpself, 0, strlen($phpself)-(strlen($script)-$i));
+  $phpself .= substr($file, $i, strlen($file)-$i);
+  
+  if (strlen(trim($_SERVER['CONTEXT_PREFIX'])) > 0) {
+    $phpself = preg_replace('~\b' .  preg_replace('/^.{3}/', '', $context_doc_root) . '\b~mi', str_replace('/', '', $context_prefix), $phpself);
+  }
+  
+  return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$phpself;
 }
-else {
-  define("WEB_ROOT", dirname(dirname(fetchUrl())));
-}
+
+define("WEB_ROOT", dirname(dirname(dirname(getCurrentFileUrl()))));
 define("SOURCE_ROOT", dirname(dirname(dirname(dirname(fetchUrl())))));
 define("PATH_ROOT", __DIR__ . DIRECTORY_SEPARATOR);
 ?>

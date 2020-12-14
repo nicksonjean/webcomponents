@@ -559,9 +559,9 @@ App =
 var isIE9 = document.all && document.addEventListener && !window.atob;
 
 var __ROOT__      = App.EXT.URL.Domain(document.URL),
-    __TMP_STYLE__ = App.EXT.URL.Parse(__FILE__).queryString.style || 'true',
+    __TMP_STYLE__ = App.EXT.URL.Parse(document.URL || __FILE__).queryString.style || 'true',
     __STYLE__     = (__TMP_STYLE__ || 'true') && ((isIE9) ? 'false' : __TMP_STYLE__),
-    __DEBUG__     = App.EXT.URL.Parse(__FILE__).queryString.debug || 'false';
+    __DEBUG__     = App.EXT.URL.Parse(document.URL || __FILE__).queryString.debug || 'false';
 
 try {
   document.getElementById('_debug').innerHTML = __DEBUG__;
@@ -5291,6 +5291,13 @@ Rules =
         "placeholder": "HH:MM:SS",
         "jitMasking": true
       },
+      "HORA_MINUTO": {
+        "alias": "time",
+        "clearIncomplete": true,
+        "inputFormat": "isoTime", 
+        "placeholder": "HH:MM",
+        "jitMasking": true
+      },
       "HORA_12H": {
         "mask": "12:59:59",
         "clearIncomplete": true,
@@ -5323,6 +5330,18 @@ Rules =
             "validator": "[0-5]"
           }
         },
+        "jitMasking": true
+      },
+      "HORA_MINUTO_12H_REGEX": {
+        "regex": "^(0[0-9]|1[0-2]):[0-5][0-9]$", 
+        "clearIncomplete": true,
+        "placeholder": "HH:MM",
+        "jitMasking": true
+      },
+      "HORA_MINUTO_24H_REGEX": {
+        "regex": "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", 
+        "clearIncomplete": true,
+        "placeholder": "HH:MM",
         "jitMasking": true
       },
       "HORA_12H_REGEX": {
@@ -7158,6 +7177,48 @@ App = Object.assign(App, Rules);
         case 'data_iso_regex':
           // Obtém a Matriz de Regra pelo Tipo do Componente
           Rule = App.PATTERN.MASK[x_type];
+
+          // Reatribue o Obje
+          Pattern[x_type] = Rule;
+
+          // Aplica a Máscara ao Elemento
+          MaskedInput = Inputmask(Rule).mask(that);
+
+          // Define o Atributo Placeholder
+          if (!that.hasAttribute('placeholder') && that.getAttribute('placeholder') != '') {
+            that.setAttribute('placeholder', Rule.placeholder);
+          }
+
+          // Adiciona o Atributo inputmode="numeric" para exibir o teclado númerico em dispositivos móveis
+          if (!that.hasAttribute('inputmode') && that.getAttribute('inputmode') != '')
+            that.setAttribute('inputmode', 'numeric');
+
+          // Substitui o Atributo para Tel
+          if (ua.device.type == 'mobile')
+            that.setAttribute('type', 'tel');
+
+          that.addEventListener("blur", function(event) {
+            if (Rule.placeholder.length > event.target.value.length) {
+              // Reseta a Máscara
+              App.EXT.Reset.Mask(event);
+            }
+          }, false);
+        break;
+        case 'hora_minuto':
+        case 'hora_minuto_12':
+        case 'hora_minuto_24':
+          if (that.hasAttribute('x-format') && that.getAttribute('x-format') == '12h') {
+            // Obtém a Matriz de Regra pelo Tipo do Componente
+            Rule = App.PATTERN.MASK.HORA_MINUTO_12H_REGEX;
+          }
+          else if (that.hasAttribute('x-format') && that.getAttribute('x-format') == '24h') {
+            // Obtém a Matriz de Regra pelo Tipo do Componente
+            Rule = App.PATTERN.MASK.HORA_MINUTO_24H_REGEX;
+          }
+          else {
+            // Obtém a Matriz de Regra pelo Tipo do Componente
+            Rule = App.PATTERN.MASK.HORA_MINUTO;
+          }
 
           // Reatribue o Obje
           Pattern[x_type] = Rule;
