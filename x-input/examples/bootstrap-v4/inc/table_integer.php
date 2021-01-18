@@ -14,7 +14,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                          <tr>
                             <td class="text-center" scope="row"><small class="table-typografy-xs">positiveint</small></td>
                             <td class="text-center"><small class="table-typografy-xs">0 à 18446744073709552000</small></td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
@@ -80,28 +80,34 @@
                         </tbody>
                       </table>
                       <style>
-                        .table-typografy-sm{
-                          font-size:16px;
+                        .table-typografy-sm {
+                          font-size: 16px;
                         }
+
                         .table-typografy-xs {
-                          font-size:14px;
+                          font-size: 14px;
                         }
+
                         @media screen and (max-width: 767px) {
                           div.dataTables_wrapper div.dataTables_paginate ul.pagination {
                             justify-content: center;
                             margin-right: 15px;
                           }
+
                           div.dataTables_wrapper div.push-1.col-9 {
-                            margin-left:-5px;
+                            margin-left: -5px;
                           }
+
                           ul.pagination {
                             text-align: center;
                           }
-                          .table-typografy-sm{
-                            font-size:10px;
+
+                          .table-typografy-sm {
+                            font-size: 10px;
                           }
+
                           .table-typografy-xs {
-                            font-size:9px;
+                            font-size: 9px;
                           }
                         }
                       </style>

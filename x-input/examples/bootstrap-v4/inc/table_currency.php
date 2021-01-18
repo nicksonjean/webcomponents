@@ -2084,46 +2084,56 @@
                         select.form-control:not([size]):not([multiple]) {
                           height: calc(2rem + 2px);
                         }
+
                         .dataTables_paginate ul li a {
                           font-size: .8em;
                           min-width: 1.92rem;
                           max-width: 1.92rem;
                           padding-left: 8px;
-                        };
-                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
-                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
-                          top: 8px;
-                          left:4px;
-                          height:14px;
-                          width:14px;
-                          display:block;
-                          position:absolute;
-                          color:white;
-                          border:2px solid white;
-                          border-radius:14px;
-                          box-shadow:0 0 3px #444;
-                          box-sizing:content-box;
-                          text-align:center;
-                          text-indent:0 !important;
-                          font-family:'Courier New', Courier, monospace;
-                          line-height:14px;
-                          content:'+';
-                          background-color:#0275d8;
                         }
+
+                        ;
+
+                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
+                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+                          top: 8px;
+                          left: 4px;
+                          height: 14px;
+                          width: 14px;
+                          display: block;
+                          position: absolute;
+                          color: white;
+                          border: 2px solid white;
+                          border-radius: 14px;
+                          box-shadow: 0 0 3px #444;
+                          box-sizing: content-box;
+                          text-align: center;
+                          text-indent: 0 !important;
+                          font-family: 'Courier New', Courier, monospace;
+                          line-height: 14px;
+                          content: '+';
+                          background-color: #0275d8;
+                        }
+
                         .page-link {
                           padding: 0.5rem 0.6rem;
                         }
-                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
-                          top: 8px!important;
+
+                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
+                        table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+                          top: 8px !important;
                         }
+
                         @media screen and (max-width: 767px) {
                           div.dataTables_wrapper div.dataTables_paginate ul.pagination {
                             justify-content: center;
                             margin-right: 15px;
                           }
+
                           div.dataTables_wrapper div.push-1.col-9 {
-                            margin-left:-5px;
+                            margin-left: -5px;
                           }
+
                           ul.pagination {
                             text-align: center;
                           }

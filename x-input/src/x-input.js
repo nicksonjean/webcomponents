@@ -11,11 +11,11 @@ function LoadScript(source, callback) {
   var prior = document.getElementsByTagName('script')[0];
   script.async = !!navigator.userAgent.match(/firefox/i) ? false : 1;
 
-  script.onload = script.onreadystatechange = function( _, isAbort ) {
-    if(isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
+  script.onload = script.onreadystatechange = function (_, isAbort) {
+    if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
       script.onload = script.onreadystatechange = null;
       script = undefined;
-      if(!isAbort && callback) setTimeout(callback, 0);
+      if (!isAbort && callback) setTimeout(callback, 0);
     }
   };
 
@@ -24,9 +24,9 @@ function LoadScript(source, callback) {
 }
 
 // Carrego Inicialmente o JSON rules
-LoadScript('../../src/x-input-rules.js', function() {
+LoadScript('../../src/x-input-rules.js', function () {
   // Carrego Posteriormente a Classe app
-  LoadScript('../../src/x-input-app.js', function() {
+  LoadScript('../../src/x-input-app.js', function () {
 
     /*!
      * Element data/storage
@@ -34,11 +34,11 @@ LoadScript('../../src/x-input-rules.js', function() {
      * https://j11y.io/javascript/element-datastorage/
      * Copyright (c) 2009 JAMES PADOLSEY
      */
-    (function(){
+    (function () {
       var cache = [0], expando = 'data' + +new Date();
       function data(elem) {
         var cacheIndex = elem[expando], nextCacheIndex = cache.length;
-        if(!cacheIndex) {
+        if (!cacheIndex) {
           cacheIndex = elem[expando] = nextCacheIndex;
           cache[cacheIndex] = {};
         }
@@ -53,19 +53,19 @@ LoadScript('../../src/x-input-rules.js', function() {
      * https://stackoverflow.com/questions/8523200/javascript-get-current-filescript-path
      * Copyright (c) 2019 by Nickson Jeanmerson (Inspired in John Resig Blog)
      */
-    (function(){
+    (function () {
       var _script = document.querySelector('script[type="text/javascript"][src*="x-input"]'),
-          _link = document.querySelector('link[rel="import"][href*="x-input"]'),
-          _path = (_script == null ? _link.href : _script.src);
+        _link = document.querySelector('link[rel="import"][href*="x-input"]'),
+        _path = (_script == null ? _link.href : _script.src);
       Object.defineProperties(window, {
         '__FILE__': {
-          get: function(){
+          get: function () {
             return _path;
           }
         },
         '__DIR__': {
-          get: function(){
-            return _path.substr(0, _path.lastIndexOf( '/' )+1);
+          get: function () {
+            return _path.substr(0, _path.lastIndexOf('/') + 1);
           }
         }
       });
@@ -73,25 +73,25 @@ LoadScript('../../src/x-input-rules.js', function() {
 
     var isIE9 = document.all && document.addEventListener && !window.atob;
 
-    var __ROOT__      = App.EXT.URL.Domain(document.URL),
-        __TMP_STYLE__ = App.EXT.URL.Parse(__FILE__).queryString.style || 'true',
-        __STYLE__     = (__TMP_STYLE__ || 'true') && ((isIE9) ? 'false' : __TMP_STYLE__),
-        __DEBUG__     = App.EXT.URL.Parse(__FILE__).queryString.debug || 'false';
+    var __ROOT__ = App.EXT.URL.Domain(document.URL),
+      __TMP_STYLE__ = App.EXT.URL.Parse(__FILE__).queryString.style || 'true',
+      __STYLE__ = (__TMP_STYLE__ || 'true') && ((isIE9) ? 'false' : __TMP_STYLE__),
+      __DEBUG__ = App.EXT.URL.Parse(__FILE__).queryString.debug || 'false';
 
     try {
       document.getElementById('_debug').innerHTML = __DEBUG__;
-      document.getElementById('_style').innerHTML = (isIE9) ? ( (__TMP_STYLE__ == 'true') ? '<s>' + __TMP_STYLE__ + '</s>' + '/' +  '<b>false*</b>' : __TMP_STYLE__ ) : __STYLE__;
+      document.getElementById('_style').innerHTML = (isIE9) ? ((__TMP_STYLE__ == 'true') ? '<s>' + __TMP_STYLE__ + '</s>' + '/' + '<b>false*</b>' : __TMP_STYLE__) : __STYLE__;
     }
-    catch (e) {}
+    catch (e) { }
 
-    var log = function(flag, value) {
-      if(__DEBUG__ !== undefined && __DEBUG__ == 'true') {
+    var log = function (flag, value) {
+      if (__DEBUG__ !== undefined && __DEBUG__ == 'true') {
         console.log(flag + ': ' + value);
       }
     }
 
-    var table = function(_array) {
-      if(__DEBUG__ !== undefined && __DEBUG__ == 'true') {
+    var table = function (_array) {
+      if (__DEBUG__ !== undefined && __DEBUG__ == 'true') {
         function _debug(style) {
           this.style = style;
         }
@@ -115,9 +115,9 @@ LoadScript('../../src/x-input-rules.js', function() {
      * https://www.phpied.com/dynamic-script-and-style-elements-in-ie/
      * Copyright (c) 2007 Stoyan Stefanov
      */
-    (function(){
-      if(__STYLE__ === undefined || __STYLE__ == 'true') {
-        if ( ( ua.browser.name === 'IE' ) && ( ua.browser.version < 10) ) {
+    (function () {
+      if (__STYLE__ === undefined || __STYLE__ == 'true') {
+        if ((ua.browser.name === 'IE') && (ua.browser.version < 10)) {
           var _style = document.createElement('style');
           var _rules = App.EXT.CSS;
           _style.setAttribute("type", "text/css");
@@ -135,14 +135,14 @@ LoadScript('../../src/x-input-rules.js', function() {
     })();
 
     // Programação do Componente
-    (function() {
+    (function () {
 
       //Função Pseudo-Privada para ser Usada Apenas com a Finalidade de Instanciar o Componente
-      _xInput = function(that, ua) {
+      _xInput = function (that, ua) {
 
-        if(__STYLE__ === undefined || __STYLE__ == 'true') {
+        if (__STYLE__ === undefined || __STYLE__ == 'true') {
           // Valido se o Navegador Possui Suporte a Templates
-          if ( ( 'content' in document.createElement('template') ) && ( ( ua.browser.name !== 'IE' ) || ( ua.browser.name === 'IE' && ua.browser.version >= 10) ) ) {
+          if (('content' in document.createElement('template')) && ((ua.browser.name !== 'IE') || (ua.browser.name === 'IE' && ua.browser.version >= 10))) {
             // Define a Estilização via Javascript
             var template = document.createElement('template');
             template.innerHTML = "<style>" + App.EXT.CSS + "</style>";
@@ -153,9 +153,9 @@ LoadScript('../../src/x-input-rules.js', function() {
 
         /* Apaga ao Deixar o Campo Incompleto */
         Inputmask.extendDefaults({
-          "clearIncomplete": true, 
-          "autoUnmask": true, 
-          "showMaskOnFocus": false, 
+          "clearIncomplete": true,
+          "autoUnmask": true,
+          "showMaskOnFocus": false,
           "showMaskOnHover": false
         });
 
@@ -165,7 +165,7 @@ LoadScript('../../src/x-input-rules.js', function() {
           // Obtém o Atributo x-type e Define as Regras de Validação
           var x_type = that.getAttribute('x-type').toUpperCase(), Rule = undefined;
 
-          switch(x_type.toLowerCase()) {
+          switch (x_type.toLowerCase()) {
             case 'zerofillint': // Zero-Fill Signed Int (De -9223372036854776000 à 9223372036854776000) // Alias para Signed BigInt com Zero-Fill, Negativo & Positivo
             case 'positiveint': // Unsigned Int (De 0 à 18446744073709552000) // Alias para Unsigned BigInt, Apenas Positivo
             case 'negativeint': // Negative Int (De -9223372036854776000 à 0) // Ailas para Negative BigInt, Apenas Negativo
@@ -182,13 +182,13 @@ LoadScript('../../src/x-input-rules.js', function() {
               Pattern[x_type] = Rule;
 
               // Armazenamento do Objeto Principal
-              var $that = that, 
-                  // Define Timer dos Inputs
-                  Timeout = undefined, 
-                  // Obtém o Template de Configuração
-                  Template = App.EXT.JSON.Template(App.DEFAULT.NUMBER.PATTERN),
-                  // Carrega as Regras Padrão do Tipo do Componente
-                  DEFAULT = Template(Rule.RULE);
+              var $that = that,
+                // Define Timer dos Inputs
+                Timeout = undefined,
+                // Obtém o Template de Configuração
+                Template = App.EXT.JSON.Template(App.DEFAULT.NUMBER.PATTERN),
+                // Carrega as Regras Padrão do Tipo do Componente
+                DEFAULT = Template(Rule.RULE);
 
               // Matriz Única do Elemento
               window.data(that).input = [];
@@ -214,9 +214,9 @@ LoadScript('../../src/x-input-rules.js', function() {
                   "showMaskOnHover": (!that.hasAttribute('x-onhover') && that.getAttribute('x-onhover') != '') ? DEFAULT.RULE.showMaskOnHover : ((that.getAttribute('x-onhover') == 'true') ? true : false), /*false*/
                   "min": (!that.hasAttribute('x-min') && that.getAttribute('x-min') != '') ? Rule.RULE.min : that.getAttribute('x-min'),
                   "max": (!that.hasAttribute('x-max') && that.getAttribute('x-max') != '') ? Rule.RULE.max : that.getAttribute('x-max'),
-                  "oncleared": function(event) { event.target.value = ''; window.data(that).input = []; },
+                  "oncleared": function (event) { event.target.value = ''; window.data(that).input = []; },
                   "onUnMask": function (value) { if (value.indexOf(App.DEFAULT.SYMBOL.NEGATIVE) != -1) { return (value === '') ? 0 : App.DEFAULT.SYMBOL.NEGATIVE + value.replace(/\D/g, ''); } else { return (value === '') ? 0 : value.replace(/\D/g, ''); } },
-                  "onKeyDown": function (e, buffer, opts) { if(e.ctrlKey && e.altKey) { e.preventDefault(); } }
+                  "onKeyDown": function (e, buffer, opts) { if (e.ctrlKey && e.altKey) { e.preventDefault(); } }
                 },
                 "affinity": (!that.hasAttribute('x-affinity') && that.getAttribute('x-affinity') != '') ? Rule.RULE.affinity : that.getAttribute('x-affinity'), /*+*/
                 "placeholder": (!that.hasAttribute('placeholder') && that.getAttribute('placeholder') != '') ? Rule.RULE.placeholder : that.getAttribute('placeholder')
@@ -233,22 +233,22 @@ LoadScript('../../src/x-input-rules.js', function() {
                * @property x-affinity=Opts([''|'-'|'+']) String
               */
 
-              var Config_Symbol = '', 
-                  Placeholder = '',
-                  Event = {},
-                  Maxlength = 0,
-                  PositiveValue = 0;
+              var Config_Symbol = '',
+                Placeholder = '',
+                Event = {},
+                Maxlength = 0,
+                PositiveValue = 0;
 
               // Se Existe Valor, Verifica é Positivo ou Negativo
               if (that.value !== '') {
                 PositiveValue = (that.value > 0) ? true : false;
                 // Para os x-type="positivedec" e x-type="negativedec"
-                if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') || (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') ) {
-                   // Apenas Positivo
-                   if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') {
-                     // Aplica a Flag para Valores Unsigned
-                     if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
-                       that.setAttribute('x-case', 'signed');
+                if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') || (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint')) {
+                  // Apenas Positivo
+                  if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') {
+                    // Aplica a Flag para Valores Unsigned
+                    if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
+                      that.setAttribute('x-case', 'signed');
                   }
                   // Apenas Negativo
                   if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') {
@@ -258,7 +258,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     if (!that.hasAttribute('x-negative'))
                       that.setAttribute('x-negative', 'true');
                     // Verifica se Pode Ser Negativo
-                    if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true') ) {
+                    if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true')) {
                       Config_Symbol = (App.DEFAULT.SYMBOL.NEGATIVE == Config.Rule.prefix) ? Config_Symbol : App.DEFAULT.SYMBOL.NEGATIVE;
                       if (!that.hasAttribute('x-negative'))
                         that.setAttribute('x-negative', 'true');
@@ -281,14 +281,14 @@ LoadScript('../../src/x-input-rules.js', function() {
                 }
 
                 var act_value = new BigNumber(that.value),
-                    max_value = new BigNumber(Config.Rule.max.toString());
+                  max_value = new BigNumber(Config.Rule.max.toString());
 
                 // Corrige o Valor
                 that.value = (act_value.isGreaterThan(max_value)) ? max_value.toString() : act_value.toString();
 
                 /* Alimenta a Matriz de Caracteres do Componente */
-                for (var i=0; i < that.value.length; i++) {
-                  if(App.EXT.Validate.isNumber(that.value.charAt(i))) {
+                for (var i = 0; i < that.value.length; i++) {
+                  if (App.EXT.Validate.isNumber(that.value.charAt(i))) {
                     window.data(that).input.push(that.value.charAt(i));
                   }
                 }
@@ -314,13 +314,13 @@ LoadScript('../../src/x-input-rules.js', function() {
                 /*
                  * Verifica se Pode Ser Signed
                  */
-                if  ( 
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'smallint') || 
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mediumint') || 
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'integer') || 
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bigint') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zerofillint') 
-                    ) {
+                if (
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'smallint') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mediumint') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'integer') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bigint') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zerofillint')
+                ) {
                   // Aplica a Flag para Valores Unsigned
                   if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
                     that.setAttribute('x-case', 'signed');
@@ -336,23 +336,23 @@ LoadScript('../../src/x-input-rules.js', function() {
                 else {
                   /* Para os x-type="positive" e x-type="negative" */
                   if (
-                       (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') || 
-                       (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') 
-                     ) {
-                     /* Apenas Positivo */
-                     if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') {
-                       // Aplica a Flag para Valores Unsigned
-                       if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
-                         that.setAttribute('x-case', 'unsigned');
-                     }
-                     /* Apenas Negativo */
-                     if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') {
-                       // Remove a Flag para Valores Negativos
-                       if (that.hasAttribute('x-case'))
-                         that.removeAttribute('x-case');
-                       if (!that.hasAttribute('x-negative'))
-                         that.setAttribute('x-negative', 'true');
-                     }
+                    (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') ||
+                    (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint')
+                  ) {
+                    /* Apenas Positivo */
+                    if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positiveint') {
+                      // Aplica a Flag para Valores Unsigned
+                      if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
+                        that.setAttribute('x-case', 'unsigned');
+                    }
+                    /* Apenas Negativo */
+                    if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') {
+                      // Remove a Flag para Valores Negativos
+                      if (that.hasAttribute('x-case'))
+                        that.removeAttribute('x-case');
+                      if (!that.hasAttribute('x-negative'))
+                        that.setAttribute('x-negative', 'true');
+                    }
                   }
                   /* Para os Tipos Signed: x-type="smallint", x-type="mediumint", x-type="integer"  x-type="bigint" */
                   else {
@@ -370,7 +370,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                   }
                 }
                 // Verifica se Pode Ser Negativo
-                if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true') ) {
+                if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativeint') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true')) {
                   if (that.getAttribute('x-type') == 'negativeint') {
                     Config_Symbol = '-';
                   }
@@ -380,7 +380,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     else
                       Config_Symbol = '-';
                   }
-                  Config_Symbol = ( (Config.Rule.prefix == App.DEFAULT.SYMBOL.NEGATIVE) && (Config_Symbol == App.DEFAULT.SYMBOL.NEGATIVE) ) ? '' : Config_Symbol;
+                  Config_Symbol = ((Config.Rule.prefix == App.DEFAULT.SYMBOL.NEGATIVE) && (Config_Symbol == App.DEFAULT.SYMBOL.NEGATIVE)) ? '' : Config_Symbol;
                   if (!that.hasAttribute('x-negative'))
                     that.setAttribute('x-negative', 'true');
                 }
@@ -432,8 +432,8 @@ LoadScript('../../src/x-input-rules.js', function() {
                * https://github.com/google/material-design-lite/issues/243
                * https://codepen.io/surma/pen/JXdEqe
                */
-              if(that.classList.contains('mdl-textfield__input')) {
-                setTimeout(function(){
+              if (that.classList.contains('mdl-textfield__input')) {
+                setTimeout(function () {
                   App.EXT.Class.Remove($that.parentElement, 'has-placeholder');
                   App.EXT.Class.Add($that.parentElement, 'has-placeholder');
                 }, 500);
@@ -442,7 +442,7 @@ LoadScript('../../src/x-input-rules.js', function() {
               // Posiciona o Cursor no Final no Valor
               App.EXT.Caret.toEnd(that);
 
-              if (that.value === '') 
+              if (that.value === '')
                 that.setAttribute('x-value', Placeholder);
 
               // Reseta a Máscara
@@ -456,11 +456,11 @@ LoadScript('../../src/x-input-rules.js', function() {
                * Actions/Events do Inputs
                */
               var Action = {
-                "EraseInput":function(event, _kc) {
+                "EraseInput": function (event, _kc) {
                   var kc = event.keyCode || event.which,
-                      key = event.data || event.key,
-                      it = event.inputType || event.type,
-                      kl = Number(event.target.getAttribute('x-limit'));
+                    key = event.data || event.key,
+                    it = event.inputType || event.type,
+                    kl = Number(event.target.getAttribute('x-limit'));
 
                   if (it == 'deleteContentBackward') {
                     kc = 8;
@@ -469,38 +469,38 @@ LoadScript('../../src/x-input-rules.js', function() {
                     kc = 0;
                   }
 
-                  if (ua.os.name == 'Android' && (ua.engine.name == 'Gecko' || ua.browser.name == 'Android Browser') && parseFloat(ua.os.version) < 6) 
+                  if (ua.os.name == 'Android' && (ua.engine.name == 'Gecko' || ua.browser.name == 'Android Browser') && parseFloat(ua.os.version) < 6)
                     if (_kc !== undefined)
                       kc = _kc;
 
                   if (kc !== undefined || kc !== 229) {
                     // Ação de Excluir com BackSpace
-                    if(kc == 8 && kl <= Number(event.target.getAttribute('maxlength'))) {
+                    if (kc == 8 && kl <= Number(event.target.getAttribute('maxlength'))) {
                       event.preventDefault();
                       var sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol,
-                          orig_value = (event.target.hasAttribute('x-mode') && event.target.getAttribute('x-mode') == 'overwritable') ? event.target.value : event.target.getAttribute('x-value'),
-                          temp_value = App.EXT.Format.toBigNumber(orig_value.replace(/\D/g, '').slice(0, -1) || 0, Config.Rule.digits),
-                          regex      = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
+                        orig_value = (event.target.hasAttribute('x-mode') && event.target.getAttribute('x-mode') == 'overwritable') ? event.target.value : event.target.getAttribute('x-value'),
+                        temp_value = App.EXT.Format.toBigNumber(orig_value.replace(/\D/g, '').slice(0, -1) || 0, Config.Rule.digits),
+                        regex = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
 
                       if (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofillint') {
                         var work_value = Config.Rule.prefix + sign_value + App.EXT.Format.LPad(temp_value, Config.Rule.max.toString().length) + Config.Rule.sufix,
-                            zero_value = Config.Rule.prefix + sign_value + ("0".repeat(Config.Rule.max.toString().length)) + Config.Rule.sufix;
+                          zero_value = Config.Rule.prefix + sign_value + ("0".repeat(Config.Rule.max.toString().length)) + Config.Rule.sufix;
                       }
                       else {
                         var work_value = App.EXT.Format.toBigMoney(temp_value, Config.Rule.digits, Config.Rule.prefix + sign_value, Config.Rule.groupSeparator, Config.Rule.radixPoint, Config.Rule.sufix),
-                            zero_value = Config.Rule.prefix + sign_value + "0" + Config.Rule.radixPoint + "0".repeat(Config.Rule.digits) + Config.Rule.sufix;
+                          zero_value = Config.Rule.prefix + sign_value + "0" + Config.Rule.radixPoint + "0".repeat(Config.Rule.digits) + Config.Rule.sufix;
                       }
 
-                      if (work_value.replace(regex,'') != zero_value.replace(regex,'')) {
+                      if (work_value.replace(regex, '') != zero_value.replace(regex, '')) {
                         event.target.value = work_value;
                         window.data(event.target).input = [];
-                        for (var i=0; i < event.target.value.length; i++) {
-                          if(App.EXT.Validate.isNumber(event.target.value.charAt(i))) {
+                        for (var i = 0; i < event.target.value.length; i++) {
+                          if (App.EXT.Validate.isNumber(event.target.value.charAt(i))) {
                             window.data(event.target).input.push(event.target.value.charAt(i));
                           }
                         }
                         if (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofillint') {
-                          setTimeout(function(){
+                          setTimeout(function () {
                             App.EXT.Caret.SetPosition(event.target, 10000);
                           }, 0);
                         }
@@ -518,19 +518,19 @@ LoadScript('../../src/x-input-rules.js', function() {
                       event.target.setAttribute('x-value', event.target.value);
 
                       // Remove Zeros à Esquerda e o Sinal de Número Negativo
-                      var only_value = (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofillint') ? event.target.value.replace(/[^1-9.\\]+\W?0+/, '') : only_value = event.target.value.replace(regex,'');
+                      var only_value = (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofillint') ? event.target.value.replace(/[^1-9.\\]+\W?0+/, '') : only_value = event.target.value.replace(regex, '');
 
                       // Atualiza o Atributo x-limit
                       event.target.setAttribute('x-limit', Number(event.target.getAttribute('maxlength')) - Number(only_value.length || 0));
 
                       // Verifica se há Sufixo
-                      if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                      if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                         // Reposiciona o Cursor ao Final do Valor do Elemento
                         App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                       }
                     }
                     // Ação Para Apagar com Delete
-                    if(kc == 46) {
+                    if (kc == 46) {
                       event.preventDefault();
                       // Limpa a Matriz Global do Campo
                       window.data(event.target).input = [];
@@ -549,29 +549,29 @@ LoadScript('../../src/x-input-rules.js', function() {
                     return false;
                   }
                 },
-                "SubmitInput":function() {
+                "SubmitInput": function () {
                   try {
                     var sign_value = ($that.hasAttribute('x-signal') && $that.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol;
                     if ($that.hasAttribute('x-type') && $that.getAttribute('x-type') == 'zerofillint') {
                       var work_value = App.EXT.Format.LPad(App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric($that.getAttribute('x-value')), Config.Rule.digits), Config.Rule.max.toString().length + '.'.length + Config.Rule.digits),
-                          zero_value = sign_value + ("0".repeat(Config.Rule.max.toString().length)) + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
+                        zero_value = sign_value + ("0".repeat(Config.Rule.max.toString().length)) + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
                       $that.value = (App.EXT.Format.toBigNumber(work_value) !== '0') ? work_value : zero_value;
                     }
                     else {
                       var work_value = sign_value + App.EXT.Format.toBigNumber(App.EXT.Format.toBigNumeric($that.getAttribute('x-value')), Config.Rule.digits),
-                          zero_value = sign_value + "0" + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
+                        zero_value = sign_value + "0" + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
                       $that.value = (App.EXT.Format.toBigNumber(work_value) !== '0') ? work_value : zero_value;
                     }
                   }
-                  catch(err) {
+                  catch (err) {
                     console.log(err.message);
                   };
                 },
-                "WriteInput":function(event) {
+                "WriteInput": function (event) {
                   // Hack para Obtenção do KeyCode ou Which 
                   var kc = event.which || event.keyCode,
-                      key = event.data || event.key,
-                      kl = Number(event.target.getAttribute('x-limit'));
+                    key = event.data || event.key,
+                    kl = Number(event.target.getAttribute('x-limit'));
 
                   if (Event.Write === 'textInput') {
                     kc = event.data.charCodeAt(0);
@@ -587,28 +587,28 @@ LoadScript('../../src/x-input-rules.js', function() {
                         // Se Houver o Sinal o Remove
                         if (event.target.getAttribute('x-value').indexOf(App.DEFAULT.SYMBOL.NEGATIVE) != -1) {
                           event.target.setAttribute('x-signal', 'removed');
-                          if(Timeout) {
-                              clearTimeout(Timeout);
-                              Timeout = null;
-                            }
-                            Timeout = setTimeout(function(){
+                          if (Timeout) {
+                            clearTimeout(Timeout);
+                            Timeout = null;
+                          }
+                          Timeout = setTimeout(function () {
                             Config_Symbol = App.DEFAULT.SYMBOL.POSITIVE; // Reatribue a Variável pra não Embassar
                             var regex = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
-                            event.target.setAttribute('x-value', event.target.value.replace(regex,''));
+                            event.target.setAttribute('x-value', event.target.value.replace(regex, ''));
                             event.target.value = event.target.getAttribute('x-value');
                           }, 0);
                         }
                         // Se não Houver o Sinal o Adiciona
                         else {
                           event.target.removeAttribute('x-signal');
-                          if(Timeout) {
-                              clearTimeout(Timeout);
-                              Timeout = null;
-                            }
-                            Timeout = setTimeout(function(){
+                          if (Timeout) {
+                            clearTimeout(Timeout);
+                            Timeout = null;
+                          }
+                          Timeout = setTimeout(function () {
                             Config_Symbol = App.DEFAULT.SYMBOL.NEGATIVE; // Reatribue a Variável pra não Embassar
                             var regex = new RegExp("\\" + Config.Rule.prefix.trim() + "\\s*"),
-                                value = event.target.getAttribute('x-value').replace(Config.Rule.prefix, '');
+                              value = event.target.getAttribute('x-value').replace(Config.Rule.prefix, '');
                             event.target.setAttribute('x-value', Config.Rule.prefix + App.DEFAULT.SYMBOL.NEGATIVE + value);
                             event.target.value = event.target.getAttribute('x-value');
                           }, 0);
@@ -616,15 +616,15 @@ LoadScript('../../src/x-input-rules.js', function() {
                       }
                       // Para Quando o Campo for Negativo e o Atributo x-case não esteja Definido como signed
                       else {
-                        setTimeout(function(){
+                        setTimeout(function () {
                           event.target.setAttribute('x-value', event.target.getAttribute('x-value'));
                           event.target.value = event.target.getAttribute('x-value');
                         }, 0);
                       }
 
                       // Verifica se há Sufixo
-                      if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
-                        setTimeout(function(){
+                      if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
+                        setTimeout(function () {
                           // Reposiciona o Cursor ao Final do Valor do Elemento
                           App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                         }, 0);
@@ -639,7 +639,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                   }
                   // Permite Apenas as Tecla Numéricas ou Até Zerar o Limite
                   else {
-                    setTimeout(function(){
+                    setTimeout(function () {
                       // Condição para Quando Está Vazio e Pressionar a Tecla [-]
                       if (event.target.value.length <= 1 && key == App.DEFAULT.SYMBOL.NEGATIVE) {
                         event.target.setAttribute('x-value', '');
@@ -648,11 +648,11 @@ LoadScript('../../src/x-input-rules.js', function() {
                       // Condição para Quaquer Tecla Numérica
                       else {
                         // Para Digitação Apenas de Números
-                        if(App.EXT.Validate.isNumber(key)) {
+                        if (App.EXT.Validate.isNumber(key)) {
                           var act_value = new BigNumber(App.EXT.Format.toDecimal(event.target.value.replace(/\D/g, ''), Config.Rule.digits)),
-                              max_value = new BigNumber(Config.Rule.max.toString()),
-                              sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol,
-                              regex      = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
+                            max_value = new BigNumber(Config.Rule.max.toString()),
+                            sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol,
+                            regex = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
 
                           // Enquanto for Menor que o Máximo Permitido
                           if (act_value.isLessThan(max_value)) {
@@ -665,11 +665,11 @@ LoadScript('../../src/x-input-rules.js', function() {
                             var orig_value = (event.target.hasAttribute('x-mode') && event.target.getAttribute('x-mode') == 'overwritable') ? App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric((event.target.getAttribute('x-value') || '0')) + '' + Number(key), Config.Rule.digits) : App.EXT.Format.toDecimal(window.data(event.target).input.join(''), Config.Rule.digits);
                             if (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofillint') {
                               var work_value = Config.Rule.prefix + sign_value + App.EXT.Format.LPad(orig_value, Config.Rule.max.toString().length + Config.Rule.radixPoint.length + Config.Rule.digits) + Config.Rule.sufix,
-                                  only_value = work_value.replace(/[^1-9.\\]+\W?0+/, '').replace(/^\-?0+/, '').replace(regex,'');
+                                only_value = work_value.replace(/[^1-9.\\]+\W?0+/, '').replace(/^\-?0+/, '').replace(regex, '');
                             }
                             else {
                               var work_value = App.EXT.Format.toBigMoney(orig_value, Config.Rule.digits, Config.Rule.prefix + sign_value, Config.Rule.groupSeparator, Config.Rule.radixPoint, Config.Rule.sufix),
-                                  only_value = work_value.replace(regex, '').replace(regex,'');
+                                only_value = work_value.replace(regex, '').replace(regex, '');
                             }
 
                             event.target.setAttribute('x-value', '');
@@ -682,7 +682,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                             event.target.setAttribute('x-limit', Number(event.target.getAttribute('maxlength')) - Number(only_value.length || 0) + 1);
 
                             // Verifica se há Sufixo
-                            if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                            if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                               // Reposiciona o Cursor ao Final do Valor do Elemento
                               App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                             }
@@ -699,7 +699,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                             event.target.value = event.target.getAttribute('x-value');
 
                             // Verifica se há Sufixo
-                            if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                            if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                               // Reposiciona o Cursor ao Final do Valor do Elemento
                               App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                             }
@@ -712,24 +712,24 @@ LoadScript('../../src/x-input-rules.js', function() {
                     return false;
                   }
                 },
-                "PasteInput":function(event) {
+                "PasteInput": function (event) {
                   event.stopPropagation();
                   event.preventDefault();
 
                   var clipboardData = event.clipboardData || window.clipboardData,
-                      pasted_value = clipboardData.getData('Text') || clipboardData.getData('text/plain'),
-                      number_value = pasted_value.replace(/\D/g, '');
+                    pasted_value = clipboardData.getData('Text') || clipboardData.getData('text/plain'),
+                    number_value = pasted_value.replace(/\D/g, '');
 
                   window.data(event.target).input = [];
-                  for (var i=0; i < number_value.length; i++) {
-                    if(App.EXT.Validate.isNumber(number_value.charAt(i))) {
+                  for (var i = 0; i < number_value.length; i++) {
+                    if (App.EXT.Validate.isNumber(number_value.charAt(i))) {
                       window.data(event.target).input.push(number_value.charAt(i));
                     }
                   }
 
                   var act_value = new BigNumber(App.EXT.Format.toDecimal(number_value, Config.Rule.digits)),
-                      max_value = new BigNumber(Config.Rule.max.toString()),
-                      sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol;
+                    max_value = new BigNumber(Config.Rule.max.toString()),
+                    sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol;
 
                   // Enquanto for Menor que o Máximo Permitido
                   if (act_value.isLessThanOrEqualTo(max_value)) {
@@ -753,7 +753,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     event.target.setAttribute('x-limit', Number(event.target.getAttribute('maxlength')) - work_value.length - sign_value);
 
                     // Verifica se há Sufixo
-                    if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                    if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                       // Reposiciona o Cursor ao Final do Valor do Elemento
                       App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                     }
@@ -770,7 +770,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     event.target.value = event.target.getAttribute('x-value');
 
                     // Verifica se há Sufixo
-                    if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                    if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                       // Reposiciona o Cursor ao Final do Valor do Elemento
                       App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                     }
@@ -783,14 +783,14 @@ LoadScript('../../src/x-input-rules.js', function() {
               /* 
                * Evento Para Conversão de Números Colados no Input
                */
-              App.EXT.Event.Add(that, [Event.Paste], function(event){
+              App.EXT.Event.Add(that, [Event.Paste], function (event) {
                 Action.PasteInput(event)
               }, false);
 
               /* 
                * Evento Para Inclusão de Números ao Input
                */
-              App.EXT.Event.Add(that, [Event.Write], function(event){
+              App.EXT.Event.Add(that, [Event.Write], function (event) {
                 Action.WriteInput(event);
               }, false);
 
@@ -798,12 +798,12 @@ LoadScript('../../src/x-input-rules.js', function() {
                * Evento Adicionar e Para Exluir com BackSpace Apenas para o Firefox para Android Lollipop
                * Evento Para Exluir com BackSpace ou Apagar com Delete para Todos os Browser Exceto para o Firefox para Android Lollipop
                */
-              App.EXT.Event.Add(that, [Event.Erase], function(event){
+              App.EXT.Event.Add(that, [Event.Erase], function (event) {
                 if (ua.os.name == 'Android' && (ua.engine.name == 'Gecko' || ua.browser.name == 'Android Browser') && parseFloat(ua.os.version) < 6) {
                   var before_value = new App.EXT.Event.Watch(event.target, 'x-value'),
-                      after_value = new App.EXT.Event.Watch(event.target, 'value'),
-                      before_number = new BigNumber(App.EXT.Format.toDecimal(before_value.get().replace(/\D/g, ''), Config.Rule.digits)),
-                      after_number = new BigNumber(App.EXT.Format.toDecimal(after_value.get().replace(/\D/g, ''), Config.Rule.digits));
+                    after_value = new App.EXT.Event.Watch(event.target, 'value'),
+                    before_number = new BigNumber(App.EXT.Format.toDecimal(before_value.get().replace(/\D/g, ''), Config.Rule.digits)),
+                    after_number = new BigNumber(App.EXT.Format.toDecimal(after_value.get().replace(/\D/g, ''), Config.Rule.digits));
                   if (after_number.isLessThan(before_number)) {
                     Action.EraseInput(event, 8);
                   }
@@ -816,10 +816,10 @@ LoadScript('../../src/x-input-rules.js', function() {
               /* 
                * Evento Genérico para Converte para Decimal os Campos ao Submeter
                */
-              App.EXT.Event.Add(that.form, [Event.Submit], function(event){
+              App.EXT.Event.Add(that.form, [Event.Submit], function (event) {
                 Action.SubmitInput();
               }, false);
-            break;
+              break;
             case 'zerofilldec': // Decimal Genérico Equivalente ao MySQL Decimal(20,2) Zero-Fill Signed Dec (De -9223372036854776000.00 à 9223372036854776000.00) 
             case 'positivedec': // Decimal Genérico Equivalente ao MySQL Decimal(18,2) Sem prefixo (De 0 à 18446744073709552000.00) 
             case 'negativedec': // Decimal Genérico Equivalente ao MySQL Decimal(18,2) Sem prefixo (De -9223372036854776000.00 à 0) 
@@ -1006,13 +1006,13 @@ LoadScript('../../src/x-input-rules.js', function() {
               Pattern[x_type] = Rule;
 
               // Armazenamento do Objeto Principal
-              var $that = that, 
-                  // Define Timer dos Inputs
-                  Timeout = undefined, 
-                  // Obtém o Template de Configuração
-                  Template = App.EXT.JSON.Template(App.DEFAULT.DECIMAL.PATTERN),
-                  // Carrega as Regras Padrão do Tipo do Componente
-                  DEFAULT = Template(Rule.RULE);
+              var $that = that,
+                // Define Timer dos Inputs
+                Timeout = undefined,
+                // Obtém o Template de Configuração
+                Template = App.EXT.JSON.Template(App.DEFAULT.DECIMAL.PATTERN),
+                // Carrega as Regras Padrão do Tipo do Componente
+                DEFAULT = Template(Rule.RULE);
 
               // Matriz Única do Elemento
               window.data(that).input = [];
@@ -1038,9 +1038,9 @@ LoadScript('../../src/x-input-rules.js', function() {
                   "showMaskOnHover": (!that.hasAttribute('x-onhover') && that.getAttribute('x-onhover') != '') ? DEFAULT.RULE.showMaskOnHover : ((that.getAttribute('x-onhover') == 'true') ? true : false), /*false*/
                   "min": (!that.hasAttribute('x-min') && that.getAttribute('x-min') != '') ? Rule.RULE.min : that.getAttribute('x-min'),
                   "max": (!that.hasAttribute('x-max') && that.getAttribute('x-max') != '') ? Rule.RULE.max : that.getAttribute('x-max'),
-                  "oncleared": function(event) { event.target.value = ''; window.data(that).input = []; },
+                  "oncleared": function (event) { event.target.value = ''; window.data(that).input = []; },
                   "onUnMask": function (value) { if (value.indexOf(App.DEFAULT.SYMBOL.NEGATIVE) != -1) { return (value === '') ? 0 : App.DEFAULT.SYMBOL.NEGATIVE + value.replace(/\D/g, ''); } else { return (value === '') ? 0 : value.replace(/\D/g, ''); } },
-                  "onKeyDown": function (e, buffer, opts) { if(e.ctrlKey && e.altKey) { e.preventDefault(); } },
+                  "onKeyDown": function (e, buffer, opts) { if (e.ctrlKey && e.altKey) { e.preventDefault(); } },
                   "placeholder": DEFAULT.RULE.placeholder
                 },
                 "affinity": (!that.hasAttribute('x-affinity') && that.getAttribute('x-affinity') != '') ? Rule.RULE.affinity : that.getAttribute('x-affinity'), /*+*/
@@ -1061,22 +1061,22 @@ LoadScript('../../src/x-input-rules.js', function() {
                * @property x-affinity=Opts([''|'-'|'+']) String
                */
 
-              var Config_Symbol = '', 
-                  Placeholder = '',
-                  Event = {},
-                  Maxlength = 0,
-                  PositiveValue = true;
+              var Config_Symbol = '',
+                Placeholder = '',
+                Event = {},
+                Maxlength = 0,
+                PositiveValue = true;
 
               // Se Existe Valor, Verifica é Positivo ou Negativo
               if (that.value !== '') {
                 PositiveValue = (that.value > 0) ? true : false;
                 // Para os x-type="positivedec" e x-type="negativedec"
-                if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') || (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') ) {
-                   // Apenas Positivo
-                   if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') {
-                     // Aplica a Flag para Valores Unsigned
-                     if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
-                       that.setAttribute('x-case', 'signed');
+                if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') || (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec')) {
+                  // Apenas Positivo
+                  if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') {
+                    // Aplica a Flag para Valores Unsigned
+                    if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
+                      that.setAttribute('x-case', 'signed');
                   }
                   // Apenas Negativo
                   if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') {
@@ -1086,7 +1086,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     if (!that.hasAttribute('x-negative'))
                       that.setAttribute('x-negative', 'true');
                     // Verifica se Pode Ser Negativo
-                    if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true') ) {
+                    if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true')) {
                       Config_Symbol = (App.DEFAULT.SYMBOL.NEGATIVE == Config.Rule.prefix) ? Config_Symbol : App.DEFAULT.SYMBOL.NEGATIVE;
                       if (!that.hasAttribute('x-negative'))
                         that.setAttribute('x-negative', 'true');
@@ -1109,14 +1109,14 @@ LoadScript('../../src/x-input-rules.js', function() {
                 }
 
                 var act_value = new BigNumber(that.value),
-                    max_value = new BigNumber(Config.Rule.max.toString());
+                  max_value = new BigNumber(Config.Rule.max.toString());
 
                 // Corrige o Valor
                 that.value = (act_value.isGreaterThan(max_value)) ? max_value.toString() : act_value.toString();
 
                 // Alimenta a Matriz de Caracteres do Componente
-                for (var i=0; i < that.value.length; i++) {
-                  if(App.EXT.Validate.isNumber(that.value.charAt(i))) {
+                for (var i = 0; i < that.value.length; i++) {
+                  if (App.EXT.Validate.isNumber(that.value.charAt(i))) {
                     window.data(that).input.push(that.value.charAt(i));
                   }
                 }
@@ -1140,180 +1140,180 @@ LoadScript('../../src/x-input-rules.js', function() {
               // Se Não Existir Valor
               else {
                 // Verifica se Pode Ser Signed
-                if  ( 
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'aed') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'afn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'all') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'amd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ang') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'aoa') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ars') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'aud') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'awg') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'azn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bam') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bbd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bdt') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bgn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bhd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bif') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bmd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bnd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bob') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bov') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'brl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bsd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'btn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bwp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'byn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'byr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bzd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cad') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cdf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'che') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'chf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'chw') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'clf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'clp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cny') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cop') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cou') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'crc') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cuc') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cup') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cve') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'czk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'djf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'dkk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'dop') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'dzd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'eek') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'egp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ern') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'etb') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'eur') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'fjd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'fkp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gbp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gel') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ghs') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gip') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gmd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gnf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gtq') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gwp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gyd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'hkd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'hnl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'hrk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'htg') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'huf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'idr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ils') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'inr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'iqd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'irr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'isk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'jmd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'jod') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'jpy') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kes') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kgs') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'khr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kmf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kpw') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'krw') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kwd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kyd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kzt') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lak') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lbp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lkr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lrd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lsl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ltl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'luf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lvl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lyd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mad') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mdl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mga') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mkd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mmk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mnt') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mop') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mro') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mur') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mvr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mwk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mxn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mxv') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'myr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mzn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nad') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ngn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nio') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nok') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'npr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nzd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'omr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pab') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pen') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pgk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'php') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pkr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pln') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pyg') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'qar') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ron') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'rsd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'rub') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'rwf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sar') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sbd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'scr') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sdg') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sek') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sgd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'shp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sll') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sos') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'srd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ssp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'std') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'svc') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'syp') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'szl') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'thb') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tjs') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tmt') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tnd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'top') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'try') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ttd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'twd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tzs') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uah') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ugx') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'usd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'usn') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uyi') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uyu') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uzs') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'vef') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'vnd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'vuv') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'wst') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xaf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xcd') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xof') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xpf') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'yer') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zar') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zmk') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zmw') ||
-                      (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zwl') 
-                    ) {
+                if (
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'aed') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'afn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'all') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'amd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ang') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'aoa') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ars') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'aud') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'awg') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'azn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bam') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bbd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bdt') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bgn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bhd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bif') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bmd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bnd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bob') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bov') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'brl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bsd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'btn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bwp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'byn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'byr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'bzd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cad') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cdf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'che') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'chf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'chw') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'clf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'clp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cny') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cop') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cou') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'crc') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cuc') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cup') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'cve') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'czk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'djf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'dkk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'dop') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'dzd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'eek') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'egp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ern') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'etb') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'eur') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'fjd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'fkp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gbp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gel') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ghs') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gip') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gmd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gnf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gtq') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gwp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'gyd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'hkd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'hnl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'hrk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'htg') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'huf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'idr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ils') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'inr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'iqd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'irr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'isk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'jmd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'jod') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'jpy') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kes') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kgs') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'khr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kmf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kpw') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'krw') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kwd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kyd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'kzt') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lak') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lbp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lkr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lrd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lsl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ltl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'luf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lvl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'lyd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mad') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mdl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mga') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mkd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mmk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mnt') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mop') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mro') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mur') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mvr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mwk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mxn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mxv') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'myr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'mzn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nad') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ngn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nio') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nok') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'npr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'nzd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'omr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pab') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pen') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pgk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'php') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pkr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pln') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'pyg') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'qar') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ron') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'rsd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'rub') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'rwf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sar') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sbd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'scr') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sdg') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sek') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sgd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'shp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sll') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'sos') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'srd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ssp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'std') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'svc') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'syp') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'szl') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'thb') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tjs') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tmt') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tnd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'top') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'try') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ttd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'twd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'tzs') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uah') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'ugx') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'usd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'usn') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uyi') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uyu') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'uzs') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'vef') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'vnd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'vuv') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'wst') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xaf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xcd') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xof') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'xpf') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'yer') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zar') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zmk') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zmw') ||
+                  (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'zwl')
+                ) {
                   // Aplica a Flag para Valores Unsigned
                   if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
                     that.setAttribute('x-case', 'signed');
@@ -1328,21 +1328,21 @@ LoadScript('../../src/x-input-rules.js', function() {
                 }
                 else {
                   // Para os x-type="positive" e x-type="negative"
-                  if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') || (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') ) {
-                     // Apenas Positivo
-                     if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') {
-                       // Aplica a Flag para Valores Unsigned
-                       if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
-                         that.setAttribute('x-case', 'unsigned');
-                     }
-                     // Apenas Negativo
-                     if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') {
-                       // Remove a Flag para Valores Negativos
-                       if (that.hasAttribute('x-case'))
-                         that.removeAttribute('x-case');
-                       if (!that.hasAttribute('x-negative'))
-                         that.setAttribute('x-negative', 'true');
-                     }
+                  if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') || (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec')) {
+                    // Apenas Positivo
+                    if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'positivedec') {
+                      // Aplica a Flag para Valores Unsigned
+                      if (!that.hasAttribute('x-case') || that.getAttribute('x-case') == 'signed')
+                        that.setAttribute('x-case', 'unsigned');
+                    }
+                    // Apenas Negativo
+                    if (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') {
+                      // Remove a Flag para Valores Negativos
+                      if (that.hasAttribute('x-case'))
+                        that.removeAttribute('x-case');
+                      if (!that.hasAttribute('x-negative'))
+                        that.setAttribute('x-negative', 'true');
+                    }
                   }
                   // Para os Tipos Signed Diferentes de: x-type="positivedec" e x-type="negativedec"
                   else {
@@ -1360,7 +1360,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                   }
                 }
                 // Verifica se Pode Ser Negativo
-                if ( (that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true') ) {
+                if ((that.hasAttribute('x-type') && that.getAttribute('x-type') == 'negativedec') || (that.hasAttribute('x-negative') && that.getAttribute('x-negative') == 'true')) {
                   if (that.getAttribute('x-type') == 'negativedec') {
                     Config_Symbol = '-';
                   }
@@ -1370,7 +1370,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     else
                       Config_Symbol = '-';
                   }
-                  Config_Symbol = ( (Config.Rule.prefix == App.DEFAULT.SYMBOL.NEGATIVE) && (Config_Symbol == App.DEFAULT.SYMBOL.NEGATIVE) ) ? '' : Config_Symbol;
+                  Config_Symbol = ((Config.Rule.prefix == App.DEFAULT.SYMBOL.NEGATIVE) && (Config_Symbol == App.DEFAULT.SYMBOL.NEGATIVE)) ? '' : Config_Symbol;
                   if (!that.hasAttribute('x-negative'))
                     that.setAttribute('x-negative', 'true');
                 }
@@ -1422,8 +1422,8 @@ LoadScript('../../src/x-input-rules.js', function() {
                * https://github.com/google/material-design-lite/issues/243
                * https://codepen.io/surma/pen/JXdEqe
                */
-              if(that.classList.contains('mdl-textfield__input')) {
-                setTimeout(function(){
+              if (that.classList.contains('mdl-textfield__input')) {
+                setTimeout(function () {
                   App.EXT.Class.Remove($that.parentElement, 'has-placeholder');
                   App.EXT.Class.Add($that.parentElement, 'has-placeholder');
                 }, 500);
@@ -1432,7 +1432,7 @@ LoadScript('../../src/x-input-rules.js', function() {
               // Posiciona o Cursor no Final no Valor
               App.EXT.Caret.toEnd(that);
 
-              if (that.value === '') 
+              if (that.value === '')
                 that.setAttribute('x-value', Placeholder);
 
               // Reseta a Máscara
@@ -1446,11 +1446,11 @@ LoadScript('../../src/x-input-rules.js', function() {
                * Actions/Events do Inputs
                */
               var Action = {
-                "EraseInput":function(event, _kc) {
+                "EraseInput": function (event, _kc) {
                   var kc = event.which || event.keyCode,
-                      key = event.data || event.key,
-                      it = event.inputType || event.type,
-                      kl = Number(event.target.getAttribute('x-limit'));
+                    key = event.data || event.key,
+                    it = event.inputType || event.type,
+                    kl = Number(event.target.getAttribute('x-limit'));
 
                   if (it == 'deleteContentBackward') {
                     kc = 8;
@@ -1459,38 +1459,38 @@ LoadScript('../../src/x-input-rules.js', function() {
                     kc = 0;
                   }
 
-                  if (ua.os.name == 'Android' && (ua.engine.name == 'Gecko' || ua.browser.name == 'Android Browser') && parseFloat(ua.os.version) < 6) 
+                  if (ua.os.name == 'Android' && (ua.engine.name == 'Gecko' || ua.browser.name == 'Android Browser') && parseFloat(ua.os.version) < 6)
                     if (_kc !== undefined)
                       kc = _kc;
 
                   if (kc !== undefined || kc !== 229) {
                     // Ação de Excluir com BackSpace
-                    if(kc == 8 && kl <= Number(event.target.getAttribute('maxlength'))) {
+                    if (kc == 8 && kl <= Number(event.target.getAttribute('maxlength'))) {
                       event.preventDefault();
                       var sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol,
-                          orig_value = (event.target.hasAttribute('x-mode') && event.target.getAttribute('x-mode') == 'overwritable') ? App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric(event.target.value), Config.Rule.digits) : App.EXT.Format.toDecimal(event.target.getAttribute('x-value'), Config.Rule.digits),
-                          temp_value = App.EXT.Format.toBigNumber(orig_value.replace(/\D/g, '').slice(0, -1) || 0, Config.Rule.digits),
-                          regex      = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
+                        orig_value = (event.target.hasAttribute('x-mode') && event.target.getAttribute('x-mode') == 'overwritable') ? App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric(event.target.value), Config.Rule.digits) : App.EXT.Format.toDecimal(event.target.getAttribute('x-value'), Config.Rule.digits),
+                        temp_value = App.EXT.Format.toBigNumber(orig_value.replace(/\D/g, '').slice(0, -1) || 0, Config.Rule.digits),
+                        regex = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
 
                       if (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofilldec') {
                         var work_value = Config.Rule.prefix + sign_value + App.EXT.Format.LPad(App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric(temp_value), Config.Rule.digits), Config.Rule.max.toString().length + Config.Rule.radixPoint.length + Config.Rule.digits) + Config.Rule.sufix,
-                            zero_value = Config.Rule.prefix + sign_value + ("0".repeat(Config.Rule.max.toString().length)) + Config.Rule.radixPoint + '0'.repeat(Config.Rule.digits.toString()) + Config.Rule.sufix;
+                          zero_value = Config.Rule.prefix + sign_value + ("0".repeat(Config.Rule.max.toString().length)) + Config.Rule.radixPoint + '0'.repeat(Config.Rule.digits.toString()) + Config.Rule.sufix;
                       }
                       else {
                         var work_value = App.EXT.Format.toBigMoney(temp_value, Config.Rule.digits, Config.Rule.prefix + sign_value, Config.Rule.groupSeparator, Config.Rule.radixPoint, Config.Rule.sufix),
-                            zero_value = Config.Rule.prefix + sign_value + "0" + Config.Rule.radixPoint + "0".repeat(Config.Rule.digits) + Config.Rule.sufix;
+                          zero_value = Config.Rule.prefix + sign_value + "0" + Config.Rule.radixPoint + "0".repeat(Config.Rule.digits) + Config.Rule.sufix;
                       }
 
-                      if (work_value.replace(regex,'') != zero_value.replace(regex,'')) {
+                      if (work_value.replace(regex, '') != zero_value.replace(regex, '')) {
                         event.target.value = work_value;
                         window.data(event.target).input = [];
-                        for (var i=0; i < event.target.value.length; i++) {
-                          if(App.EXT.Validate.isNumber(event.target.value.charAt(i))) {
+                        for (var i = 0; i < event.target.value.length; i++) {
+                          if (App.EXT.Validate.isNumber(event.target.value.charAt(i))) {
                             window.data(event.target).input.push(event.target.value.charAt(i));
                           }
                         }
                         if (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofilldec') {
-                          setTimeout(function(){
+                          setTimeout(function () {
                             App.EXT.Caret.SetPosition(event.target, 10000);
                           }, 0);
                         }
@@ -1508,19 +1508,19 @@ LoadScript('../../src/x-input-rules.js', function() {
                       event.target.setAttribute('x-value', event.target.value);
 
                       // Remove Zeros à Esquerda e o Sinal de Número Negativo
-                      var only_value = (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofilldec') ? event.target.value.replace(/[^1-9.\\]+\W?0+/, '') : only_value = event.target.value.replace(regex,'');
+                      var only_value = (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofilldec') ? event.target.value.replace(/[^1-9.\\]+\W?0+/, '') : only_value = event.target.value.replace(regex, '');
 
                       // Atualiza o Atributo x-limit
                       event.target.setAttribute('x-limit', Number(event.target.getAttribute('maxlength')) - Number(only_value.length || 0));
 
                       // Verifica se há Sufixo
-                      if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                      if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                         // Reposiciona o Cursor ao Final do Valor do Elemento
                         App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                       }
                     }
                     // Ação Para Apagar com Delete
-                    if(kc == 46) {
+                    if (kc == 46) {
                       event.preventDefault();
                       // Limpa a Matriz Global do Campo
                       window.data(event.target).input = [];
@@ -1539,29 +1539,29 @@ LoadScript('../../src/x-input-rules.js', function() {
                     return false;
                   }
                 },
-                "SubmitInput":function() {
+                "SubmitInput": function () {
                   try {
                     var sign_value = ($that.hasAttribute('x-signal') && $that.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol;
                     if ($that.hasAttribute('x-type') && $that.getAttribute('x-type') == 'zerofilldec') {
                       var work_value = App.EXT.Format.LPad(App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric($that.getAttribute('x-value')), Config.Rule.digits), Config.Rule.max.toString().length + '.'.length + Config.Rule.digits),
-                          zero_value = sign_value + ("0".repeat(Config.Rule.max.toString().length)) + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
+                        zero_value = sign_value + ("0".repeat(Config.Rule.max.toString().length)) + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
                       $that.value = (App.EXT.Format.toBigNumber(work_value) !== '0') ? work_value : zero_value;
                     }
                     else {
                       var work_value = sign_value + App.EXT.Format.toBigNumber(App.EXT.Format.toBigNumeric($that.getAttribute('x-value')), Config.Rule.digits),
-                          zero_value = sign_value + "0" + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
+                        zero_value = sign_value + "0" + (Config.Rule.digits > 0 ? '.' + '0'.repeat(Config.Rule.digits) : '');
                       $that.value = (App.EXT.Format.toBigNumber(work_value) !== '0') ? work_value : zero_value;
                     }
                   }
-                  catch(err) {
+                  catch (err) {
                     console.log(err.message);
                   };
                 },
-                "WriteInput":function(event) {
+                "WriteInput": function (event) {
                   // Hack para Obtenção do KeyCode ou Which 
                   var kc = event.which || event.keyCode,
-                      key = event.data || event.key,
-                      kl = Number(event.target.getAttribute('x-limit'));
+                    key = event.data || event.key,
+                    kl = Number(event.target.getAttribute('x-limit'));
 
                   if (Event.Write === 'textInput') {
                     kc = event.data.charCodeAt(0);
@@ -1577,28 +1577,28 @@ LoadScript('../../src/x-input-rules.js', function() {
                         // Se Houver o Sinal o Remove
                         if (event.target.getAttribute('x-value').indexOf(App.DEFAULT.SYMBOL.NEGATIVE) != -1) {
                           event.target.setAttribute('x-signal', 'removed');
-                          if(Timeout) {
+                          if (Timeout) {
                             clearTimeout(Timeout);
                             Timeout = null;
                           }
-                          Timeout = setTimeout(function(){
+                          Timeout = setTimeout(function () {
                             Config_Symbol = App.DEFAULT.SYMBOL.POSITIVE; // Reatribue a Variável pra não Embassar
                             var regex = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
-                            event.target.setAttribute('x-value', event.target.value.replace(regex,''));
+                            event.target.setAttribute('x-value', event.target.value.replace(regex, ''));
                             event.target.value = event.target.getAttribute('x-value');
                           }, 0);
                         }
                         // Se não Houver o Sinal o Adiciona
                         else {
                           event.target.removeAttribute('x-signal');
-                          if(Timeout) {
+                          if (Timeout) {
                             clearTimeout(Timeout);
                             Timeout = null;
                           }
-                          Timeout = setTimeout(function(){
+                          Timeout = setTimeout(function () {
                             Config_Symbol = App.DEFAULT.SYMBOL.NEGATIVE; // Reatribue a Variável pra não Embassar
                             var regex = new RegExp("\\" + Config.Rule.prefix.trim() + "\\s*"),
-                                value = event.target.getAttribute('x-value').replace(Config.Rule.prefix, '');
+                              value = event.target.getAttribute('x-value').replace(Config.Rule.prefix, '');
                             event.target.setAttribute('x-value', Config.Rule.prefix + App.DEFAULT.SYMBOL.NEGATIVE + value);
                             event.target.value = event.target.getAttribute('x-value');
                           }, 0);
@@ -1606,15 +1606,15 @@ LoadScript('../../src/x-input-rules.js', function() {
                       }
                       // Para Quando o Campo for Negativo e o Atributo x-case não esteja Definido como signed
                       else {
-                        setTimeout(function(){
+                        setTimeout(function () {
                           event.target.setAttribute('x-value', event.target.getAttribute('x-value'));
                           event.target.value = event.target.getAttribute('x-value');
                         }, 0);
                       }
 
                       // Verifica se há Sufixo
-                      if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
-                        setTimeout(function(){
+                      if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
+                        setTimeout(function () {
                           // Reposiciona o Cursor ao Final do Valor do Elemento
                           App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                         }, 0);
@@ -1629,7 +1629,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                   }
                   // Permite Apenas as Tecla Numéricas ou Até Zerar o Limite
                   else {
-                    setTimeout(function(){
+                    setTimeout(function () {
                       // Condição para Quando Está Vazio e Pressionar a Tecla [-]
                       if (event.target.value.length <= 1 && key == App.DEFAULT.SYMBOL.NEGATIVE) {
                         event.target.setAttribute('x-value', '');
@@ -1638,11 +1638,11 @@ LoadScript('../../src/x-input-rules.js', function() {
                       // Condição para Quaquer Tecla Numérica
                       else {
                         // Para Digitação Apenas de Números
-                        if(App.EXT.Validate.isNumber(key)) {
+                        if (App.EXT.Validate.isNumber(key)) {
                           var act_value = new BigNumber(App.EXT.Format.toDecimal(event.target.value.replace(/\D/g, ''), Config.Rule.digits)),
-                              max_value = new BigNumber(Config.Rule.max.toString()),
-                              sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol,
-                              regex      = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
+                            max_value = new BigNumber(Config.Rule.max.toString()),
+                            sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol,
+                            regex = new RegExp('\\' + App.DEFAULT.SYMBOL.NEGATIVE, 'g');
 
                           // Enquanto for Menor que o Máximo Permitido
                           if (act_value.isLessThan(max_value)) {
@@ -1656,11 +1656,11 @@ LoadScript('../../src/x-input-rules.js', function() {
                             var orig_value = (event.target.hasAttribute('x-mode') && event.target.getAttribute('x-mode') == 'overwritable') ? App.EXT.Format.toDecimal(App.EXT.Format.toBigNumeric((event.target.getAttribute('x-value') || '0')) + '' + Number(key), Config.Rule.digits) : App.EXT.Format.toDecimal(window.data(event.target).input.join(''), Config.Rule.digits);
                             if (event.target.hasAttribute('x-type') && event.target.getAttribute('x-type') == 'zerofilldec') {
                               var work_value = Config.Rule.prefix + sign_value + App.EXT.Format.LPad(orig_value, Config.Rule.max.toString().length + Config.Rule.radixPoint.length + Config.Rule.digits) + Config.Rule.sufix,
-                                  only_value = work_value.replace(/[^1-9.\\]+\W?0+/, '').replace(/^\-?0+/, '').replace(regex,'');
+                                only_value = work_value.replace(/[^1-9.\\]+\W?0+/, '').replace(/^\-?0+/, '').replace(regex, '');
                             }
                             else {
                               var work_value = App.EXT.Format.toBigMoney(orig_value, Config.Rule.digits, Config.Rule.prefix + sign_value, Config.Rule.groupSeparator, Config.Rule.radixPoint, Config.Rule.sufix),
-                                  only_value = work_value.replace(regex, '').replace(regex,'');
+                                only_value = work_value.replace(regex, '').replace(regex, '');
                             }
 
                             event.target.setAttribute('x-value', '');
@@ -1673,7 +1673,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                             event.target.setAttribute('x-limit', Number(event.target.getAttribute('maxlength')) - Number(only_value.length || 0) + 1);
 
                             // Verifica se há Sufixo
-                            if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                            if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                               // Reposiciona o Cursor ao Final do Valor do Elemento
                               App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                             }
@@ -1690,7 +1690,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                             event.target.value = event.target.getAttribute('x-value');
 
                             // Verifica se há Sufixo
-                            if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                            if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                               // Reposiciona o Cursor ao Final do Valor do Elemento
                               App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                             }
@@ -1703,24 +1703,24 @@ LoadScript('../../src/x-input-rules.js', function() {
                     return false;
                   }
                 },
-                "PasteInput":function(event) {
+                "PasteInput": function (event) {
                   event.stopPropagation();
                   event.preventDefault();
 
                   var clipboardData = event.clipboardData || window.clipboardData,
-                      pasted_value = clipboardData.getData('Text') || clipboardData.getData('text/plain'),
-                      number_value = pasted_value.replace(/\D/g, '');
+                    pasted_value = clipboardData.getData('Text') || clipboardData.getData('text/plain'),
+                    number_value = pasted_value.replace(/\D/g, '');
 
                   window.data(event.target).input = [];
-                  for (var i=0; i < number_value.length; i++) {
-                    if(App.EXT.Validate.isNumber(number_value.charAt(i))) {
+                  for (var i = 0; i < number_value.length; i++) {
+                    if (App.EXT.Validate.isNumber(number_value.charAt(i))) {
                       window.data(event.target).input.push(number_value.charAt(i));
                     }
                   }
 
                   var act_value = new BigNumber(App.EXT.Format.toDecimal(number_value, Config.Rule.digits)),
-                      max_value = new BigNumber(Config.Rule.max.toString()),
-                      sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol;
+                    max_value = new BigNumber(Config.Rule.max.toString()),
+                    sign_value = (event.target.hasAttribute('x-signal') && event.target.getAttribute('x-signal') == 'removed') ? '' : Config_Symbol;
 
                   // Enquanto for Menor que o Máximo Permitido
                   if (act_value.isLessThanOrEqualTo(max_value)) {
@@ -1744,7 +1744,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     event.target.setAttribute('x-limit', Number(event.target.getAttribute('maxlength')) - work_value.length - sign_value);
 
                     // Verifica se há Sufixo
-                    if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                    if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                       // Reposiciona o Cursor ao Final do Valor do Elemento
                       App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                     }
@@ -1761,7 +1761,7 @@ LoadScript('../../src/x-input-rules.js', function() {
                     event.target.value = event.target.getAttribute('x-value');
 
                     // Verifica se há Sufixo
-                    if ( (Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '') ) {
+                    if ((Config.Rule.prefix === '' && Config.Rule.sufix !== '') || (Config.Rule.prefix !== '' && Config.Rule.sufix !== '')) {
                       // Reposiciona o Cursor ao Final do Valor do Elemento
                       App.EXT.Caret.SetPosition(event.target, (event.target.getAttribute('x-value').length - Config.Rule.sufix.length));
                     }
@@ -1774,14 +1774,14 @@ LoadScript('../../src/x-input-rules.js', function() {
               /* 
                * Evento Para Conversão de Números Colados no Input
                */
-              App.EXT.Event.Add(that, [Event.Paste], function(event){
+              App.EXT.Event.Add(that, [Event.Paste], function (event) {
                 Action.PasteInput(event)
               }, false);
 
               /* 
                * Evento Para Inclusão de Números ao Input
                */
-              App.EXT.Event.Add(that, [Event.Write], function(event){
+              App.EXT.Event.Add(that, [Event.Write], function (event) {
                 Action.WriteInput(event);
               }, false);
 
@@ -1789,12 +1789,12 @@ LoadScript('../../src/x-input-rules.js', function() {
                * Evento Adicionar e Para Exluir com BackSpace Apenas para o Firefox para Android Lollipop
                * Evento Para Exluir com BackSpace ou Apagar com Delete para Todos os Browser Exceto para o Firefox para Android Lollipop
                */
-              App.EXT.Event.Add(that, [Event.Erase], function(event){
+              App.EXT.Event.Add(that, [Event.Erase], function (event) {
                 if (ua.os.name == 'Android' && (ua.engine.name == 'Gecko' || ua.browser.name == 'Android Browser') && parseFloat(ua.os.version) < 6) {
                   var before_value = new App.EXT.Event.Watch(event.target, 'x-value'),
-                      after_value = new App.EXT.Event.Watch(event.target, 'value'),
-                      before_number = new BigNumber(App.EXT.Format.toDecimal(before_value.get().replace(/\D/g, ''), Config.Rule.digits)),
-                      after_number = new BigNumber(App.EXT.Format.toDecimal(after_value.get().replace(/\D/g, ''), Config.Rule.digits));
+                    after_value = new App.EXT.Event.Watch(event.target, 'value'),
+                    before_number = new BigNumber(App.EXT.Format.toDecimal(before_value.get().replace(/\D/g, ''), Config.Rule.digits)),
+                    after_number = new BigNumber(App.EXT.Format.toDecimal(after_value.get().replace(/\D/g, ''), Config.Rule.digits));
                   if (after_number.isLessThan(before_number)) {
                     Action.EraseInput(event, 8);
                   }
@@ -1807,10 +1807,10 @@ LoadScript('../../src/x-input-rules.js', function() {
               /* 
                * Evento Genérico para Converte para Decimal os Campos ao Submeter
                */
-              App.EXT.Event.Add(that.form, [Event.Submit], function(event){
+              App.EXT.Event.Add(that.form, [Event.Submit], function (event) {
                 Action.SubmitInput();
               }, false);
-            break;
+              break;
             case 'placa_veicular':
             case 'chassi_veicular':
               // Obtém a Matriz de Regra pelo Tipo do Componente
@@ -1826,7 +1826,7 @@ LoadScript('../../src/x-input-rules.js', function() {
               if (!that.hasAttribute('placeholder') && that.getAttribute('placeholder') != '') {
                 that.setAttribute('placeholder', MaskedInput.getemptymask());
               }
-            break;
+              break;
             case 'fone':
             case 'fone_fixo':
             case 'fones':
@@ -1856,7 +1856,7 @@ LoadScript('../../src/x-input-rules.js', function() {
               // Substitui o Atributo para Tel
               if (ua.device.type == 'mobile')
                 that.setAttribute('type', 'tel');
-            break;
+              break;
             case 'cpf_cnpj':
               // Obtém a Matriz de Regra pelo Tipo do Componente
               Rule = App.PATTERN.MASK[x_type];
@@ -1880,25 +1880,25 @@ LoadScript('../../src/x-input-rules.js', function() {
               if (ua.device.type == 'mobile')
                 that.setAttribute('type', 'tel');
 
-              that.addEventListener("blur", function(event) {
+              that.addEventListener("blur", function (event) {
                 if (event.target.hasAttribute('x-valid') && event.target.getAttribute('x-valid') == 'true') {
                   if (event.target.value.length == 14) {
                     // Validação Embutida
-                    if(!App.EXT.Validate.CPF(event.target.value)) {
+                    if (!App.EXT.Validate.CPF(event.target.value)) {
                       // Reseta a Máscara
                       App.EXT.Reset.Mask(event);
                     }
                   }
                   else {
                     // Validação Embutida
-                    if(!App.EXT.Validate.CNPJ(event.target.value)) {
+                    if (!App.EXT.Validate.CNPJ(event.target.value)) {
                       // Reseta a Máscara
                       App.EXT.Reset.Mask(event);
                     }
                   }
                 }
               }, false);
-            break;
+              break;
             case 'data_br':
             case 'data_br_regex':
             case 'data_iso':
@@ -1925,13 +1925,55 @@ LoadScript('../../src/x-input-rules.js', function() {
               if (ua.device.type == 'mobile')
                 that.setAttribute('type', 'tel');
 
-              that.addEventListener("blur", function(event) {
+              that.addEventListener("blur", function (event) {
                 if (Rule.placeholder.length > event.target.value.length) {
                   // Reseta a Máscara
                   App.EXT.Reset.Mask(event);
                 }
               }, false);
-            break;
+              break;
+            case 'hora_minuto':
+            case 'hora_minuto_12':
+            case 'hora_minuto_24':
+              if (that.hasAttribute('x-format') && that.getAttribute('x-format') == '12h') {
+                // Obtém a Matriz de Regra pelo Tipo do Componente
+                Rule = App.PATTERN.MASK.HORA_MINUTO_12H_REGEX;
+              }
+              else if (that.hasAttribute('x-format') && that.getAttribute('x-format') == '24h') {
+                // Obtém a Matriz de Regra pelo Tipo do Componente
+                Rule = App.PATTERN.MASK.HORA_MINUTO_24H_REGEX;
+              }
+              else {
+                // Obtém a Matriz de Regra pelo Tipo do Componente
+                Rule = App.PATTERN.MASK.HORA_MINUTO;
+              }
+
+              // Reatribue o Obje
+              Pattern[x_type] = Rule;
+
+              // Aplica a Máscara ao Elemento
+              MaskedInput = Inputmask(Rule).mask(that);
+
+              // Define o Atributo Placeholder
+              if (!that.hasAttribute('placeholder') && that.getAttribute('placeholder') != '') {
+                that.setAttribute('placeholder', Rule.placeholder);
+              }
+
+              // Adiciona o Atributo inputmode="numeric" para exibir o teclado númerico em dispositivos móveis
+              if (!that.hasAttribute('inputmode') && that.getAttribute('inputmode') != '')
+                that.setAttribute('inputmode', 'numeric');
+
+              // Substitui o Atributo para Tel
+              if (ua.device.type == 'mobile')
+                that.setAttribute('type', 'tel');
+
+              that.addEventListener("blur", function (event) {
+                if (Rule.placeholder.length > event.target.value.length) {
+                  // Reseta a Máscara
+                  App.EXT.Reset.Mask(event);
+                }
+              }, false);
+              break;
             case 'hora':
             case 'hora_regex':
               if (that.hasAttribute('x-format') && that.getAttribute('x-format') == '12h') {
@@ -1965,13 +2007,13 @@ LoadScript('../../src/x-input-rules.js', function() {
               if (ua.device.type == 'mobile')
                 that.setAttribute('type', 'tel');
 
-              that.addEventListener("blur", function(event) {
+              that.addEventListener("blur", function (event) {
                 if (Rule.placeholder.length > event.target.value.length) {
                   // Reseta a Máscara
                   App.EXT.Reset.Mask(event);
                 }
               }, false);
-            break;
+              break;
             case 'data_hora_br':
             case 'data_hora_iso':
               // Obtém a Matriz de Regra pelo Tipo do Componente
@@ -1997,13 +2039,13 @@ LoadScript('../../src/x-input-rules.js', function() {
                 that.setAttribute('type', 'tel');
 
               // Reseta a Máscara Caso esteja Incompleta
-              App.EXT.Event.Add(that, ['blur'], function(event){
+              App.EXT.Event.Add(that, ['blur'], function (event) {
                 if (Rule.placeholder.length > event.target.value.length) {
                   // Reseta a Máscara
                   App.EXT.Reset.Mask(event, true);
                 }
               }, false);
-            break;
+              break;
           }
 
           log('loading', '#' + that.getAttribute('id'));
@@ -2011,9 +2053,9 @@ LoadScript('../../src/x-input-rules.js', function() {
       };
 
       //Testo a Versão do IE para Condicionar a Criação do Componente de Forma Legada Utilizando document.registerElement
-      if ( ( ua.browser.name == 'IE' && ua.browser.major >= '10') ) {
+      if ((ua.browser.name == 'IE' && ua.browser.major >= '10')) {
         var xInput = Object.create(HTMLInputElement.prototype);
-        xInput.createdCallback = function() {
+        xInput.createdCallback = function () {
           _xInput(this, ua);
         };
 
@@ -2080,7 +2122,7 @@ LoadScript('../../src/x-input-rules.js', function() {
           if (Reflect.construct.sham) return false;
           if (typeof Proxy === "function") return true;
           try {
-            Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+            Date.prototype.toString.call(Reflect.construct(Date, [], function () { }));
             return true;
           } catch (e) {
             return false;
@@ -2121,14 +2163,14 @@ LoadScript('../../src/x-input-rules.js', function() {
           _getPrototypeOf = Object.setPrototypeOf
             ? Object.getPrototypeOf
             : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-              };
+              return o.__proto__ || Object.getPrototypeOf(o);
+            };
           return _getPrototypeOf(o);
         }
 
         var xInput =
           /*#__PURE__*/
-          (function(_HTMLInputElement) {
+          (function (_HTMLInputElement) {
             _inheritsLoose(xInput, _HTMLInputElement);
 
             function xInput() {

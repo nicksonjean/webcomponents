@@ -1,5 +1,5 @@
 var Rules = Rules || {};
-Rules = 
+Rules =
 {
   "DEFAULT": {
     "SYMBOL": {
@@ -10,25 +10,25 @@ Rules =
       "PATTERN": {
         "RULE": {
           "alias": "decimal",
-          "digitsOptional": function(){ return "digitsOptional" },
-          "prefix": function(){ return "prefix" },
-          "sufix": function(){ return "sufix" },
-          "radixPoint": function(){ return "radixPoint" },
-          "groupSeparator": function(){ return "groupSeparator" },
-          "groupSize": function(){ return "groupSize" },
-          "autoGroup": function(){ return "autoGroup" },
-          "digits": function(){ return "digits" },
-          "rightAlign": function(){ return "rightAlign" },
-          "allowMinus": function(){ return "allowMinus" },
-          "removeMaskOnSubmit": function(){ return "removeMaskOnSubmit" },
-          "clearMaskOnLostFocus": function(){ return "clearMaskOnLostFocus" },
-          "showMaskOnFocus": function(){ return "showMaskOnFocus" },
-          "showMaskOnHover": function(){ return "showMaskOnHover" },
-          "min": function(){ return "min" },
-          "max": function() { return "max" },
-          "affinity":function() { return "affinity" },
-          "placeholder": function() { return "placeholder" },
-          "numericInput": function() { return "numericInput" }
+          "digitsOptional": function () { return "digitsOptional" },
+          "prefix": function () { return "prefix" },
+          "sufix": function () { return "sufix" },
+          "radixPoint": function () { return "radixPoint" },
+          "groupSeparator": function () { return "groupSeparator" },
+          "groupSize": function () { return "groupSize" },
+          "autoGroup": function () { return "autoGroup" },
+          "digits": function () { return "digits" },
+          "rightAlign": function () { return "rightAlign" },
+          "allowMinus": function () { return "allowMinus" },
+          "removeMaskOnSubmit": function () { return "removeMaskOnSubmit" },
+          "clearMaskOnLostFocus": function () { return "clearMaskOnLostFocus" },
+          "showMaskOnFocus": function () { return "showMaskOnFocus" },
+          "showMaskOnHover": function () { return "showMaskOnHover" },
+          "min": function () { return "min" },
+          "max": function () { return "max" },
+          "affinity": function () { return "affinity" },
+          "placeholder": function () { return "placeholder" },
+          "numericInput": function () { return "numericInput" }
         }
       }
     },
@@ -36,25 +36,25 @@ Rules =
       "PATTERN": {
         "RULE": {
           "alias": "decimal",
-          "digitsOptional": function(){ return "digitsOptional" },
-          "prefix": function(){ return "prefix" },
-          "sufix": function(){ return "sufix" },
-          "radixPoint": function(){ return "radixPoint" },
-          "groupSeparator": function(){ return "groupSeparator" },
-          "groupSize": function(){ return "groupSize" },
-          "autoGroup": function(){ return "autoGroup" },
-          "digits": function(){ return "digits" },
-          "rightAlign": function(){ return "rightAlign" },
-          "allowMinus": function(){ return "allowMinus" },
-          "removeMaskOnSubmit": function(){ return "removeMaskOnSubmit" },
-          "clearMaskOnLostFocus": function(){ return "clearMaskOnLostFocus" },
-          "showMaskOnFocus": function(){ return "showMaskOnFocus" },
-          "showMaskOnHover": function(){ return "showMaskOnHover" },
-          "min": function(){ return "min" },
-          "max": function() { return "max" },
-          "affinity":function() { return "affinity" },
-          "placeholder": function() { return "placeholder" },
-          "numericInput": function() { return "numericInput" }
+          "digitsOptional": function () { return "digitsOptional" },
+          "prefix": function () { return "prefix" },
+          "sufix": function () { return "sufix" },
+          "radixPoint": function () { return "radixPoint" },
+          "groupSeparator": function () { return "groupSeparator" },
+          "groupSize": function () { return "groupSize" },
+          "autoGroup": function () { return "autoGroup" },
+          "digits": function () { return "digits" },
+          "rightAlign": function () { return "rightAlign" },
+          "allowMinus": function () { return "allowMinus" },
+          "removeMaskOnSubmit": function () { return "removeMaskOnSubmit" },
+          "clearMaskOnLostFocus": function () { return "clearMaskOnLostFocus" },
+          "showMaskOnFocus": function () { return "showMaskOnFocus" },
+          "showMaskOnHover": function () { return "showMaskOnHover" },
+          "min": function () { return "min" },
+          "max": function () { return "max" },
+          "affinity": function () { return "affinity" },
+          "placeholder": function () { return "placeholder" },
+          "numericInput": function () { return "numericInput" }
         }
       }
     }
@@ -375,7 +375,7 @@ Rules =
           "numericInput": true
         }
       },
-      "PERCENTDEC":{
+      "PERCENTDEC": {
         "RULE": {
           "alias": "decimal",
           "digitsOptional": false,
@@ -4530,7 +4530,7 @@ Rules =
     },
     "MASK": {
       "FONE": {
-        "mask": "(&{2}) @{0,1}§{4}-§{4}", 
+        "mask": "(&{2}) @{0,1}§{4}-§{4}",
         "clearIncomplete": true,
         "definitions": {
           "&": {
@@ -4542,22 +4542,25 @@ Rules =
           "@": {
             "validator": "[9]"
           }
-        } 
+        }
       },
       "FONE_FIXO": {
-        "mask": "#{4}-§{3}-§{4}",
+        "mask": "#{1}*{1}#{2}-§{3}-§{4}",
         "clearIncomplete": true,
         "definitions": {
           "§": {
             "validator": "[0-9]"
           },
           "#": {
-            "validator": "[0300|0500|0800|0900]"
+            "validator": "[0]"
+          },
+          "*": {
+            "validator": "[3|5|8|9]"
           }
         }
       },
       "FONES": {
-        "mask": ["#{4}-§{3}-§{4}","(&{2}) @{0,1}§{4}-§{4}"],
+        "mask": ["(&{2}) @{0,1}§{4}-§{4}", "#{1}*{1}#{2}-§{3}-§{4}"],
         "clearIncomplete": true,
         "definitions": {
           "&": {
@@ -4570,7 +4573,10 @@ Rules =
             "validator": "[9]"
           },
           "#": {
-            "validator": "[0300|0500|0800|0900]"
+            "validator": "[0]"
+          },
+          "*": {
+            "validator": "[3|5|8|9]"
           }
         }
       },
@@ -4624,13 +4630,13 @@ Rules =
         "clearIncomplete": true,
         "definitions": {
           "§": {
-              "validator": "[0-9]"
+            "validator": "[0-9]"
           }
         },
-        "oncomplete": function(event) {
+        "oncomplete": function (event) {
           if (event.target.hasAttribute("x-valid") && event.target.getAttribute("x-valid") == "true") {
             // Validação Embutida
-            if(!App.EXT.Validate.CPF(event.target.value)) {
+            if (!App.EXT.Validate.CPF(event.target.value)) {
               // Reseta a Máscara
               App.EXT.Reset.Mask(event);
             }
@@ -4642,13 +4648,13 @@ Rules =
         "clearIncomplete": true,
         "definitions": {
           "§": {
-              "validator": "[0-9]"
+            "validator": "[0-9]"
           }
         },
-        "oncomplete": function(event) {
+        "oncomplete": function (event) {
           if (event.target.hasAttribute("x-valid") && event.target.getAttribute("x-valid") == "true") {
             // Validação Embutida
-            if(!App.EXT.Validate.CNPJ(event.target.value)) {
+            if (!App.EXT.Validate.CNPJ(event.target.value)) {
               // Reseta a Máscara
               App.EXT.Reset.Mask(event);
             }
@@ -4656,7 +4662,7 @@ Rules =
         }
       },
       "CPF_CNPJ": {
-        "mask": ["§{3}.§{3}.§{3}-§{2}","§{2}.§{3}.§{3}/§{4}-§{2}"],
+        "mask": ["§{3}.§{3}.§{3}-§{2}", "§{2}.§{3}.§{3}/§{4}-§{2}"],
         "clearIncomplete": true,
         "definitions": {
           "§": {
@@ -4667,7 +4673,7 @@ Rules =
       "DATA_BR": {
         "alias": "datetime",
         "clearIncomplete": true,
-        "inputFormat": "dd/mm/yyyy", 
+        "inputFormat": "dd/mm/yyyy",
         "placeholder": "DD/MM/AAAA",
         "jitMasking": true
       },
@@ -4693,8 +4699,15 @@ Rules =
       "HORA": {
         "alias": "datetime",
         "clearIncomplete": true,
-        "inputFormat": "isoTime", 
+        "inputFormat": "isoTime",
         "placeholder": "HH:MM:SS",
+        "jitMasking": true
+      },
+      "HORA_MINUTO": {
+        "alias": "time",
+        "clearIncomplete": true,
+        "inputFormat": "isoTime",
+        "placeholder": "HH:MM",
         "jitMasking": true
       },
       "HORA_12H": {
@@ -4702,10 +4715,10 @@ Rules =
         "clearIncomplete": true,
         "placeholder": "HH:MM:SS",
         "definitions": {
-          "1" : {
+          "1": {
             "validator": "[0-1]"
           },
-          "2" : {
+          "2": {
             "validator": "[0-2]"
           },
           "5": {
@@ -4719,10 +4732,10 @@ Rules =
         "clearIncomplete": true,
         "placeholder": "HH:MM:SS",
         "definitions": {
-          "2" : {
+          "2": {
             "validator": "[0-2]"
           },
-          "3" : {
+          "3": {
             "validator": "[0-3]"
           },
           "5": {
@@ -4731,14 +4744,26 @@ Rules =
         },
         "jitMasking": true
       },
+      "HORA_MINUTO_12H_REGEX": {
+        "regex": "^(0[0-9]|1[0-2]):[0-5][0-9]$",
+        "clearIncomplete": true,
+        "placeholder": "HH:MM",
+        "jitMasking": true
+      },
+      "HORA_MINUTO_24H_REGEX": {
+        "regex": "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
+        "clearIncomplete": true,
+        "placeholder": "HH:MM",
+        "jitMasking": true
+      },
       "HORA_12H_REGEX": {
-        "regex": "^(0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9]$", 
+        "regex": "^(0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9]$",
         "clearIncomplete": true,
         "placeholder": "HH:MM:SS",
         "jitMasking": true
       },
       "HORA_24H_REGEX": {
-        "regex": "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$", 
+        "regex": "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$",
         "clearIncomplete": true,
         "placeholder": "HH:MM:SS",
         "jitMasking": true
@@ -4763,4 +4788,4 @@ Rules =
       }
     }
   }
-};
+}
