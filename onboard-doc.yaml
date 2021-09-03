@@ -1,0 +1,238 @@
+openapi: 3.0.1
+info:
+  title: IOUU APIs - LetsBank
+  description: Documentação do serviço de Onboard
+  version: "1.0"
+servers:
+  - url: "http://emprestimos-homolog.iouu.com.br/onboard/api/v1"
+paths:
+  /onboard:
+    post:
+      tags:
+        - Onboard
+      summary: Envio de onboard
+      description: Onboard - Envio de onboard
+      operationId: onboardEnvio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Onboard"
+      security: []
+      responses:
+        "201":
+          description: Solicitação criada e enviada para análise de crédito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OnboardResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OnboardBadRequest"
+        "500":
+          description: Server Erro
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OnboardServerErro"
+
+components:
+  schemas:
+    Onboard:
+      type: object
+      properties:
+        empresa:
+          type: object
+          description: "Dados da empresa"
+          properties:
+            faturamento_mensal:
+              type: number
+              description: "Faturamento médio mensal"
+              example: 1000000
+            no_funcionarios:
+              type: string
+              description: "Número médio de funcionários"
+              example: "Acima de 10"
+            cnpj:
+              type: string
+              description: "Cnpj"
+              example: "00.000.000/0001-00"
+        simulacao:
+          type: object
+          description: "Detalhes da simulação"
+          properties:
+            tem_restricao:
+              type: boolean
+              description: "Tem restrição"
+              example: false
+            vlr_solicitado:
+              type: number
+              description: "Valor solicitado"
+              example: 200000
+            motivo_emprestimo:
+              type: string
+              description: "Motivo do empréstimo"
+              example: "Capital de Giro"
+        solicitante:
+          type: object
+          description: "Dados do solicitante"
+          properties:
+            nome:
+              type: string
+              description: "Nome do solicitante"
+              example: "José Maria"
+            email:
+              type: string
+              description: "Email do solicitante"
+              example: "rubens@faria.com.br"
+            telefone:
+              type: string
+              description: "Telefone do solicitante"
+              example: "(00) 00000-0000"
+            cpf:
+              type: string
+              description: "Cpf do solicitante"
+              example: "000.000.000-01"
+            relacao_empresa:
+              type: string
+              description: "Relação do solicitante"
+              example: "Sócio"
+        termos:
+          type: object
+          description: "Termos"
+          properties:
+            termos_politicas:
+              type: boolean
+              description: "Temos e políticas"
+              example: true
+            acesso_informacoes:
+              type: boolean
+              description: "Acesso a informação"
+              example: true
+            autorizacao_whatsapp:
+              type: boolean
+              description: "Permitir contato por whatsapp"
+              example: false
+        step:
+          type: object
+          description: "Dados do solicitante"
+          properties:
+            etapa:
+              type: string
+              description: "Etapa"
+              example: "Documentação"
+            status:
+              type: string
+              description: "Status"
+              example: "Pendente"
+            status_solicitacao:
+              type: string
+              description: "Status da solicitação"
+              example: "Solicitação Aprovada"
+            agrupamento:
+              type: string
+              description: "Agrupamento"
+              example: "Solicitação"
+            status_tomador:
+              type: string
+              description: "Status Tomador"
+              example: "Pendente"
+            updated_at:
+              type: string
+              description: "Data de atualização"
+              example: "2021-08-13 12:09:37.133Z"
+            historico:
+              type: array
+              description: "Histórico de atualizações"
+              items:
+                type: object
+                properties:
+                  etapa:
+                    type: string
+                    description: "Etapa"
+                    example: "Documentação"
+                  status:
+                    type: string
+                    description: "Status"
+                    example: "Pendente"
+                  status_solicitacao:
+                    type: string
+                    description: "Status da solicitação"
+                    example: "Solicitação Aprovada"
+                  agrupamento:
+                    type: string
+                    description: "Agrupamento"
+                    example: "Solicitação"
+                  status_tomador:
+                    type: string
+                    description: "Status Tomador"
+                    example: "Pendente"
+                  updated_at:
+                    type: string
+                    description: "Data de atualização"
+                    example: "2021-08-13 12:09:37.133Z"
+        solicitacao_expirada:
+          type: boolean
+          description: "Solicitação expirada"
+          example: false
+        expirated_at:
+          type: string
+          description: "Data de atualização"
+          example: "2021-08-13 12:09:37.133Z"
+
+    OnboardResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "200"
+        data:
+          type: string
+          example: "60be28ac14ad810038d86e5c"
+    OnboardBadRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "400"
+        data:
+          type: array
+          items:
+            type: string
+          example:
+            [
+              "Por favor o objecto da Empresa não existe!",
+              "Por favor informe o CNPJ",
+              "Por favor informe o Faturamento Mensal",
+              "Por favor informe o Numero de funcionarios",
+              "Por favor o objecto da Simulação não existe!",
+              "Por favor informe o Motivo Emprestimo",
+              "Por favor informe se tem restrição",
+              "Por favor informe o Valor Solicitado",
+              "Por favor o objecto da Solicitante não existe!",
+              "Por favor informe o CPF",
+              "Por favor informe o Email",
+              "Por favor informe o um email valido",
+              "Por favor informe o Nome",
+              "Por favor informe a Relação na Empresa",
+              "Por favor informe o Telefone",
+              "Por favor o objecto da termos não existe!",
+              "Por favor o objecto da step não existe!",
+              "Por favor informe o agrupamento",
+              "Por favor informe o etapa",
+              "Por favor informe o status",
+              "Por favor informe a Relação na status_solicitacao",
+              "Por favor informe o status_tomador",
+            ]
+    OnboardServerErro:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "500"
+        data:
+          type: string
+          example: "ServerError"
